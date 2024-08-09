@@ -1,7 +1,7 @@
 ---
 import pkg from '../../package.json' assert { type: 'json' };
 import { url } from '../lib/data.js';
-
+import "@fontsource/inter";
 import { SITE_TITLE } from './constants.js';
 
 const { class: clazz } = Astro.props;
@@ -26,7 +26,7 @@ const { class: clazz } = Astro.props;
 
 		<meta
 			name="author"
-			content="Julian Cataldo, Zoltán Szőgyényi, Robert Tanislav"
+			content="Risav Karna"
 		/>
 		<meta name="copyright" content="MIT" />
 
@@ -58,9 +58,4 @@ const { class: clazz } = Astro.props;
 
 <script>
 	import 'flowbite';
-	import 'flowbite/dist/datepicker.js';
 </script>
-
-<style is:global>
-	@import url('https://fonts.cdnfonts.com/css/inter');
-</style>

@@ -26,7 +26,7 @@ export function url(path = '') {
 	return `${import.meta.env.SITE}${import.meta.env.BASE_URL}${path}`;
 }
 
-// TODO: Remove old local assets from git history (to make cloning snappier).
+// TODO: Remove remote assets url before launch
 export function asset(path: string) {
 	// NOTE: Fetching remote assets from the Hugo admin dashboard Vercel dist.
 	return `${REMOTE_ASSETS_BASE_URL}/${path}`;

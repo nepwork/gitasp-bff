@@ -1,7 +1,7 @@
 ---
 /* eslint max-lines: 'off' */
 
-import { fetchData } from '../lib/data.js';
+import { fetchData } from '../lib/data';
 import NavPagination from '../components/NavPagination.astro';
 
 const products = await fetchData('products');
@@ -340,7 +340,7 @@ const products = await fetchData('products');
 														clip-rule="evenodd"
 													/>
 												</svg>
-												Delete item
+												Delete
 											</button>
 										</td>
 									</tr>
@@ -515,7 +515,7 @@ const products = await fetchData('products');
 			id="drawer-label"
 			class="inline-flex items-center text-sm font-semibold text-gray-500 uppercase dark:text-gray-400"
 		>
-			Delete item
+			Delete
 		</h5>
 		<button
 			type="button"
