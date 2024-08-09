@@ -1,5 +1,5 @@
 ---
-import { asset, url } from '../lib/data.js';
+import { url } from '../lib/data.js';
 ---
 
 <nav
@@ -10,8 +10,8 @@ import { asset, url } from '../lib/data.js';
 			<div class="flex items-center justify-start">
 				<a href={url()} class="flex mr-4">
 					<img
-						src={'images/logo.png'}
-						class="h-8 mr-3"
+						src={'/images/logo.png'}
+						class="w-16 h-auto mr-3"
 						alt="Flowbite Logo"
 					/>
 					<span
@@ -19,39 +19,41 @@ import { asset, url } from '../lib/data.js';
 						>Flowbite</span
 					>
 				</a>
-				<div class="hidden sm:flex sm:ml-6">
-					<ul class="flex space-x-8">
-						<li>
-							<a
-								href={url()}
-								class="text-sm font-medium text-gray-700 hover:text-primary-700 dark:text-gray-400 dark:hover:text-primary-500"
-								aria-current="page">Home</a
-							>
-						</li>
-						<li>
-							<a
-								href="#"
-								class="text-sm font-medium text-gray-700 hover:text-primary-700 dark:text-gray-400 dark:hover:text-primary-500"
-								aria-current="page">Team</a
-							>
-						</li>
-						<li>
-							<a
-								href="#"
-								class="text-sm font-medium text-gray-700 hover:text-primary-700 dark:text-gray-400 dark:hover:text-primary-500"
-								aria-current="page">Pricing</a
-							>
-						</li>
-						<li>
-							<a
-								href="#"
-								class="text-sm font-medium text-gray-700 hover:text-primary-700 dark:text-gray-400 dark:hover:text-primary-500"
-								aria-current="page">Contact</a
-							>
-						</li>
-					</ul>
-				</div>
 			</div>
+
+			<div class="hidden sm:flex sm:ml-6">
+				<ul class="flex space-x-8">
+					<li>
+						<a
+							href={url()}
+							class="text-sm font-medium text-gray-700 hover:text-primary-700 dark:text-gray-400 dark:hover:text-primary-500"
+							aria-current="page">Home</a
+						>
+					</li>
+					<li>
+						<a
+							href="#"
+							class="text-sm font-medium text-gray-700 hover:text-primary-700 dark:text-gray-400 dark:hover:text-primary-500"
+							aria-current="page">Team</a
+						>
+					</li>
+					<li>
+						<a
+							href="#"
+							class="text-sm font-medium text-gray-700 hover:text-primary-700 dark:text-gray-400 dark:hover:text-primary-500"
+							aria-current="page">Pricing</a
+						>
+					</li>
+					<li>
+						<a
+							href="#"
+							class="text-sm font-medium text-gray-700 hover:text-primary-700 dark:text-gray-400 dark:hover:text-primary-500"
+							aria-current="page">Contact</a
+						>
+					</li>
+				</ul>
+			</div>
+
 
 			<div>
 				<a
