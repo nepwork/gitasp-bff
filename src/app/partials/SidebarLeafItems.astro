@@ -1,0 +1,39 @@
+---
+import { icon, library } from '@fortawesome/fontawesome-svg-core';
+import { SidebarNavItem } from '../constants';
+
+type Props = {
+	items: SidebarNavItem[];
+};
+
+const { items } = Astro.props;
+
+const icons = new Map();
+items.forEach((nav) => {
+	library.add(nav.icon);
+
+	icons.set(
+		nav.title,
+		icon({
+			prefix: 'fas',
+			iconName: nav.icon.iconName,
+		}),
+	);
+});
+---
+
+{
+	items.map((item) => (
+		<li class="flex flex-row row align-text-bottom">
+			<div class="w-4 h-4 px-0">
+				<Fragment set:html={icons.get(item.title).html} />
+			</div>
+			<a
+				href={item.href}
+				class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700"
+			>
+				{item.title}
+			</a>
+		</li>
+	))
+}
