@@ -60,7 +60,7 @@ export interface NavItem {
 	href?: string;
 	disabled?: boolean;
 	external?: boolean;
-	icon: IconDefinition; // Icon instead of any?
+	icon: any; // IconDefinition instead of any?
 	label?: string;
 };
 

@@ -16,6 +16,12 @@ export default defineConfig({
 
 	/* Like Vercel, Netlify,… Mimicking for dev. server */
 	// trailingSlash: 'always',
+	vite: {
+		jsx: 'preserve',
+		ssr: {
+			noExternal: ["svelte-fa"]
+		}
+	},
 
 	server: {
 		/* Dev. server only */
