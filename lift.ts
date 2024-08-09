@@ -166,6 +166,7 @@ function createArgs(project: Project) {
 		'DeleteManyArgType',
 		createProperties('DeleteManyArgs'),
 	);
+
 	createTypeFile(
 		project,
 		'upsertArgs',

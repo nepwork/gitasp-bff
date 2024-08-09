@@ -16,7 +16,6 @@ function parseTypeParam(endpoint: string | undefined) {
 /* Controllers */
 
 export const get: APIRoute = ({ params /* , request */ }) => {
-	console.log('Hit!', params.entity);
 
 	const operationName = parseTypeParam(params.entity);
 
