@@ -75,6 +75,18 @@ Table authenticator {
   }
 }
 
+Table Payment {
+  id String [pk]
+  patientName String [not null]
+  phoneNumber String [not null]
+  paymentMethod PaymentMethod [not null, default: 'CashAtCounter']
+  paymentType PayerType [not null, default: 'Returning']
+  paymentAmount Decimal [not null]
+  discountApplied Decimal [not null, default: 0]
+  remainingAmount Decimal [not null]
+  reasonForVisit String [not null]
+}
+
 Table appointment {
   id String [pk]
   uuid String [unique, not null]
@@ -726,6 +738,20 @@ Table BudEvent {
   budUserId String [not null]
   createdAt DateTime [default: `now()`, not null]
   budUser BudgetUser [not null]
+}
+
+Enum PayerType {
+  FirstTime
+  Returning
+  RegularMember
+  PremiumMember
+}
+
+Enum PaymentMethod {
+  CashAtCounter
+  QRCodeEsewa
+  QRCodeBank
+  CashPartial
 }
 
 Ref: accounts.userId > users.id [delete: Cascade]

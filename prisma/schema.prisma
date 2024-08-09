@@ -108,6 +108,33 @@ model Authenticator {
   @@map("authenticator")
 }
 
+enum PayerType {
+	FirstTime
+	Returning
+	RegularMember
+	PremiumMember
+}
+
+enum PaymentMethod {
+	CashAtCounter
+	QRCodeEsewa
+	QRCodeBank
+	CashPartial
+}
+
+model Payment {
+
+  id                String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+	patientName String
+	phoneNumber String
+	paymentMethod PaymentMethod @default(CashAtCounter)
+	paymentType PayerType		@default(Returning) 
+	paymentAmount Decimal
+	discountApplied Decimal   @default(0.0)
+	remainingAmount Decimal
+	reasonForVisit String 		
+}
+
 ///AuthJS
 
 model Appointment {
