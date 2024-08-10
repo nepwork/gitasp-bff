@@ -4,7 +4,7 @@ import { url } from '../lib/data.js';
 import "@fontsource/inter";
 import { SITE_TITLE } from './constants.js';
 
-const { class: clazz } = Astro.props;
+const { class: clazz, title, description } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -12,10 +12,10 @@ const { class: clazz } = Astro.props;
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>{SITE_TITLE} — v{pkg.version}</title>
+		<title>{title ?? SITE_TITLE} — v{pkg.version}</title>
 
 		<meta name="generator" content={Astro.generator} />
-		<meta name="description" content={pkg.description} />
+		<meta name="description" content={description ?? pkg.description} />
 		<meta name="" content={pkg.description} />
 		<link rel="icon" type="image/svg+xml" href={url('favicon.svg')} />
 		<link

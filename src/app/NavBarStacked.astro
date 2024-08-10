@@ -23,8 +23,8 @@ const { main }: { main: NavigationLink[] } = menu;
 <nav
 	class="fixed z-50 w-full bg-white border-gray-200 sm:py-2 dark:bg-gray-800 dark:border-gray-700"
 >
-	<div class="container py-3 mx-auto">
-		<div class="flex items-center justify-between mx-8">
+	<div class="py-2 mx-auto">
+		<div class="flex items-center justify-around mx-8">
 			<div class="flex items-center justify-start">
 				<a href={url()} class="flex mr-4">
 					<img
@@ -144,7 +144,6 @@ const { main }: { main: NavigationLink[] } = menu;
  const menuOpen = document.querySelector(".menu-open");
  const menuClose = document.querySelector(".menu-close");
  toggler?.addEventListener("click", () => {
-	console.log("toggler clicked");
 	 menuOpen?.classList.toggle("hidden");
 	 menuClose?.classList.toggle("hidden");
  })

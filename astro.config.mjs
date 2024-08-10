@@ -13,6 +13,9 @@ export default defineConfig({
 	base: process.env.CI ? '/flowbite-astro-admin-dashboard' : undefined,
 
 	output: 'hybrid',
+	experimental: {
+		assets: true
+	},
 
 	/* Like Vercel, Netlify,… Mimicking for dev. server */
 	// trailingSlash: 'always',
