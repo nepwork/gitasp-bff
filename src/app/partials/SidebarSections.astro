@@ -22,7 +22,6 @@ items.forEach((nav) => {
 		}),
 	);
 });
-
 ---
 
 {
@@ -30,7 +29,7 @@ items.forEach((nav) => {
 		<li class="mx-3">
 			<button
 				type="button"
-				class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-teal-100 dark:text-gray-200 dark:hover:bg-gray-700"
+				class="menu-toggle flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-teal-100 dark:text-gray-200 dark:hover:bg-gray-700"
 				aria-controls={`dropdown-${nav.title.toLowerCase()}`}
 				data-collapse-toggle={`dropdown-${nav.title.toLowerCase()}`}
 			>
@@ -59,10 +58,15 @@ items.forEach((nav) => {
 			</button>
 			<ul
 				id={`dropdown-${nav.title.toLowerCase()}`}
-				class="hidden space-y-2 py-2"
+				class="menu-bag hidden space-y-2 py-2"
 			>
 				{nav.items && <SidebarLeafItems items={nav.items} />}
 			</ul>
 		</li>
 	))
 }
+<script>
+	window.addEventListener("load", () => {
+  	document.querySelector('.menu-toggle')?.click();
+	});
+</script>

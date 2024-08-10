@@ -2,6 +2,7 @@
   "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
     "strictNullChecks": true,
+		"lib": ["es2020", "dom"],
 		"jsx": "react",
 		"allowJs": true,
     "strict": true,

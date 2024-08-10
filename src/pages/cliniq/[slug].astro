@@ -1,12 +1,32 @@
 ---
 import LayoutSidebar from '../../app/LayoutSidebar.astro';
+import DayTable from '../../lib/enhancements/day-table.astro';
+import PaperEntry from '../../lib/enhancements/paper-entry.astro';
+import PostItCello from '../../lib/enhancements/post-it-cello.astro';
+import PostIt from '../../lib/enhancements/post-it.astro';
 
 export const prerender = false;
-
 
 const { slug } = Astro.params;
 ---
 
 <LayoutSidebar>
-	<h1 class="text-3xl mt-36">{slug}</h1>
+	<PaperEntry>
+		<DayTable/>
+	</PaperEntry>
+
+	<div class="flex">
+		<div class="container mx-24 w-32 h-auto">
+			<PostIt/>
+		</div>
+		<div class="container mx-24 w-32 h-auto">
+			<PostItCello/>
+		</div>
+		<div class="container mx-24 w-32 h-auto">
+			<PostIt/>
+		</div>
+		<div class="container mx-24 w-32 h-auto">
+			<PostItCello/>
+		</div>
+	</div>
 </LayoutSidebar>
