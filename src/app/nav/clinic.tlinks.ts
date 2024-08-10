@@ -8,7 +8,7 @@ export const sidebarPatientNav: SidebarNavItem[] = [
     icon: faWallet,
     items: [
       {
-        title: "Before Visits",
+        title: "Visits",
         href: "/cliniq/before-visit-payments",
         icon: faReceipt,
       },

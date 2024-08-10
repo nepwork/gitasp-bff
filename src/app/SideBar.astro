@@ -7,7 +7,7 @@ import SidebarItems from './partials/SidebarItems.astro';
 <!-- TODO: Dynamic dropdowns -->
 <aside
 	id="sidebar"
-	class="fixed top-0 left-0 z-20 flex flex-col flex-shrink-0 hidden w-64 h-full pt-16 mt-2 font-normal duration-75 lg:flex transition-width scrollbar-none"
+	class="fixed top-0 left-0 z-20 overflow-scroll-y flex flex-col flex-shrink-0 hidden w-64 h-full pt-16 mt-2 font-normal duration-75 lg:flex transition-width scrollbar-none"
 	aria-label="Sidebar"
 >
 	<div
@@ -55,7 +55,7 @@ import SidebarItems from './partials/SidebarItems.astro';
 					</li>
 					<SidebarItems />
 				</ul>
-				<div class="pt-2 pb-0 space-y-2 flex flex-row">
+				<div class="absolute bg-white pt-2 pb-0 space-y-2 flex flex-row bottom-16 left-4">
 					<a
 						href="https://flowbite.com/docs/getting-started/introduction/"
 						target="_blank"

@@ -1,0 +1,38 @@
+{
+  "site": {
+    "title": "Gita's Patient App",
+    "base_url": "https://gitasp.app",
+    "base_path": "/",
+    "trailing_slash": false,
+    "favicon": "/images/favicon.png",
+    "logo": "/images/logo.png",
+    "logo_width": "69",
+    "logo_height": "69",
+    "logo_text": "GAPL Logo"
+  },
+
+  "settings": {
+    "pagination": 4,
+    "summary_length": 200,
+    "blog_folder": "blog"
+  },
+
+  "nav_button": {
+    "enable": true,
+    "label": "Login / Join",
+    "link": "/welcome"
+  },
+
+  "params": {
+    "contact_form_action": "",
+    "tag_manager_id": "",
+    "footer_content": "Consjat tempus eu at cttur.",
+    "copyright": "GAPL Pvt Ltd | 2024"
+  },
+
+  "metadata": {
+    "meta_author": "Risav Karna",
+    "meta_image": "/images/og-image.png",
+    "meta_description": "astro cliniq"
+  }
+}

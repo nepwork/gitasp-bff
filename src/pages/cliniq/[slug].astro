@@ -1,0 +1,12 @@
+---
+import LayoutSidebar from '../../app/LayoutSidebar.astro';
+
+export const prerender = false;
+
+
+const { slug } = Astro.params;
+---
+
+<LayoutSidebar>
+	<h1 class="text-3xl mt-36">{slug}</h1>
+</LayoutSidebar>
