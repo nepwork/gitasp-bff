@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { ISO3950Notation } from "./iso-3950-notation.constants";
 	import { TeethLibService } from "./teeth-annotation.lib";
 
 	const tl = new TeethLibService();
