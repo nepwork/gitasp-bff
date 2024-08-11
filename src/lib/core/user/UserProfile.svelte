@@ -1,6 +1,6 @@
 <!-- Card Section -->
-<div class="max-w-full px-4 py-10 sm:px-6 lg:px-8 mx-auto"><!-- Card -->
-  <div class="bg-white rounded-xl shadow p-4 sm:p-7 dark:bg-neutral-800">
+<div class="max-w-full -mt-9 -ml-14 px-4 py-10 sm:px-6 lg:px-8 mx-auto"><!-- Card -->
+  <div class="bg-white p-4 sm:p-7 dark:bg-neutral-800">
     <div class="mb-8">
       <h2 class="text-xl font-bold text-gray-800 dark:text-neutral-200">
         Profile

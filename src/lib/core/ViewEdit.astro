@@ -1,6 +1,13 @@
 ---
 import UserProfile from './user/UserProfile.svelte';
 import DataGrid from './DataGrid.svelte';
+import PaperEntry from '../enhancements/paper-entry.astro';
 ---
-<UserProfile client:load/>
-<DataGrid client:only="svelte"/>
+
+<div class="-ml-2">
+	<PaperEntry>
+		<UserProfile client:load/>
+	</PaperEntry>
+	<DataGrid client:only="svelte"/>
+
+</div>
