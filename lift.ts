@@ -1,10 +1,41 @@
 import { Project, VariableDeclarationKind } from 'ts-morph';
 import {
 	createProperties,
-	createTypeFile,
+	essentialImports,
 	firstCharLower,
 	ModelNames,
 } from './src/lib/desruc-sdk/utils';
+
+const zenPath = "./src/lib/desruc-sdk/zen";
+
+export function createTypeFile(
+	project: Project,
+	fileName: string,
+	interfaceName: string,
+	typeName: string,
+	properties: { name: string; type: string }[],
+) {
+	const typeFile = project.createSourceFile(`${zenPath}/${fileName}.ts`, '', {
+		overwrite: true,
+	});
+
+	typeFile.addImportDeclarations(essentialImports);
+
+	typeFile.addInterface({
+		name: interfaceName,
+		isExported: true,
+		properties,
+	});
+
+	typeFile.addTypeAlias({
+		name: typeName,
+		typeParameters: [`T extends NTTKey`],
+		type: `${interfaceName}[T]`,
+		isExported: true,
+	});
+
+	typeFile.saveSync();
+}
 
 function statements(lCase = false) {
 	return ModelNames.map((ModelName) => {
@@ -23,7 +54,7 @@ function statements(lCase = false) {
 }
 
 function createEntities(project: Project): void {
-	const entitiesTsFile = project.createSourceFile('./zen/entities.ts', '', {
+	const entitiesTsFile = project.createSourceFile(`${zenPath}/entities.ts`, '', {
 		overwrite: true,
 	});
 
@@ -34,7 +65,7 @@ function createEntities(project: Project): void {
 
 function createEntitiesType(project: Project): void {
 	const entitiesTypeTsFile = project.createSourceFile(
-		'./zen/entities-type.ts',
+		`${zenPath}/entities-type.ts`,
 		'',
 		{
 			overwrite: true,

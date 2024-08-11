@@ -1,5 +1,5 @@
 import { faArrowCircleUp, faAsterisk, faCalendarAlt, faClose, faContactBook, faCreditCard, faHeart, faIdBadge, faMedkit, faMinusCircle, faPassport, faPhoneAlt, faPlus, faPlusCircle, faReceipt, faStethoscope, faUserCircle, faUserDoctor, faUserGroup, faUserPen, faUtensils, faWallet } from "@fortawesome/free-solid-svg-icons";
-import { SidebarNavItem } from "../constants";
+import type { SidebarNavItem } from "../constants";
 
 export const sidebarPatientNav: SidebarNavItem[] = [
   {
@@ -86,7 +86,7 @@ export const sidebarPatientNav: SidebarNavItem[] = [
 
 
   {
-    title: "Service Catalogs",
+    title: "Patient Services",
     href: "/cliniq/catalogs",
     icon: faPassport,
     items: [

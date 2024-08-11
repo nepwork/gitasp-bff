@@ -5,9 +5,9 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider      = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["tracing"]
-  binaryTargets = ["native", "linux-musl-openssl-3.0.x", "debian-openssl-3.0.x"]
+  binaryTargets   = ["native", "linux-musl-openssl-3.0.x", "debian-openssl-3.0.x"]
 }
 
 generator dbml {
@@ -24,35 +24,245 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Country {
+  Nepal
+  Afghanistan
+  Albania
+  Algeria
+  Andorra
+  Angola
+  Antigua
+  Argentina
+  Armenia
+  Australia
+  Austria
+  Azerbaijan
+  Bahamas
+  Bahrain
+  Bangladesh
+  Barbados
+  Belarus
+  Belgium
+  Belize
+  Benin
+  Bhutan
+  Bolivia
+  Bosnia
+  Botswana
+  Brazil
+  Brunei
+  Bulgaria
+  Burkina
+  Burundi
+  Cote
+  Cabo
+  Cambodia
+  Cameroon
+  Canada
+  Central
+  Chad
+  Chile
+  China
+  Colombia
+  Comoros
+  Congo
+  Costa
+  Croatia
+  Cuba
+  Cyprus
+  Czechia
+  Democratic
+  Denmark
+  Djibouti
+  Dominica
+  Dominican
+  Ecuador
+  Egypt
+  El
+  Equatorial
+  Eritrea
+  Estonia
+  Eswatini
+  Ethiopia
+  Fiji
+  Finland
+  France
+  Gabon
+  Gambia
+  Georgia
+  Germany
+  Ghana
+  Greece
+  Grenada
+  Guatemala
+  Guinea
+  Guyana
+  Haiti
+  Holy
+  Honduras
+  Hungary
+  Iceland
+  India
+  Indonesia
+  Iran
+  Iraq
+  Ireland
+  Israel
+  Italy
+  Jamaica
+  Japan
+  Jordan
+  Kazakhstan
+  Kenya
+  Kiribati
+  Kuwait
+  Kyrgyzstan
+  Laos
+  Latvia
+  Lebanon
+  Lesotho
+  Liberia
+  Libya
+  Liechtenstein
+  Luxembourg
+  Lithuania
+  Madagascar
+  Malawi
+  Malaysia
+  Maldives
+  Mali
+  Malta
+  MarshallIslands
+  Mauritania
+  Mauritius
+  Mexico
+  Micronesia
+  Moldova
+  Monaco
+  Mongolia
+  Montenegro
+  Morocco
+  Mozambique
+  Myanmar
+  Namibia
+  Nauru
+  Netherlands
+  New_Zealand
+  Nicaragua
+  Niger
+  Nigeria
+  North_Korea
+  North_Macedonia
+  Norway
+  Oman
+  Pakistan
+  Palau
+  Palestine_State
+  Panama
+  Papua_New_Guinea
+  Paraguay
+  Peru
+  Philippines
+  Poland
+  Portugal
+  Qatar
+  Romania
+  Russia
+  Rwanda
+  Saint_Kitts_and_Nevis
+  Saint_Lucia
+  Saint_Vincent_and_the_Grenadines
+  Samoa
+  San_Marino
+  Sao_Tome_and_Principe
+  Saudi_Arabia
+  Senegal
+  Serbia
+  Seychelles
+  Sierra_Leone
+  Singapore
+  Slovakia
+  Slovenia
+  Solomon_Islands
+  Somalia
+  South_Africa
+  South_Korea
+  South_Sudan
+  Spain
+  Sri_Lanka
+  Sudan
+  Suriname
+  Sweden
+  Switzerland
+  Syria
+  Tajikistan
+  Tanzania
+  Thailand
+  Timor_Leste
+  Togo
+  Tonga
+  Trinidad_and_Tobago
+  Tunisia
+  Turkey
+  Turkmenistan
+  Tuvalu
+  Uganda
+  Ukraine
+  United_Arab_Emirates
+  United_Kingdom
+  United_States_of_America
+  Uruguay
+  Uzbekistan
+  Vanuatu
+  Venezuela
+  Vietnam
+  Yemen
+  Zambia
+  Zimbabwe
+}
+
 ///AuthJS
-model User {
+model Person {
   id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
 
-  username String  @unique
-  name     String?
+  username  String  @unique
+  firstName String?
+  lastName  String
 
   password String?
+
+  phoneCode   Int  @default(977)
+  phoneNumber Int?
+
+  streetName String?
+  city       String?
+  areaCode   String?
+  country    Country @default(Nepal)
 
   email         String?   @unique
   emailVerified DateTime?
 
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-  // Optional for WebAuthn support
-  Authenticator Authenticator[]
+  payerType DiscountType @default(RegularMember)
+
+  image    String?
+  accounts Account[]
+  sessions Session[]
+
+  // Optional, for WebAuthn support
+  authenticator Authenticator[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("users")
+  @@map("person")
 }
 
 model Account {
-  userId            String @db.Uuid
+  userId            String  @db.Uuid
   type              String
   provider          String
   providerAccountId String
+	
   refresh_token     String?
   access_token      String?
   expires_at        Int?
@@ -64,22 +274,22 @@ model Account {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user Person @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([provider, providerAccountId])
-  @@map("accounts")
+  @@map("account")
 }
 
 model Session {
   sessionToken String   @unique
   userId       String   @db.Uuid
   expiresAt    DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user         Person   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("sessions")
+  @@map("session")
 }
 
 model VerificationToken {
@@ -88,7 +298,7 @@ model VerificationToken {
   expires    DateTime
 
   @@id([identifier, token])
-  @@map("verificationtokens")
+  @@map("verification_token")
 }
 
 // Optional for WebAuthn support
@@ -102,37 +312,41 @@ model Authenticator {
   credentialBackedUp   Boolean
   transports           String?
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user Person @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([userId, credentialID])
   @@map("authenticator")
 }
 
-enum PayerType {
-	FirstTime
-	Returning
-	RegularMember
-	PremiumMember
+enum DiscountType {
+  FirstTimer
+  RegularMember
+  PremiumMember
+
+  @@map("discount_type")
 }
 
 enum PaymentMethod {
-	CashAtCounter
-	QRCodeEsewa
-	QRCodeBank
-	CashPartial
+  CashAtCounter
+  QRCodeEsewa
+  QRCodeBank
+  CashPartial
+
+  @@map("payment_method")
 }
 
+// Root
 model Payment {
+  id                 String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  patientName        String
+  phoneNumber        String
+  paymentMethod      PaymentMethod @default(CashAtCounter)
+  totalPayableAmount Decimal
+  discountApplied    Decimal       @default(0.0)
+  paidAmount         Decimal       @default(0.0)
+  reasonForVisit     String
 
-  id                String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-	patientName String
-	phoneNumber String
-	paymentMethod PaymentMethod @default(CashAtCounter)
-	paymentType PayerType		@default(Returning) 
-	paymentAmount Decimal
-	discountApplied Decimal   @default(0.0)
-	remainingAmount Decimal
-	reasonForVisit String 		
+  @@map("payment")
 }
 
 ///AuthJS

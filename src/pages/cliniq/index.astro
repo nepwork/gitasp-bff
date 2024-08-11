@@ -1,28 +1,30 @@
 ---
 import LayoutSidebar from '../../app/LayoutSidebar.astro';
+import DayTable from '../../lib/enhancements/day-table.astro';
 import PaperEntry from '../../lib/enhancements/paper-entry.astro';
 import PostItCello from '../../lib/enhancements/post-it-cello.astro';
 import PostIt from '../../lib/enhancements/post-it.astro';
-import ViewEdit from "../../lib/core/ViewEdit.astro";
 
 export const prerender = false;
 
+const { slug } = Astro.params;
 ---
 
 <LayoutSidebar>
 	<PaperEntry>
-		<ViewEdit/>
+		<p>{slug}</p>
+		<DayTable/>
 	</PaperEntry>
 
 	<div class="flex">
 		<div class="container mx-24 w-32 h-auto">
-			<PostIt/>
+			<PostIt message={slug}/>
 		</div>
 		<div class="container mx-24 w-32 h-auto">
 			<PostItCello/>
 		</div>
 		<div class="container mx-24 w-32 h-auto">
-			<PostIt/>
+			<PostIt message="Hello There!"/>
 		</div>
 		<div class="container mx-24 w-32 h-auto">
 			<PostItCello/>

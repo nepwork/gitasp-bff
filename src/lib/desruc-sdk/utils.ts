@@ -1,4 +1,4 @@
-import { OptionalKind, Project, ImportDeclarationStructure } from 'ts-morph';
+import { type OptionalKind, Project, type ImportDeclarationStructure } from 'ts-morph';
 
 import { Prisma } from '@prisma/client';
 import type { BaseDMMF, DMMF } from '@prisma/client/runtime/library';
@@ -19,9 +19,7 @@ export function getDMMF(): BaseDMMF {
 	return Prisma.dmmf;
 }
 
-export const essentialImports: ReadonlyArray<
-	OptionalKind<ImportDeclarationStructure>
-> = [
+export const essentialImports: readonly OptionalKind<ImportDeclarationStructure>[] = [
 	{
 		moduleSpecifier: '@prisma/client',
 		namedImports: ['Prisma'],
@@ -34,34 +32,7 @@ export const essentialImports: ReadonlyArray<
 	},
 ];
 
-export function createTypeFile(
-	project: Project,
-	fileName: string,
-	interfaceName: string,
-	typeName: string,
-	properties: { name: string; type: string }[],
-) {
-	const typeFile = project.createSourceFile(`./zen/${fileName}.ts`, '', {
-		overwrite: true,
-	});
 
-	typeFile.addImportDeclarations(essentialImports);
-
-	typeFile.addInterface({
-		name: interfaceName,
-		isExported: true,
-		properties,
-	});
-
-	typeFile.addTypeAlias({
-		name: typeName,
-		typeParameters: [`T extends NTTKey`],
-		type: `${interfaceName}[T]`,
-		isExported: true,
-	});
-
-	typeFile.saveSync();
-}
 
 export function createProperties(suffix: string) {
 	return ModelNames.map((ModelName) => ({
