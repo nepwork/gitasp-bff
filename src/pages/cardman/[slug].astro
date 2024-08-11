@@ -1,12 +1,21 @@
 ---
 import LayoutSidebar from '../../app/LayoutSidebar.astro';
+import ViewEdit from '../../lib/core/ViewEdit.astro';
+import PaperEntry from '../../lib/enhancements/paper-entry.astro';
+import { GET } from '../api/hello';
 
 export const prerender = false;
 
+const response = await GET(Astro);
+const data = await response.json();
 
 const { slug } = Astro.params;
 ---
 
 <LayoutSidebar>
-	<h1 class="text-3xl mt-36">{slug}</h1>
+	<PaperEntry>
+		<h1 class="text-3xl mt-36">{slug}: {JSON.stringify(data)}</h1>
+		<ViewEdit/>
+	</PaperEntry>
+
 </LayoutSidebar>

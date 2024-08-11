@@ -17,13 +17,13 @@ const { slug } = Astro.params;
 
 	<div class="flex">
 		<div class="container mx-24 w-32 h-auto">
-			<PostIt/>
+			<PostIt message={slug}/>
 		</div>
 		<div class="container mx-24 w-32 h-auto">
 			<PostItCello/>
 		</div>
 		<div class="container mx-24 w-32 h-auto">
-			<PostIt/>
+			<PostIt message="Hello There!"/>
 		</div>
 		<div class="container mx-24 w-32 h-auto">
 			<PostItCello/>
