@@ -1,0 +1,31 @@
+---
+import LayoutSidebar from '../../app/LayoutSidebar.astro';
+import PaperEntry from '../../lib/enhancements/paper-entry.astro';
+import PostItCello from '../../lib/enhancements/post-it-cello.astro';
+import PostIt from '../../lib/enhancements/post-it.astro';
+import ViewEdit from "../../lib/core/ViewEdit.astro";
+
+export const prerender = false;
+
+---
+
+<LayoutSidebar>
+	<PaperEntry>
+		<ViewEdit/>
+	</PaperEntry>
+
+	<div class="flex">
+		<div class="container mx-24 w-32 h-auto">
+			<PostIt/>
+		</div>
+		<div class="container mx-24 w-32 h-auto">
+			<PostItCello/>
+		</div>
+		<div class="container mx-24 w-32 h-auto">
+			<PostIt/>
+		</div>
+		<div class="container mx-24 w-32 h-auto">
+			<PostItCello/>
+		</div>
+	</div>
+</LayoutSidebar>
