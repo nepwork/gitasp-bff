@@ -25,17 +25,17 @@ items.forEach((nav) => {
 {
 	items.map((item) => (
 		<li class="w-full rounded-lg hover:bg-teal-100">
-			<div class="flex flex-row justify-items-start">
-				<div class="w-4 h-4 ml-8 mt-3 mx-1 text-teal-500">
-					<Fragment set:html={icons.get(item.title).html} />
-				</div>
-				<a
-					href={item.href}
-					class="text-base text-gray-900 rounded-lg flex items-center p-2 group transition duration-75 pl-2 dark:text-gray-200 dark:hover:bg-gray-700"
-				>
+			<a
+				href={item.href}
+				class="text-base flex text-gray-900 rounded-lg flex-row items-center py-1 group transition duration-75 pl-2 dark:text-gray-200 dark:hover:bg-gray-700"
+			>
+					<div class="w-4 h-4 ml-5 mt-1 mx-1 text-teal-500">
+						<Fragment set:html={icons.get(item.title).html} />
+					</div>
+					<div class="mt-2 ml-4">
 					{item.title}
-				</a>
-			</div>
+				</div>
+			</a>
 		</li>
 	))
 }

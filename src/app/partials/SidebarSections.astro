@@ -1,6 +1,6 @@
 ---
 import { icon, library } from '@fortawesome/fontawesome-svg-core';
-import { SidebarNavItem } from '../constants';
+import type { SidebarNavItem } from '../constants';
 import SidebarLeafItems from './SidebarLeafItems.astro';
 
 
@@ -58,7 +58,7 @@ items.forEach((nav) => {
 			</button>
 			<ul
 				id={`dropdown-${nav.title.toLowerCase()}`}
-				class="menu-bag hidden space-y-2 py-2"
+				class="menu-bag hidden space-y-1 pt-1"
 			>
 				{nav.items && <SidebarLeafItems items={nav.items} />}
 			</ul>

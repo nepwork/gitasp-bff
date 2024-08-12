@@ -37,6 +37,5 @@ export class TeethLibService {
       this.currentDeciduousTooth = this.currentDeciduousTooth !== index ? index : 0;
     }
 		this.teethDescription = new ISO3950Notation(index).describe();	
-		console.log("teeth clicked", index, this.teethDescription);
   }
 }
