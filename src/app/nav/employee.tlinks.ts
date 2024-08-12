@@ -1,5 +1,5 @@
 import { faArrowCircleUp, faAsterisk, faClose, faCreditCard, faCreditCardAlt, faListNumeric, faMoneyBillTransfer, faMoneyBillTrendUp, faPlus, faPlusCircle, faPortrait, faUserCircle, faUserGroup, faUserPen } from "@fortawesome/free-solid-svg-icons";
-import { SidebarNavItem } from "../constants";
+import type { SidebarNavItem } from "../constants";
 
 export const sidebarEmployeeNav: SidebarNavItem[] = [
   {

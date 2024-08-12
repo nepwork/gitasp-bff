@@ -9,22 +9,22 @@ export const sidebarPatientNav: SidebarNavItem[] = [
     items: [
       {
         title: "Visits",
-        href: "/cliniq/visit-payments",
+        href: "/cliniq/payment-visit",
         icon: faReceipt,
       },
       {
         title: "Individuals",
-        href: "/cliniq/indie-pending-payments",
+        href: "/cliniq/payment-individual",
         icon: faIdBadge,
       },
       {
         title: "Hospitals",
-        href: "/cliniq/org-pending-payments",
+        href: "/cliniq/payment-hospital",
         icon: faArrowCircleUp,
       },
       {
-        title: "CSR Discounts",
-        href: "/cliniq/special-discount-payments",
+        title: "Discounts",
+        href: "/cliniq/payment-discount",
         icon: faMinusCircle,
       },
     ],
@@ -36,22 +36,22 @@ export const sidebarPatientNav: SidebarNavItem[] = [
     items: [
       {
         title: "Clinic Visits",
-        href: "/cliniq/clinic-appointment-list",
+        href: "/cliniq/appointment-clinic",
         icon: faCreditCard,
       },
       {
         title: "Home Visits",
-        href: "/cliniq/phone-appointment-list",
+        href: "/cliniq/appointment-home",
         icon: faAsterisk,
       },
       {
         title: "Telemed Calls",
-        href: "/cliniq/card-limit-list",
+        href: "/cliniq/appointment-call",
         icon: faPhoneAlt,
       },
       {
         title: "Availability",
-        href: "/cliniq/card-limit-list",
+        href: "/cliniq/appointment-availability",
         icon: faCalendarAlt,
       },
     ],
@@ -63,80 +63,75 @@ export const sidebarPatientNav: SidebarNavItem[] = [
     items: [
       {
         title: "Accounts",
-        href: "/cliniq/patient-list",
+        href: "/cliniq/patient-account",
         icon: faUserDoctor,
       },
       {
-        title: "Patient Details",
-        href: "/cliniq/patient-detail-list",
+        title: "Patient Records",
+        href: "/cliniq/patient-record",
         icon: faUserPen,
       },
       {
         title: "Organizations",
-        href: "/cliniq/patient-org-list",
+        href: "/cliniq/patient-organization",
         icon: faUserGroup,
       },
       {
         title: "Memberships",
-        href: "/cliniq/user-asset-list",
+        href: "/cliniq/patient-member",
         icon: faUserCircle,
-      },
-    ],
-  },
-
-
-  {
-    title: "Patient Services",
-    href: "/cliniq/catalogs",
-    icon: faPassport,
-    items: [
-      {
-        title: "Treatments",
-        href: "/cliniq/card-issuance-request-list",
-        icon: faStethoscope,
-      },
-      {
-        title: "Surgeries",
-        href: "/cliniq/card-application-review-list",
-        icon: faHeart,
-      },
-      {
-        title: "Therapies",
-        href: "/cliniq/card-update-request-list",
-        icon: faArrowCircleUp,
-      },
-      {
-        title: "Medications",
-        href: "/cliniq/card-closing-request-list",
-        icon: faMedkit,
       },
     ],
   },
   {
     title: "Equipments",
-    href: "/cliniq/payment-list",
+    href: "/cliniq/equipment-list",
     icon: faUtensils,
     items: [
       {
-        title: "Issue Request",
-        href: "/cliniq/card-issuance-request-list",
+        title: "Purchase",
+        href: "/cliniq/equipment-purchase",
         icon: faPlus,
       },
       {
-        title: "Request Review",
-        href: "/cliniq/card-application-review-list",
-        icon: faPlusCircle,
-      },
-      {
-        title: "Update Request",
-        href: "/cliniq/card-update-request-list",
+        title: "Available",
+        href: "/cliniq/equipment-available",
         icon: faArrowCircleUp,
       },
       {
-        title: "Closing Request",
-        href: "/cliniq/card-closing-request-list",
-        icon: faClose,
+        title: "Prepare",
+        href: "/cliniq/equipment-prepare",
+        icon: faUtensils,
       },
     ],
   },
+
+  {
+    title: "Services",
+    href: "/cliniq/service-list",
+    icon: faPassport,
+    items: [
+      {
+        title: "Treatments",
+        href: "/cliniq/service-treatment",
+        icon: faStethoscope,
+      },
+      {
+        title: "Surgeries",
+        href: "/cliniq/service-surgery",
+        icon: faHeart,
+      },
+      {
+        title: "Therapies",
+        href: "/cliniq/service-therapy",
+        icon: faArrowCircleUp,
+      },
+      {
+        title: "Medications",
+        href: "/cliniq/service-medication",
+        icon: faMedkit,
+      },
+    ],
+  },
+
 ];
