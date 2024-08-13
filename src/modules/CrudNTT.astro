@@ -10,7 +10,7 @@ const products = await fetchData('products');
 
 <entities-crud type="products">
 	<div
-		class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700"
+		class="py-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700"
 	>
 		<div class="w-full mb-1">
 			<h1
@@ -149,7 +149,7 @@ const products = await fetchData('products');
 		</div>
 	</div>
 
-	<div class="flex flex-col">
+	<div class="flex flex-col -ml-3">
 		<div class="overflow-x-auto">
 			<div class="inline-block min-w-full align-middle">
 				<div class="overflow-hidden shadow">
@@ -196,7 +196,7 @@ const products = await fetchData('products');
 						>
 							{
 								products.map((product) => (
-									<tr class="hover:bg-teal-100  odd:bg-white even:bg-gray-100 dark:hover:bg-gray-700">
+									<tr class="hover:bg-teal-100  odd:bg-white even:bg-gray-50 dark:hover:bg-gray-700">
 										<td class="w-4 p-4">
 											<div class="flex items-center">
 												<input
