@@ -3,7 +3,7 @@
   import Grid from 'gridjs-svelte';
   import { writable } from 'svelte/store';
   import "gridjs/dist/theme/mermaid.css";
-
+	import { style } from "./grid-style";
 
   interface Data {
     id: number;
@@ -96,7 +96,7 @@
   ];
 </script>
 <div class="max-w-full px-4 py-10 sm:px-6 lg:px-8 mx-auto"><!-- Card -->
-  <div class="bg-white rounded-xl p-4 sm:p-7 dark:bg-neutral-800">
+  <div class="bg-white text-teal-400 rounded-xl p-4 sm:p-7 dark:bg-neutral-800">
 <div class="grid-filters">
   <input type="text" placeholder="Filter by ID" bind:value={$idFilter} />
   <input type="text" placeholder="Filter by name" bind:value={$nameFilter} />
@@ -113,7 +113,8 @@
   }}
   search={true}
   sort={true}
-  resizable={true}
+  resizable={true}000
+	{style}
 />
 
 	</div>  
