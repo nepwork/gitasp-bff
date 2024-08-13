@@ -1,7 +1,6 @@
 ---
-import LayoutSidebar from '../../app/LayoutSidebar.astro';
+import LayoutCrud from '../../app/LayoutCrud.astro';
 import DataGrid from '../../lib/core/DataGrid.svelte';
-import PaperEntry from '../../lib/enhancements/paper-entry.astro';
 import PostItCello from '../../lib/enhancements/post-it-cello.astro';
 import PostIt from '../../lib/enhancements/post-it.astro';
 
@@ -10,10 +9,9 @@ export const prerender = false;
 const { slug } = Astro.params;
 ---
 
-<LayoutSidebar>
-	<PaperEntry>
-		<DataGrid client:only="svelte"/>
-	</PaperEntry>
+<LayoutCrud>
+
+	<DataGrid client:only="svelte"/>
 
 	<div class="flex">
 		<div class="container mx-24 w-32 h-auto">
@@ -29,4 +27,4 @@ const { slug } = Astro.params;
 			<PostItCello/>
 		</div>
 	</div>
-</LayoutSidebar>
+</LayoutCrud>

@@ -1,0 +1,22 @@
+---
+import PaperEntry from '../lib/enhancements/paper-entry.astro';
+import LayoutSidebar from './LayoutSidebar.astro';
+import BreadCrumbs from './partials/bread-crumbs/BreadCrumbs.astro';
+---
+
+<LayoutSidebar>
+	<PaperEntry>
+		<div class="-ml-7 -mt-6">
+			<div
+				class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700"
+			>
+				<div class="w-full mb-1">
+					<div class="mb-4">
+						<BreadCrumbs />
+					</div>
+					<slot />
+				</div>
+			</div>
+		</div>
+	</PaperEntry>
+</LayoutSidebar>

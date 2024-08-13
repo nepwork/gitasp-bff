@@ -1,6 +1,5 @@
 ---
-import LayoutSidebar from '../../app/LayoutSidebar.astro';
-import PaperEntry from '../../lib/enhancements/paper-entry.astro';
+import LayoutCrud from '../../app/LayoutCrud.astro';
 import CrudNTT from '../../modules/CrudNTT.astro';
 
 export const prerender = false;
@@ -9,10 +8,6 @@ const slug = Astro.url.pathname;
 console.log("hello", slug);
 ---
 
-<LayoutSidebar>
-	<PaperEntry>
-		<div class="-ml-7 -mt-6">
+<LayoutCrud>
 		<CrudNTT />
-		</div>
-	</PaperEntry>
-</LayoutSidebar>
+</LayoutCrud>

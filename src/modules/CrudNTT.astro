@@ -1,11 +1,9 @@
 ---
 /* eslint max-lines: 'off' */
 
-import { fetchData } from '../lib/data';
 import NavPagination from '../components/NavPagination.astro';
-import BreadCrumbs from '../app/partials/bread-crumbs/BreadCrumbs.astro';
+import { fetchData } from '../lib/data';
 
-const { context, entity, filter } = Astro.props;
 
 const products = await fetchData('products');
 ---
@@ -15,15 +13,14 @@ const products = await fetchData('products');
 		class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700"
 	>
 		<div class="w-full mb-1">
-			<div class="mb-4">
+			<h1
+				class="text-xl mb-3 font-semibold text-gray-900 sm:text-2xl dark:text-white"
+			>
+				<p>
+					Received a {Astro.request.method} request to "{Astro.request.url}".
+				</p>
+			</h1>
 
-				<BreadCrumbs/>
-				<h1
-					class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white"
-				>
-					{context}: {entity} : {filter}
-				</h1>
-			</div>
 			<div class="items-center justify-between block sm:flex">
 				<div class="flex items-center mb-4 sm:mb-0">
 					<form class="sm:pr-3" action="#" method="GET">
