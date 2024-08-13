@@ -1,6 +1,6 @@
 ---
 import { icon, library } from '@fortawesome/fontawesome-svg-core';
-import { SidebarNavItem } from '../constants';
+import  type { SidebarNavItem } from '../constants';
 
 type Props = {
 	items: SidebarNavItem[];
@@ -20,11 +20,13 @@ items.forEach((nav) => {
 		}),
 	);
 });
+
+const path = new URL(Astro.request.url).pathname;
 ---
 
 {
 	items.map((item) => (
-		<li class="w-full rounded-lg hover:bg-teal-100">
+		<li class={`${item.href && path.includes(item.href) ? 'bg-teal-100 activated' : ''}  w-full rounded-lg hover:bg-teal-100`}>
 			<a
 				href={item.href}
 				class="text-base flex text-gray-900 rounded-lg flex-row items-center py-1 group transition duration-75 pl-2 dark:text-gray-200 dark:hover:bg-gray-700"
