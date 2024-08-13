@@ -4,7 +4,7 @@ import type { SidebarNavItem } from "../constants";
 export const sidebarPatientNav: SidebarNavItem[] = [
   {
     title: "Payments",
-    href: "/cliniq/payment/list",
+    href: "/cliniq/payment",
     icon: faWallet,
     items: [
       {
@@ -31,76 +31,76 @@ export const sidebarPatientNav: SidebarNavItem[] = [
   },
   {
     title: "Appointments",
-    href: "/cliniq/appointment-list",
+    href: "/cliniq/appointment",
     icon: faCalendarAlt,
     items: [
+			{
+        title: "Availability",
+        href: "/cliniq/appointment/availability",
+        icon: faCalendarAlt,
+      },
       {
         title: "Clinic Visits",
-        href: "/cliniq/appointment-clinic",
+        href: "/cliniq/appointment/clinic",
         icon: faCreditCard,
       },
       {
         title: "Home Visits",
-        href: "/cliniq/appointment-home",
+        href: "/cliniq/appointment/home",
         icon: faAsterisk,
       },
       {
         title: "Telemed Calls",
-        href: "/cliniq/appointment-call",
+        href: "/cliniq/appointment/call",
         icon: faPhoneAlt,
-      },
-      {
-        title: "Availability",
-        href: "/cliniq/appointment-availability",
-        icon: faCalendarAlt,
-      },
+      }
     ],
   },
   {
     title: "Patients",
-    href: "/cliniq/patient-list",
+    href: "/cliniq/patient",
     icon: faContactBook,
     items: [
       {
         title: "Accounts",
-        href: "/cliniq/patient-account",
+        href: "/cliniq/patient/account",
         icon: faUserDoctor,
       },
       {
         title: "Patient Records",
-        href: "/cliniq/patient-record",
+        href: "/cliniq/patient/record",
         icon: faUserPen,
       },
       {
         title: "Organizations",
-        href: "/cliniq/patient-organization",
+        href: "/cliniq/patient/organization",
         icon: faUserGroup,
       },
       {
         title: "Memberships",
-        href: "/cliniq/patient-member",
+        href: "/cliniq/patient/member",
         icon: faUserCircle,
       },
     ],
   },
   {
     title: "Equipments",
-    href: "/cliniq/equipment-list",
+    href: "/cliniq/equipment",
     icon: faUtensils,
     items: [
       {
         title: "Purchase",
-        href: "/cliniq/equipment-purchase",
+        href: "/cliniq/equipment/purchase",
         icon: faPlus,
       },
       {
         title: "Available",
-        href: "/cliniq/equipment-available",
+        href: "/cliniq/equipment/available",
         icon: faArrowCircleUp,
       },
       {
         title: "Prepare",
-        href: "/cliniq/equipment-prepare",
+        href: "/cliniq/equipment/prepare",
         icon: faUtensils,
       },
     ],
@@ -108,27 +108,27 @@ export const sidebarPatientNav: SidebarNavItem[] = [
 
   {
     title: "Services",
-    href: "/cliniq/service-list",
+    href: "/cliniq/service/list",
     icon: faPassport,
     items: [
       {
         title: "Treatments",
-        href: "/cliniq/service-treatment",
+        href: "/cliniq/service/treatment",
         icon: faStethoscope,
       },
       {
         title: "Surgeries",
-        href: "/cliniq/service-surgery",
+        href: "/cliniq/service/surgery",
         icon: faHeart,
       },
       {
         title: "Therapies",
-        href: "/cliniq/service-therapy",
+        href: "/cliniq/service/therapy",
         icon: faArrowCircleUp,
       },
       {
         title: "Medications",
-        href: "/cliniq/service-medication",
+        href: "/cliniq/service/medication",
         icon: faMedkit,
       },
     ],
