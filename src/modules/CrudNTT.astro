@@ -5,6 +5,7 @@ import { fetchData } from '../lib/data';
 import NavPagination from '../components/NavPagination.astro';
 import BreadCrumbs from '../app/partials/bread-crumbs/BreadCrumbs.astro';
 
+console.log('path', Astro.url.pathname);
 const products = await fetchData('products');
 ---
 
@@ -14,9 +15,8 @@ const products = await fetchData('products');
 	>
 		<div class="w-full mb-1">
 			<div class="mb-4">
-				
-				<BreadCrumbs/>
 
+				<BreadCrumbs/>
 				<h1
 					class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white"
 				>

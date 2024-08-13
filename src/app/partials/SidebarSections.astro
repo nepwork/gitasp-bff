@@ -22,6 +22,9 @@ items.forEach((nav) => {
 		}),
 	);
 });
+
+const { slug } = Astro.params;
+console.log("slug", slug);
 ---
 
 {
@@ -67,6 +70,7 @@ items.forEach((nav) => {
 }
 <script>
 	window.addEventListener("load", () => {
-  	document.querySelector('.menu-toggle')?.click();
+  	const toggle = document.querySelector('.menu-toggle');
+		toggle.click()
 	});
 </script>
