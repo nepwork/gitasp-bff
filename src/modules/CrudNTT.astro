@@ -5,7 +5,8 @@ import { fetchData } from '../lib/data';
 import NavPagination from '../components/NavPagination.astro';
 import BreadCrumbs from '../app/partials/bread-crumbs/BreadCrumbs.astro';
 
-console.log('path', Astro.url.pathname);
+const { context, entity, filter } = Astro.props;
+
 const products = await fetchData('products');
 ---
 
@@ -20,7 +21,7 @@ const products = await fetchData('products');
 				<h1
 					class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white"
 				>
-					All products
+					{context}: {entity} : {filter}
 				</h1>
 			</div>
 			<div class="items-center justify-between block sm:flex">

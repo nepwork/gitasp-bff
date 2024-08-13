@@ -1,7 +1,7 @@
 ---
 import LayoutSidebar from '../../app/LayoutSidebar.astro';
 import PaperEntry from '../../lib/enhancements/paper-entry.astro';
-import CrudProducts from '../../modules/CrudProducts.astro';
+import CrudNTT from '../../modules/CrudNTT.astro';
 
 export const prerender = false;
 
@@ -12,7 +12,7 @@ console.log("hello", slug);
 <LayoutSidebar>
 	<PaperEntry>
 		<div class="-ml-7 -mt-6">
-		<CrudProducts />
+		<CrudNTT />
 		</div>
 	</PaperEntry>
 </LayoutSidebar>

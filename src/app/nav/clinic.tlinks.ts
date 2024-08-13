@@ -1,30 +1,30 @@
-import { faArrowCircleUp, faAsterisk, faCalendarAlt, faClose, faContactBook, faCreditCard, faHeart, faIdBadge, faMedkit, faMinusCircle, faPassport, faPhoneAlt, faPlus, faPlusCircle, faReceipt, faStethoscope, faUserCircle, faUserDoctor, faUserGroup, faUserPen, faUtensils, faWallet } from "@fortawesome/free-solid-svg-icons";
+import { faArrowCircleUp, faAsterisk, faCalendarAlt, faContactBook, faCreditCard, faHeart, faIdBadge, faMedkit, faMinusCircle, faPassport, faPhoneAlt, faPlus, faReceipt, faStethoscope, faUserCircle, faUserDoctor, faUserGroup, faUserPen, faUtensils, faWallet } from "@fortawesome/free-solid-svg-icons";
 import type { SidebarNavItem } from "../constants";
 
 export const sidebarPatientNav: SidebarNavItem[] = [
   {
     title: "Payments",
-    href: "/cliniq/payment-list",
+    href: "/cliniq/payment/list",
     icon: faWallet,
     items: [
       {
         title: "Visits",
-        href: "/cliniq/payment-visit",
+        href: "/cliniq/payment/visit",
         icon: faReceipt,
       },
       {
         title: "Individuals",
-        href: "/cliniq/payment-individual",
+        href: "/cliniq/payment/individual",
         icon: faIdBadge,
       },
       {
         title: "Hospitals",
-        href: "/cliniq/payment-hospital",
+        href: "/cliniq/payment/hospital",
         icon: faArrowCircleUp,
       },
       {
         title: "Discounts",
-        href: "/cliniq/payment-discount",
+        href: "/cliniq/payment/discount",
         icon: faMinusCircle,
       },
     ],
