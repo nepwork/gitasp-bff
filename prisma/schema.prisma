@@ -331,10 +331,9 @@ enum DiscountType {
 
 enum PaymentMethod {
   CashAtCounter
+  CashPartial
   QRCodeEsewa
   QRCodeBank
-  CashPartial
-
   @@map("payment_method")
 }
 
