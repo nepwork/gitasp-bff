@@ -2,24 +2,34 @@
 //// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 //// ------------------------------------------------------
 
-Table users {
+Table person {
   id String [pk]
   username String [unique, not null]
-  name String
+  firstName String
+  lastName String [not null]
   password String
+  phoneCode Int [not null, default: 977]
+  phoneNumber String
+  streetName String
+  city String
+  areaCode String
+  country Country [not null, default: 'Nepal']
   email String [unique]
   emailVerified DateTime
+  payerType DiscountType [not null, default: 'FirstTimer']
+  paymentList payment [not null]
+  receivedPaymentList payment [not null]
   image String
-  accounts accounts [not null]
-  sessions sessions [not null]
-  Authenticator authenticator [not null]
+  accounts account [not null]
+  sessions session [not null]
+  authenticator authenticator [not null]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
 
   Note: 'AuthJS'
 }
 
-Table accounts {
+Table account {
   userId String [not null]
   type String [not null]
   provider String [not null]
@@ -33,23 +43,23 @@ Table accounts {
   session_state String
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
-  user users [not null]
+  user person [not null]
 
   indexes {
     (provider, providerAccountId) [pk]
   }
 }
 
-Table sessions {
+Table session {
   sessionToken String [unique, not null]
   userId String [not null]
   expiresAt DateTime [not null]
-  user users [not null]
+  user person [not null]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
 }
 
-Table verificationtokens {
+Table verification_token {
   identifier String [not null]
   token String [not null]
   expires DateTime [not null]
@@ -68,22 +78,23 @@ Table authenticator {
   credentialDeviceType String [not null]
   credentialBackedUp Boolean [not null]
   transports String
-  user users [not null]
+  user person [not null]
 
   indexes {
     (userId, credentialID) [pk]
   }
 }
 
-Table Payment {
+Table payment {
   id String [pk]
-  patientName String [not null]
-  phoneNumber String [not null]
+  payerId String [not null]
+  payer person [not null]
+  receiverId String [not null]
+  receiver person [not null]
   paymentMethod PaymentMethod [not null, default: 'CashAtCounter']
-  paymentType PayerType [not null, default: 'Returning']
-  paymentAmount Decimal [not null]
+  totalPayableAmount Decimal [not null]
   discountApplied Decimal [not null, default: 0]
-  remainingAmount Decimal [not null]
+  paidAmount Decimal [not null]
   reasonForVisit String [not null]
 }
 
@@ -740,9 +751,205 @@ Table BudEvent {
   budUser BudgetUser [not null]
 }
 
-Enum PayerType {
-  FirstTime
-  Returning
+Enum Country {
+  Nepal
+  Afghanistan
+  Albania
+  Algeria
+  Andorra
+  Angola
+  Antigua
+  Argentina
+  Armenia
+  Australia
+  Austria
+  Azerbaijan
+  Bahamas
+  Bahrain
+  Bangladesh
+  Barbados
+  Belarus
+  Belgium
+  Belize
+  Benin
+  Bhutan
+  Bolivia
+  Bosnia
+  Botswana
+  Brazil
+  Brunei
+  Bulgaria
+  Burkina
+  Burundi
+  Cote
+  Cabo
+  Cambodia
+  Cameroon
+  Canada
+  Central
+  Chad
+  Chile
+  China
+  Colombia
+  Comoros
+  Congo
+  Costa
+  Croatia
+  Cuba
+  Cyprus
+  Czechia
+  Democratic
+  Denmark
+  Djibouti
+  Dominica
+  Dominican
+  Ecuador
+  Egypt
+  El
+  Equatorial
+  Eritrea
+  Estonia
+  Eswatini
+  Ethiopia
+  Fiji
+  Finland
+  France
+  Gabon
+  Gambia
+  Georgia
+  Germany
+  Ghana
+  Greece
+  Grenada
+  Guatemala
+  Guinea
+  Guyana
+  Haiti
+  Holy
+  Honduras
+  Hungary
+  Iceland
+  India
+  Indonesia
+  Iran
+  Iraq
+  Ireland
+  Israel
+  Italy
+  Jamaica
+  Japan
+  Jordan
+  Kazakhstan
+  Kenya
+  Kiribati
+  Kuwait
+  Kyrgyzstan
+  Laos
+  Latvia
+  Lebanon
+  Lesotho
+  Liberia
+  Libya
+  Liechtenstein
+  Luxembourg
+  Lithuania
+  Madagascar
+  Malawi
+  Malaysia
+  Maldives
+  Mali
+  Malta
+  MarshallIslands
+  Mauritania
+  Mauritius
+  Mexico
+  Micronesia
+  Moldova
+  Monaco
+  Mongolia
+  Montenegro
+  Morocco
+  Mozambique
+  Myanmar
+  Namibia
+  Nauru
+  Netherlands
+  New_Zealand
+  Nicaragua
+  Niger
+  Nigeria
+  North_Korea
+  North_Macedonia
+  Norway
+  Oman
+  Pakistan
+  Palau
+  Palestine_State
+  Panama
+  Papua_New_Guinea
+  Paraguay
+  Peru
+  Philippines
+  Poland
+  Portugal
+  Qatar
+  Romania
+  Russia
+  Rwanda
+  Saint_Kitts_and_Nevis
+  Saint_Lucia
+  Saint_Vincent_and_the_Grenadines
+  Samoa
+  San_Marino
+  Sao_Tome_and_Principe
+  Saudi_Arabia
+  Senegal
+  Serbia
+  Seychelles
+  Sierra_Leone
+  Singapore
+  Slovakia
+  Slovenia
+  Solomon_Islands
+  Somalia
+  South_Africa
+  South_Korea
+  South_Sudan
+  Spain
+  Sri_Lanka
+  Sudan
+  Suriname
+  Sweden
+  Switzerland
+  Syria
+  Tajikistan
+  Tanzania
+  Thailand
+  Timor_Leste
+  Togo
+  Tonga
+  Trinidad_and_Tobago
+  Tunisia
+  Turkey
+  Turkmenistan
+  Tuvalu
+  Uganda
+  Ukraine
+  United_Arab_Emirates
+  United_Kingdom
+  United_States_of_America
+  Uruguay
+  Uzbekistan
+  Vanuatu
+  Venezuela
+  Vietnam
+  Yemen
+  Zambia
+  Zimbabwe
+}
+
+Enum DiscountType {
+  FirstTimer
   RegularMember
   PremiumMember
 }
@@ -754,11 +961,15 @@ Enum PaymentMethod {
   CashPartial
 }
 
-Ref: accounts.userId > users.id [delete: Cascade]
+Ref: account.userId > person.id [delete: Cascade]
 
-Ref: sessions.userId > users.id [delete: Cascade]
+Ref: session.userId > person.id [delete: Cascade]
 
-Ref: authenticator.userId > users.id [delete: Cascade]
+Ref: authenticator.userId > person.id [delete: Cascade]
+
+Ref: payment.payerId > person.id
+
+Ref: payment.receiverId > person.id
 
 Ref: appointment.appointmentTypeId > appointment_type.id
 

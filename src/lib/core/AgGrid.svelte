@@ -67,6 +67,7 @@
 
   .bool-filter > * {
     margin: 8px;
+		
   }
 
   .bool-filter > div:first-child {
@@ -78,7 +79,9 @@
   }
 
   :global(.ag-header-cell) {
-    background: #82d1c9;
+    background: #9fdad4;
     font-size: 16px;
   }
 </style>
+
+<!-- #82d1c9; -->

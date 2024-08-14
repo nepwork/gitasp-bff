@@ -1,20 +1,37 @@
+-- CreateEnum
+CREATE TYPE "Country" AS ENUM ('Nepal', 'Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Antigua', 'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bhutan', 'Bolivia', 'Bosnia', 'Botswana', 'Brazil', 'Brunei', 'Bulgaria', 'Burkina', 'Burundi', 'Cote', 'Cabo', 'Cambodia', 'Cameroon', 'Canada', 'Central', 'Chad', 'Chile', 'China', 'Colombia', 'Comoros', 'Congo', 'Costa', 'Croatia', 'Cuba', 'Cyprus', 'Czechia', 'Democratic', 'Denmark', 'Djibouti', 'Dominica', 'Dominican', 'Ecuador', 'Egypt', 'El', 'Equatorial', 'Eritrea', 'Estonia', 'Eswatini', 'Ethiopia', 'Fiji', 'Finland', 'France', 'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Greece', 'Grenada', 'Guatemala', 'Guinea', 'Guyana', 'Haiti', 'Holy', 'Honduras', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Iran', 'Iraq', 'Ireland', 'Israel', 'Italy', 'Jamaica', 'Japan', 'Jordan', 'Kazakhstan', 'Kenya', 'Kiribati', 'Kuwait', 'Kyrgyzstan', 'Laos', 'Latvia', 'Lebanon', 'Lesotho', 'Liberia', 'Libya', 'Liechtenstein', 'Luxembourg', 'Lithuania', 'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'MarshallIslands', 'Mauritania', 'Mauritius', 'Mexico', 'Micronesia', 'Moldova', 'Monaco', 'Mongolia', 'Montenegro', 'Morocco', 'Mozambique', 'Myanmar', 'Namibia', 'Nauru', 'Netherlands', 'New_Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'North_Korea', 'North_Macedonia', 'Norway', 'Oman', 'Pakistan', 'Palau', 'Palestine_State', 'Panama', 'Papua_New_Guinea', 'Paraguay', 'Peru', 'Philippines', 'Poland', 'Portugal', 'Qatar', 'Romania', 'Russia', 'Rwanda', 'Saint_Kitts_and_Nevis', 'Saint_Lucia', 'Saint_Vincent_and_the_Grenadines', 'Samoa', 'San_Marino', 'Sao_Tome_and_Principe', 'Saudi_Arabia', 'Senegal', 'Serbia', 'Seychelles', 'Sierra_Leone', 'Singapore', 'Slovakia', 'Slovenia', 'Solomon_Islands', 'Somalia', 'South_Africa', 'South_Korea', 'South_Sudan', 'Spain', 'Sri_Lanka', 'Sudan', 'Suriname', 'Sweden', 'Switzerland', 'Syria', 'Tajikistan', 'Tanzania', 'Thailand', 'Timor_Leste', 'Togo', 'Tonga', 'Trinidad_and_Tobago', 'Tunisia', 'Turkey', 'Turkmenistan', 'Tuvalu', 'Uganda', 'Ukraine', 'United_Arab_Emirates', 'United_Kingdom', 'United_States_of_America', 'Uruguay', 'Uzbekistan', 'Vanuatu', 'Venezuela', 'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe');
+
+-- CreateEnum
+CREATE TYPE "discount_type" AS ENUM ('FirstTimer', 'RegularMember', 'PremiumMember');
+
+-- CreateEnum
+CREATE TYPE "payment_method" AS ENUM ('CashAtCounter', 'QRCodeEsewa', 'QRCodeBank', 'CashPartial');
+
 -- CreateTable
-CREATE TABLE "users" (
+CREATE TABLE "person" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "username" TEXT NOT NULL,
-    "name" TEXT,
+    "firstName" TEXT,
+    "lastName" TEXT NOT NULL,
     "password" TEXT,
+    "phoneCode" INTEGER NOT NULL DEFAULT 977,
+    "phoneNumber" INTEGER,
+    "streetName" TEXT,
+    "city" TEXT,
+    "areaCode" TEXT,
+    "country" "Country" NOT NULL DEFAULT 'Nepal',
     "email" TEXT,
     "emailVerified" TIMESTAMP(3),
+    "payerType" "discount_type" NOT NULL DEFAULT 'RegularMember',
     "image" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "users_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "person_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "accounts" (
+CREATE TABLE "account" (
     "userId" UUID NOT NULL,
     "type" TEXT NOT NULL,
     "provider" TEXT NOT NULL,
@@ -29,11 +46,11 @@ CREATE TABLE "accounts" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "accounts_pkey" PRIMARY KEY ("provider","providerAccountId")
+    CONSTRAINT "account_pkey" PRIMARY KEY ("provider","providerAccountId")
 );
 
 -- CreateTable
-CREATE TABLE "sessions" (
+CREATE TABLE "session" (
     "sessionToken" TEXT NOT NULL,
     "userId" UUID NOT NULL,
     "expiresAt" TIMESTAMP(3) NOT NULL,
@@ -42,12 +59,12 @@ CREATE TABLE "sessions" (
 );
 
 -- CreateTable
-CREATE TABLE "verificationtokens" (
+CREATE TABLE "verification_token" (
     "identifier" TEXT NOT NULL,
     "token" TEXT NOT NULL,
     "expires" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "verificationtokens_pkey" PRIMARY KEY ("identifier","token")
+    CONSTRAINT "verification_token_pkey" PRIMARY KEY ("identifier","token")
 );
 
 -- CreateTable
@@ -62,6 +79,20 @@ CREATE TABLE "authenticator" (
     "transports" TEXT,
 
     CONSTRAINT "authenticator_pkey" PRIMARY KEY ("userId","credentialID")
+);
+
+-- CreateTable
+CREATE TABLE "payment" (
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "payerId" UUID NOT NULL,
+    "receiverId" UUID NOT NULL,
+    "paymentMethod" "payment_method" NOT NULL DEFAULT 'CashAtCounter',
+    "totalPayableAmount" DECIMAL(65,30) NOT NULL,
+    "discountApplied" DECIMAL(65,30) NOT NULL DEFAULT 0.0,
+    "paidAmount" DECIMAL(65,30) NOT NULL,
+    "reasonForVisit" TEXT NOT NULL,
+
+    CONSTRAINT "payment_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -740,13 +771,13 @@ CREATE TABLE "BudEvent" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "users_username_key" ON "users"("username");
+CREATE UNIQUE INDEX "person_username_key" ON "person"("username");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
+CREATE UNIQUE INDEX "person_email_key" ON "person"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "sessions_sessionToken_key" ON "sessions"("sessionToken");
+CREATE UNIQUE INDEX "session_sessionToken_key" ON "session"("sessionToken");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "authenticator_credentialID_key" ON "authenticator"("credentialID");
@@ -866,13 +897,19 @@ CREATE UNIQUE INDEX "BudgetUser_email_key" ON "BudgetUser"("email");
 CREATE UNIQUE INDEX "BudgetBudgetUser_userId_budgetId_key" ON "BudgetBudgetUser"("userId", "budgetId");
 
 -- AddForeignKey
-ALTER TABLE "accounts" ADD CONSTRAINT "accounts_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "account" ADD CONSTRAINT "account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "person"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "sessions" ADD CONSTRAINT "sessions_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "session" ADD CONSTRAINT "session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "person"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "authenticator" ADD CONSTRAINT "authenticator_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "authenticator" ADD CONSTRAINT "authenticator_userId_fkey" FOREIGN KEY ("userId") REFERENCES "person"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "payment" ADD CONSTRAINT "payment_payerId_fkey" FOREIGN KEY ("payerId") REFERENCES "person"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "payment" ADD CONSTRAINT "payment_receiverId_fkey" FOREIGN KEY ("receiverId") REFERENCES "person"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "appointment" ADD CONSTRAINT "appointment_appointmentTypeId_fkey" FOREIGN KEY ("appointmentTypeId") REFERENCES "appointment_type"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

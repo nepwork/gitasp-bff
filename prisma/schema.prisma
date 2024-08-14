@@ -232,7 +232,7 @@ model Person {
   password String?
 
   phoneCode   Int  @default(977)
-  phoneNumber Int?
+  phoneNumber String?
 
   streetName String?
   city       String?
@@ -242,7 +242,10 @@ model Person {
   email         String?   @unique
   emailVerified DateTime?
 
-  payerType DiscountType @default(RegularMember)
+  payerType DiscountType @default(FirstTimer)
+
+	paymentList Payment[] @relation("payer")
+	receivedPaymentList Payment[] @relation("receiver") // patients even receive money in health camps
 
   image    String?
   accounts Account[]
@@ -338,12 +341,17 @@ enum PaymentMethod {
 // Root
 model Payment {
   id                 String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  patientName        String
-  phoneNumber        String
+
+	payerId String @db.Uuid
+	payer			Person @relation("payer", fields: [payerId], references: [id])
+
+	receiverId String @db.Uuid
+	receiver Person @relation("receiver", fields: [receiverId], references: [id])
+
   paymentMethod      PaymentMethod @default(CashAtCounter)
   totalPayableAmount Decimal
   discountApplied    Decimal       @default(0.0)
-  paidAmount         Decimal       @default(0.0)
+  paidAmount         Decimal       
   reasonForVisit     String
 
   @@map("payment")

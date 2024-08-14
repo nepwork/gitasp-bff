@@ -1,6 +1,9 @@
-import { Prisma } from "@prisma/client";
-import { BaseDMMF } from "@prisma/client/runtime/library";
+import { Prisma, PrismaClient } from "@prisma/client";
+import type { BaseDMMF } from "@prisma/client/runtime/library";
 
+export const prisma = new PrismaClient({
+	errorFormat: 'pretty'
+});
 
 function getDMMF(): BaseDMMF {
 	return Prisma.dmmf;
