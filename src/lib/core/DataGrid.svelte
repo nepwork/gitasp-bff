@@ -4,7 +4,17 @@
   import Grid from 'gridjs-svelte';
   import "gridjs/dist/theme/mermaid.css";
   import { writable } from 'svelte/store';
-  import { updateButton, deleteButton, style } from "./grid-style";
+  import { deleteButton, style, updateButton } from "./grid-style";
+  import { Drawer, Button, CloseButton } from 'flowbite-svelte';
+	import { sineIn } from 'svelte/easing';
+  import { InfoCircleSolid, ArrowRightOutline } from 'flowbite-svelte-icons';
+
+	let hidden1 = true;
+  let transitionParams = {
+    x: -320,
+    duration: 200,
+    easing: sineIn
+  };
 
   interface Data {
     id: number;
@@ -112,12 +122,13 @@
 </script>
 <div class="max-w-full px-4 sm:px-6 lg:px-8 mx-auto"><!-- Card -->
   <div class="bg-white text-teal-400 rounded-xl p-4 sm:p-7 dark:bg-neutral-800">
-<div class="grid-filters">
-  <input type="text" placeholder="Filter by ID" bind:value={$idFilter} />
-  <input type="text" placeholder="Filter by name" bind:value={$nameFilter} />
-  <input type="text" placeholder="Filter by email" bind:value={$emailFilter} />
-  <input type="text" placeholder="Filter by age" bind:value={$ageFilter} />
-</div>
+		
+		<div class="grid-filters">
+			<input type="text" placeholder="Filter by ID" bind:value={$idFilter} />
+			<input type="text" placeholder="Filter by name" bind:value={$nameFilter} />
+			<input type="text" placeholder="Filter by email" bind:value={$emailFilter} />
+			<input type="text" placeholder="Filter by age" bind:value={$ageFilter} />
+		</div>
 
 <Grid
   data={filteredData}
@@ -126,6 +137,11 @@
     enabled: true,
     limit: 10,
   }}
+	language={{
+		search: {
+			placeholder: '🔍 Search...'
+		}
+	}}
   search={true}
   sort={true}
   resizable={true}000
@@ -134,6 +150,23 @@
 
 	</div>  
 </div>
+
+<Drawer transitionType="fly" {transitionParams} bind:hidden={hidden1} id="sidebar1">
+  <div class="flex items-center">
+    <h5 id="drawer-label" class="inline-flex items-center mb-4 text-base font-semibold text-gray-500 dark:text-gray-400">
+      <InfoCircleSolid class="w-5 h-5 me-2.5" />Info
+    </h5>
+    <CloseButton on:click={() => (hidden1 = true)} class="mb-4 dark:text-white" />
+  </div>
+  <p class="mb-6 text-sm text-gray-500 dark:text-gray-400">
+    Supercharge your hiring by taking advantage of our <a href="/" class="text-primary-600 underline dark:text-primary-500 hover:no-underline"> limited-time sale </a>
+    for Flowbite Docs + Job Board. Unlimited access to over 190K top-ranked candidates and the #1 design job board.
+  </p>
+  <div class="grid grid-cols-2 gap-4">
+    <Button color="light" href="/">Learn more</Button>
+    <Button href="/" class="px-4">Get access <ArrowRightOutline class="w-5 h-5 ms-2" /></Button>
+  </div>
+</Drawer>
 
 <style global>
 	
@@ -152,12 +185,8 @@
   }
 
   /* :first-of-type */
-  .gridjs-search input[type="search"] {
-    width: 100%;
-  }
-
-  input[type=search] {
-    background: #000;
+  .gridjs-search {
+    width: 100px;
   }
 
 </style>

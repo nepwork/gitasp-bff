@@ -1,27 +1,35 @@
 ---
 import LayoutCrud from '../../app/LayoutCrud.astro';
-import DataGrid from '../../lib/core/DataGrid.svelte';
+import AgGrid from '../../lib/core/AgGrid.svelte';
 import PostItCello from '../../lib/enhancements/post-it-cello.astro';
 import PostIt from '../../lib/enhancements/post-it.astro';
 
 export const prerender = false;
+
+// Row Data: The data to be displayed.
+const rowData = [
+   { make: "Tesla", model: "Model Y", price: 64950, electric: true },
+   { make: "Ford", model: "F-Series", price: 33850, electric: false },
+   { make: "Toyota", model: "Corolla", price: 29600, electric: false },
+ ];
+ // Column Definitions: Defines the columns to be displayed.
+ const columnDefs = [
+   { field: "make", filter: true },
+   { field: "model", filter: true },
+   { field: "price", filter: true },
+   { field: "electric", filter: true }
+ ];
 
 const { slug } = Astro.params;
 ---
 
 <LayoutCrud>
 
-	<DataGrid client:only="svelte"/>
+	<AgGrid {rowData} {columnDefs} client:only="svelte"/>
 
 	<div class="flex">
 		<div class="container mx-24 w-32 h-auto">
 			<PostIt message={slug}/>
-		</div>
-		<div class="container mx-24 w-32 h-auto">
-			<PostItCello/>
-		</div>
-		<div class="container mx-24 w-32 h-auto">
-			<PostIt message="Hello There!"/>
 		</div>
 		<div class="container mx-24 w-32 h-auto">
 			<PostItCello/>

@@ -1,17 +1,16 @@
 export const style = {
   table: {
-    border: '1px solid #80deea',
+		border: '1px solid rgba(0, 188, 212, 0.06)',
     fontSize: '14px',
     backgroundColor: '#ffffff',
 		whiteSpace: 'no-wrap'
   },
   th: {
-    backgroundColor: '#e0f7fa',
+		backgroundColor: 'rgba(0, 188, 212, 0.06)',
     color: '#00838f',
-    borderBottom: '2px solid #0097a7',
     padding: '12px 16px',
     fontWeight: '600',
-    textTransform: 'uppercase',
+		textTransform: 'capitalize',
     letterSpacing: '0.05em',
   },
   td: {
@@ -23,7 +22,7 @@ export const style = {
     boxShadow: '0 1px 3px 0 rgba(0, 188, 212, 0.1), 0 1px 2px 0 rgba(0, 188, 212, 0.06)',
   },
   footer: {
-    backgroundColor: '#e0f7fa',
+		backgroundColor: 'rgba(0, 188, 212, 0.06)',
     borderTop: '1px solid #b2ebf2',
     padding: '12px 16px',
     fontSize: '13px',
