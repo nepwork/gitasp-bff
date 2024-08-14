@@ -38,7 +38,21 @@ model Person {
 
   createdAt           DateTime        @default(now())
   updatedAt           DateTime        @updatedAt
-  
+
+	createdBy		String? @db.Uuid
+	creator			Person? @relation("creator", fields: [createdBy], references: [id])
+
+	updatedBy		String? @db.Uuid
+	updater			Person? @relation("updater", fields: [updatedBy], references: [id])
+
+	patient Patient? @relation("as_patient")
+
+	created Person[] @relation("creator")
+	updated Person[] @relation("updater")
+
+	patientRecordCreated Patient[] @relation("pat_record_creator")
+  patientRecordUpdated Patient[] @relation("pat_record_updater")
+
 	accounts            Account[]
   authenticator       Authenticator[]
   paymentList         Payment[]       @relation("payer")
@@ -186,18 +200,22 @@ model Location {
 model Patient {
   id              String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   uuid            String        @unique
-  givenName       String
-  middleName      String
-  familyName      String
   gender          String
   birthdate       DateTime
-  dead            Boolean       @default(false)
-  deathDate       DateTime
-  causeOfDeath    String
-  creator         String
-  dateCreated     DateTime
-  lastChangedBy   String
-  lastChangedDate DateTime
+
+	personId String @db.Uuid @unique
+	person Person @relation("as_patient", fields: [personId], references: [id])
+
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
+
+	createdBy		String? @db.Uuid
+	creator			Person? @relation("pat_record_creator", fields: [createdBy], references: [id])
+
+	updatedBy		String? @db.Uuid
+	updater			Person? @relation("pat_record_updater", fields: [updatedBy], references: [id])
+
+
   appointmentList Appointment[]
   encounterList   Encounter[]
 

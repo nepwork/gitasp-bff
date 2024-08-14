@@ -8,19 +8,14 @@ export const sidebarPatientNav: SidebarNavItem[] = [
     icon: faWallet,
     items: [
       {
-        title: "Visits",
+        title: "New Visits",
         href: "/cliniq/payment/visit",
         icon: faReceipt,
       },
       {
-        title: "Individuals",
-        href: "/cliniq/payment/individual",
+        title: "Remaining",
+        href: "/cliniq/payment/remaining",
         icon: faIdBadge,
-      },
-      {
-        title: "Hospitals",
-        href: "/cliniq/payment/hospital",
-        icon: faArrowCircleUp,
       },
       {
         title: "Discounts",
@@ -35,8 +30,8 @@ export const sidebarPatientNav: SidebarNavItem[] = [
     icon: faCalendarAlt,
     items: [
 			{
-        title: "Availability",
-        href: "/cliniq/appointment/availability",
+        title: "Calendar",
+        href: "/cliniq/appointment/calendar",
         icon: faCalendarAlt,
       },
       {
@@ -120,11 +115,6 @@ export const sidebarPatientNav: SidebarNavItem[] = [
         title: "Surgeries",
         href: "/cliniq/service/surgery",
         icon: faHeart,
-      },
-      {
-        title: "Therapies",
-        href: "/cliniq/service/therapy",
-        icon: faArrowCircleUp,
       },
       {
         title: "Medications",

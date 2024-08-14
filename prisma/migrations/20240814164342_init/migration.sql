@@ -14,7 +14,7 @@ CREATE TABLE "person" (
     "firstName" TEXT,
     "lastName" TEXT NOT NULL,
     "password" TEXT,
-    "phoneCode" INTEGER NOT NULL DEFAULT 977,
+    "phoneCode" INTEGER DEFAULT 977,
     "phoneNumber" TEXT,
     "streetName" TEXT,
     "city" TEXT,
@@ -26,6 +26,8 @@ CREATE TABLE "person" (
     "image" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "createdBy" UUID,
+    "updatedBy" UUID,
 
     CONSTRAINT "person_pkey" PRIMARY KEY ("id")
 );
@@ -158,18 +160,13 @@ CREATE TABLE "location" (
 CREATE TABLE "patient" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "uuid" TEXT NOT NULL,
-    "givenName" TEXT NOT NULL,
-    "middleName" TEXT NOT NULL,
-    "familyName" TEXT NOT NULL,
     "gender" TEXT NOT NULL,
     "birthdate" TIMESTAMP(3) NOT NULL,
-    "dead" BOOLEAN NOT NULL DEFAULT false,
-    "deathDate" TIMESTAMP(3) NOT NULL,
-    "causeOfDeath" TEXT NOT NULL,
-    "creator" TEXT NOT NULL,
-    "dateCreated" TIMESTAMP(3) NOT NULL,
-    "lastChangedBy" TEXT NOT NULL,
-    "lastChangedDate" TIMESTAMP(3) NOT NULL,
+    "personId" UUID NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "createdBy" UUID,
+    "updatedBy" UUID,
 
     CONSTRAINT "patient_pkey" PRIMARY KEY ("id")
 );
@@ -777,6 +774,9 @@ CREATE UNIQUE INDEX "person_username_key" ON "person"("username");
 CREATE UNIQUE INDEX "person_email_key" ON "person"("email");
 
 -- CreateIndex
+CREATE INDEX "person_firstName_lastName_phoneNumber_idx" ON "person"("firstName", "lastName", "phoneNumber");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "session_sessionToken_key" ON "session"("sessionToken");
 
 -- CreateIndex
@@ -796,6 +796,9 @@ CREATE UNIQUE INDEX "location_uuid_key" ON "location"("uuid");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "patient_uuid_key" ON "patient"("uuid");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "patient_personId_key" ON "patient"("personId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "provider_uuid_key" ON "provider"("uuid");
@@ -897,6 +900,12 @@ CREATE UNIQUE INDEX "BudgetUser_email_key" ON "BudgetUser"("email");
 CREATE UNIQUE INDEX "BudgetBudgetUser_userId_budgetId_key" ON "BudgetBudgetUser"("userId", "budgetId");
 
 -- AddForeignKey
+ALTER TABLE "person" ADD CONSTRAINT "person_createdBy_fkey" FOREIGN KEY ("createdBy") REFERENCES "person"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "person" ADD CONSTRAINT "person_updatedBy_fkey" FOREIGN KEY ("updatedBy") REFERENCES "person"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "account" ADD CONSTRAINT "account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "person"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -922,6 +931,15 @@ ALTER TABLE "appointment" ADD CONSTRAINT "appointment_patientId_fkey" FOREIGN KE
 
 -- AddForeignKey
 ALTER TABLE "appointment" ADD CONSTRAINT "appointment_providerId_fkey" FOREIGN KEY ("providerId") REFERENCES "provider"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "patient" ADD CONSTRAINT "patient_personId_fkey" FOREIGN KEY ("personId") REFERENCES "person"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "patient" ADD CONSTRAINT "patient_createdBy_fkey" FOREIGN KEY ("createdBy") REFERENCES "person"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "patient" ADD CONSTRAINT "patient_updatedBy_fkey" FOREIGN KEY ("updatedBy") REFERENCES "person"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "form" ADD CONSTRAINT "form_fieldId_fkey" FOREIGN KEY ("fieldId") REFERENCES "field"("id") ON DELETE SET NULL ON UPDATE CASCADE;

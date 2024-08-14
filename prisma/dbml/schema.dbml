@@ -20,6 +20,15 @@ Table person {
   image String
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
+  createdBy String
+  creator person
+  updatedBy String
+  updater person
+  patient patient
+  created person [not null]
+  updated person [not null]
+  patientRecordCreated patient [not null]
+  patientRecordUpdated patient [not null]
   accounts account [not null]
   authenticator authenticator [not null]
   paymentList payment [not null]
@@ -162,18 +171,16 @@ Table location {
 Table patient {
   id String [pk]
   uuid String [unique, not null]
-  givenName String [not null]
-  middleName String [not null]
-  familyName String [not null]
   gender String [not null]
   birthdate DateTime [not null]
-  dead Boolean [not null, default: false]
-  deathDate DateTime [not null]
-  causeOfDeath String [not null]
-  creator String [not null]
-  dateCreated DateTime [not null]
-  lastChangedBy String [not null]
-  lastChangedDate DateTime [not null]
+  personId String [unique, not null]
+  person person [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  createdBy String
+  creator person
+  updatedBy String
+  updater person
   appointmentList appointment [not null]
   encounterList encounter [not null]
 }
@@ -961,6 +968,10 @@ Enum PaymentMethod {
   CashPartial
 }
 
+Ref: person.createdBy - person.id
+
+Ref: person.updatedBy - person.id
+
 Ref: account.userId > person.id [delete: Cascade]
 
 Ref: session.userId > person.id [delete: Cascade]
@@ -978,6 +989,12 @@ Ref: appointment.locationId > location.id
 Ref: appointment.patientId > patient.id
 
 Ref: appointment.providerId > provider.id
+
+Ref: patient.personId - person.id
+
+Ref: patient.createdBy - person.id
+
+Ref: patient.updatedBy - person.id
 
 Ref: form.fieldId > field.id
 

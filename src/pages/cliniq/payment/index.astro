@@ -8,9 +8,6 @@ const slug = new URL(Astro.request.url).pathname;
 const split = slug.split('/');
 const entity = split[split.length - 1];
 const metaData = getMetaData(entity);
-if (!metaData) return;
-
-getEnumValues("paymentMethod")
 
 ---
 
