@@ -1,32 +1,52 @@
 ---
 /* eslint max-lines: 'off' */
 
-import { fromCamel, getEnumValues, getMetaData } from '../../prisma/db-utils';
+import { md } from 'flowbite-svelte';
+import { fromCamel, getEnumValues, getMetaData, prisma } from '../../prisma/db-utils';
 import AgGrid from '../lib/core/AgGrid.svelte';
-
-// Row Data: The data to be displayed.
-const rowData = [
-   { make: "Tesla", model: "Model Y", price: 64950, electric: true },
-   { make: "Ford", model: "F-Series", price: 33850, electric: false },
-   { make: "Toyota", model: "Corolla", price: 29600, electric: false },
- ];
- // Column Definitions: Defines the columns to be displayed.
- const columnDefs = [
-   { field: "make", filter: true },
-   { field: "model", filter: true },
-   { field: "price", filter: true },
-   { field: "electric", filter: true }
- ];
 
 const slug = new URL(Astro.request.url).pathname;
 const split = slug.split('/');
 const entity = split[split.length - 2];
 const metaData = getMetaData(entity);
-if (!metaData) return;
 
-getEnumValues("paymentMethod")
+const fetcher = (prisma as any)[entity];
+if (!fetcher) return;
+
+const rowData = await prisma.payment.findMany({
+	take: 100
+});
+
+console.log("md", getMetaData(entity))
+const mData = getMetaData(entity);
+
+const mapper = new Map<string, string>();
+mapper.set("Decimal", "number");
+mapper.set("Int", "number");
+mapper.set("BigInt", "number");
+mapper.set("String", "string");
+mapper.set("DateTime", "dateString");
+
+const types = (fieldName: string) => 
+		mData.find(m => m.name === fieldName)?.type ?? "String";
+
+const columnDefs = rowData?.length ? Object.keys(rowData[0]).map(field => ({
+	field,
+	filter: true,
+	cellDataType: mapper.get(types(field)) ?? "string"
+})) : [];
+
+ // Column Definitions: Defines the columns to be displayed.
+//  const columnDefs = [
+//    { field: "make", filter: true },
+//    { field: "model", filter: true },
+//    { field: "price", filter: true },
+//    { field: "electric", filter: true }
+//  ];
+
+
 ---
-
+<>
 <section class="bg-white dark:bg-gray-900">
 	<div class="py-8 px-4 mx-auto max-w-full lg:py-16">
 		<h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">
@@ -86,3 +106,4 @@ getEnumValues("paymentMethod")
 </section>
 
 <AgGrid {rowData} {columnDefs} client:only="svelte"/>
+</>
