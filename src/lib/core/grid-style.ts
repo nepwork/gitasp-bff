@@ -1,13 +1,14 @@
 export const style = {
   table: {
-    border: '1px solid #e2e8f0',
+    border: '1px solid #80deea',
     fontSize: '14px',
     backgroundColor: '#ffffff',
+		whiteSpace: 'no-wrap'
   },
   th: {
-    backgroundColor: '#f8fafc',
-    color: '#475569',
-    borderBottom: '2px solid #e2e8f0',
+    backgroundColor: '#e0f7fa',
+    color: '#00838f',
+    borderBottom: '2px solid #0097a7',
     padding: '12px 16px',
     fontWeight: '600',
     textTransform: 'uppercase',
@@ -15,47 +16,47 @@ export const style = {
   },
   td: {
     padding: '16px',
-    borderBottom: '1px solid #e2e8f0',
-    color: '#1e293b',
+    borderBottom: '1px solid #e0f7fa',
+    color: '#00838f',
   },
   container: {
-    boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+    boxShadow: '0 1px 3px 0 rgba(0, 188, 212, 0.1), 0 1px 2px 0 rgba(0, 188, 212, 0.06)',
   },
   footer: {
-    backgroundColor: '#f8fafc',
-    borderTop: '1px solid #e2e8f0',
+    backgroundColor: '#e0f7fa',
+    borderTop: '1px solid #b2ebf2',
     padding: '12px 16px',
     fontSize: '13px',
-    color: '#64748b',
+    color: '#00838f',
   },
   pagination: {
     padding: '12px 16px',
     fontSize: '13px',
-    color: '#64748b',
+    color: '#00838f',
     button: {
-      border: '1px solid #e2e8f0',
+      border: '1px solid #4dd0e1',
       padding: '6px 12px',
       marginRight: '8px',
       cursor: 'pointer',
       backgroundColor: '#ffffff',
-      color: '#64748b',
+      color: '#00bcd4',
       borderRadius: '4px',
       transition: 'all 0.2s',
       '&:enabled:hover': {
-        backgroundColor: 'rgba(0, 188, 212, 0.1)',
-        borderColor: 'rgba(0, 188, 212, 0.5)',
+        backgroundColor: '#e0f7fa',
+        borderColor: '#00bcd4',
       },
       '&:disabled': {
         opacity: '0.5',
         cursor: 'not-allowed',
       },
       '&:enabled:active': {
-        backgroundColor: 'rgba(0, 188, 212, 0.2)',
+        backgroundColor: '#b2ebf2',
       },
       '&.selected': {
-        backgroundColor: 'rgba(0, 188, 212, 0.1)',
-        borderColor: 'rgba(0, 188, 212, 0.5)',
-        color: '#0891b2',
+        backgroundColor: '#4dd0e1',
+        borderColor: '#00bcd4',
+        color: '#ffffff',
       },
     },
   },
@@ -69,15 +70,15 @@ export const style = {
       fontSize: '14px',
       borderRadius: '4px',
       '&.edit': {
-        color: '#0891b2',
+        color: '#00acc1',
         '&:hover': {
-          backgroundColor: 'rgba(8, 145, 178, 0.1)',
+          backgroundColor: 'rgba(0, 172, 193, 0.1)',
         },
       },
       '&.delete': {
-        color: '#e11d48',
+        color: '#f44336',
         '&:hover': {
-          backgroundColor: 'rgba(225, 29, 72, 0.1)',
+          backgroundColor: 'rgba(244, 67, 54, 0.1)',
         },
       },
     },

@@ -3,7 +3,7 @@
 	import 'ag-grid-community/styles/ag-grid.css'; // Core grid CSS, always needed
 	import 'ag-grid-community/styles/ag-theme-quartz.css';
 	import AGGridSvelte from 'ag-grid-svelte';
-
+  // cannot reading map of undefined error 
   let api: any, columnApi: any;
 
 	const rowData = [

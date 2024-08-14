@@ -1,9 +1,10 @@
 <script lang="ts">
 
+  import { html } from 'gridjs';
   import Grid from 'gridjs-svelte';
-  import { writable } from 'svelte/store';
   import "gridjs/dist/theme/mermaid.css";
-	import { style } from "./grid-style";
+  import { writable } from 'svelte/store';
+  import { style } from "./grid-style";
 
   interface Data {
     id: number;
@@ -93,9 +94,23 @@
       sort: true,
       width: '15%',
     },
+		{
+      name: 'Action',
+      data: (row: Data) => row.id,
+      formatter: (_: any, row: { id: string; }) => html(
+				`
+				<div class="flex">
+					<button data-action="update" data-id="${row.id}"><Fa icon={faFlag} /> Update</button>
+					<button class="mx-3 text-red-400" data-action="update" data-id="${row.id}"><Fa icon={faFlag} /> Delete</button>
+				</div>
+				`
+			),
+      sort: true,
+      width: '15%',
+    }
   ];
 </script>
-<div class="max-w-full px-4 py-10 sm:px-6 lg:px-8 mx-auto"><!-- Card -->
+<div class="max-w-full px-4 sm:px-6 lg:px-8 mx-auto"><!-- Card -->
   <div class="bg-white text-teal-400 rounded-xl p-4 sm:p-7 dark:bg-neutral-800">
 <div class="grid-filters">
   <input type="text" placeholder="Filter by ID" bind:value={$idFilter} />

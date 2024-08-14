@@ -75,6 +75,6 @@
 		"prisma": "5.18.0"
 	},
 	"prisma": {
-  "seed": "ts-node prisma/seed.ts"
+		"seed": "ts-node prisma/seed.ts"
 	}
 }
