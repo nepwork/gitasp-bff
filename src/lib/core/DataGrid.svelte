@@ -4,7 +4,7 @@
   import Grid from 'gridjs-svelte';
   import "gridjs/dist/theme/mermaid.css";
   import { writable } from 'svelte/store';
-  import { style } from "./grid-style";
+  import { updateButton, deleteButton, style } from "./grid-style";
 
   interface Data {
     id: number;
@@ -99,9 +99,9 @@
       data: (row: Data) => row.id,
       formatter: (_: any, row: { id: string; }) => html(
 				`
-				<div class="flex">
-					<button data-action="update" data-id="${row.id}"><Fa icon={faFlag} /> Update</button>
-					<button class="mx-3 text-red-400" data-action="update" data-id="${row.id}"><Fa icon={faFlag} /> Delete</button>
+				<div class="flex gap-2">
+					${updateButton}
+					${deleteButton}
 				</div>
 				`
 			),
