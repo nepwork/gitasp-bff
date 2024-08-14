@@ -1,11 +1,74 @@
 ---
-import LayoutCrud from "../../../app/LayoutCrud.astro";
-import SectionLanding from "../../../app/partials/bread-crumbs/SectionLanding.astro";
+import { getMetaData, fromCamel, getEnumValues } from '../../../../prisma/db-utils';
+import LayoutCrud from '../../../app/LayoutCrud.astro';
 
 export const prerender = false;
+
+const slug = new URL(Astro.request.url).pathname;
+const split = slug.split('/');
+const entity = split[split.length - 1];
+const metaData = getMetaData(entity);
+if (!metaData) return;
+
+getEnumValues("paymentMethod")
 
 ---
 
 <LayoutCrud>
-	<SectionLanding/>
+	<section class="bg-white dark:bg-gray-900">
+		<div class="py-8 px-4 mx-auto max-w-full lg:py-16">
+			<h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">
+				Add a new <span class="capitalize">{entity}</span>:
+			</h2>
+			<form action="#">
+				<div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
+					{
+						metaData?.length &&
+							metaData.map((field) => (
+								<div
+									class={`w-full ${
+										field.isId || field.isReadOnly ? 'hidden' : ''
+									}`}
+								>
+									<label
+										for="name"
+										class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									>
+										{fromCamel(field.name)}{' '}
+										<span class="text-gray-400">
+											{field.isRequired && !field.hasDefaultValue ? ' *' : ''}
+										</span>
+									</label>
+									{field.kind === 'enum' ? (
+										<select
+											name={field.name}
+											class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+										>
+											{!field.hasDefaultValue && <option selected="">Select {fromCamel(field.name)}</option>}
+											{getEnumValues(field.name)?.map(e => (
+												<option value={e}>{fromCamel(e)}</option>										
+											))} 
+										</select>
+									) : (
+										<input
+											type={["Decimal", "Int", "BigInt"].includes(field.type) ? "number" : "text"}
+											name={field.name}
+											class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+											placeholder={`${fromCamel(field.name)}`}
+											required={field.isRequired && !field.hasDefaultValue}
+										/>
+									)}
+								</div>
+							))
+					}
+				</div>
+				<button
+					type="submit"
+					class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
+				>
+					Add {fromCamel(entity)}
+				</button>
+			</form>
+		</div>
+	</section>
 </LayoutCrud>
