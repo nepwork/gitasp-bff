@@ -10,7 +10,7 @@ generator dbml {
 
 generator docs {
   provider = "node node_modules/prisma-docs-generator"
-  output   = "../../docs/db"
+  output   = "../docs/db"
 }
 
 datasource db {
@@ -1066,9 +1066,10 @@ enum DiscountType {
 
 enum PaymentMethod {
   CashAtCounter
-  QRCodeEsewa
-  QRCodeBank
   CashPartial
+  QrCodeEsewa
+  QrCodeBank
+
 
   @@map("payment_method")
 }

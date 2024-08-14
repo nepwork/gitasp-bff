@@ -963,9 +963,9 @@ Enum DiscountType {
 
 Enum PaymentMethod {
   CashAtCounter
-  QRCodeEsewa
-  QRCodeBank
   CashPartial
+  QrCodeEsewa
+  QrCodeBank
 }
 
 Ref: person.createdBy - person.id
