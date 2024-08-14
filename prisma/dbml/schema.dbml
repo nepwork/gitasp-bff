@@ -8,7 +8,7 @@ Table person {
   firstName String
   lastName String [not null]
   password String
-  phoneCode Int [not null, default: 977]
+  phoneCode Int [default: 977]
   phoneNumber String
   streetName String
   city String
