@@ -1,39 +1,50 @@
 ---
 /* eslint max-lines: 'off' */
 
-import { md } from 'flowbite-svelte';
 import { fromCamel, getEnumValues, getMetaData, prisma } from '../../prisma/db-utils';
 import AgGrid from '../lib/core/AgGrid.svelte';
 
 const slug = new URL(Astro.request.url).pathname;
 const split = slug.split('/');
 const entity = split[split.length - 2];
+
+console.log("ntt", entity);
+
 const metaData = getMetaData(entity);
 
 const fetcher = (prisma as any)[entity];
 if (!fetcher) return;
 
-const rowData = await prisma.payment.findMany({
+const rowData = await fetcher.findMany({
 	take: 100
 });
 
-console.log("md", getMetaData(entity))
+
 const mData = getMetaData(entity);
 
 const mapper = new Map<string, string>();
 mapper.set("Decimal", "number");
 mapper.set("Int", "number");
 mapper.set("BigInt", "number");
-mapper.set("String", "string");
+mapper.set("String", "text");
 mapper.set("DateTime", "dateString");
 
-const types = (fieldName: string) => 
-		mData.find(m => m.name === fieldName)?.type ?? "String";
+const types = (fieldName: string) => {
+	const type = mData.find(m => {
+		console.log("match", fieldName, m.name)
+		return m.name === fieldName
+	})?.type ?? "String";
+	console.log("Type", type, fieldName)
+	return type;
+}
+	
+
+
 
 const columnDefs = rowData?.length ? Object.keys(rowData[0]).map(field => ({
 	field,
 	filter: true,
-	cellDataType: mapper.get(types(field)) ?? "string"
+	cellDataType: mapper.get(types(field)) ?? "text"
 })) : [];
 
  // Column Definitions: Defines the columns to be displayed.

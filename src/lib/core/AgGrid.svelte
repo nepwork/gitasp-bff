@@ -50,7 +50,7 @@
   });
 </script>
 <div class="griddy-wrapper">
-	<div class="ag-theme-alpine" style:width="75vw" style:height="50vh" bind:this={gridContainer}>
+	<div class="ag-theme-alpine" style:width="80vw" style:height="50vh" bind:this={gridContainer}>
 	</div>
 </div>
 <style global>

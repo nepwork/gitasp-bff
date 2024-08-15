@@ -19,52 +19,62 @@ datasource db {
 }
 
 /// AuthJS
-model Person {
-  id                  String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  username            String          @unique
-  firstName           String?					
-  lastName            String
-  password            String?
-  phoneCode           Int?             @default(977)
-  phoneNumber         String?
-  streetName          String?
-  city                String?
-  areaCode            String?
-  country             Country         @default(Nepal)
-  email               String?         @unique
-  emailVerified       DateTime?
-  payerType           DiscountType    @default(FirstTimer)
-  image               String?
+model Principal {
+  id            String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  username      String       @unique
+  firstName     String?
+  lastName      String
+  password      String?
+  phoneCode     Int?         @default(977)
+  phoneNumber   String?
+  streetName    String?
+  city          String?
+  areaCode      String?
+  country       Country      @default(Nepal)
+  email         String?      @unique
+  emailVerified DateTime?
+  payerType     DiscountType @default(FirstTimer)
+  image         String?
 
-  createdAt           DateTime        @default(now())
-  updatedAt           DateTime        @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-	createdBy		String? @db.Uuid
-	creator			Person? @relation("creator", fields: [createdBy], references: [id])
+  createdBy String?    @db.Uuid
+  creator   Principal? @relation("creator", fields: [createdBy], references: [id])
 
-	updatedBy		String? @db.Uuid
-	updater			Person? @relation("updater", fields: [updatedBy], references: [id])
+  updatedBy String?    @db.Uuid
+  updater   Principal? @relation("updater", fields: [updatedBy], references: [id])
 
-	patient Patient? @relation("as_patient")
+  createdPrincipals Principal[] @relation("creator")
+  updatedPrincipals Principal[] @relation("updater")
 
-	created Person[] @relation("creator")
-	updated Person[] @relation("updater")
+  createdPayments Payment[] @relation("payment_creator")
+  updatedPayments Payment[] @relation("payment_updater")
 
-	patientRecordCreated Patient[] @relation("pat_record_creator")
-  patientRecordUpdated Patient[] @relation("pat_record_updater")
+  createdAppointments Appointment[] @relation("appointment_creator")
+  updatedAppointments Appointment[] @relation("appointment_updater")
 
-	accounts            Account[]
+  createdEquipments Equipment[] @relation("equipment_creator")
+  updatedEquipments Equipment[] @relation("equipment_updater")
+
+  createdPatients Patient[] @relation("pat_record_creator")
+  updatedPatients Patient[] @relation("pat_record_updater")
+
+	createdServices Service[] @relation("service_creator")
+	updatedServices Service[] @relation("service_updater")
+
+  accounts            Account[]
   authenticator       Authenticator[]
   paymentList         Payment[]       @relation("payer")
   receivedPaymentList Payment[]       @relation("receiver")
   sessions            Session[]
 
-	@@index([firstName, lastName, phoneNumber])
-  @@map("person")
+  @@index([firstName, lastName, phoneNumber])
+  @@map("principal")
 }
 
 model Account {
-  userId            String   @db.Uuid
+  userId            String    @db.Uuid
   type              String
   provider          String
   providerAccountId String
@@ -75,21 +85,21 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-  user              Person   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  user              Principal @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([provider, providerAccountId])
   @@map("account")
 }
 
 model Session {
-  sessionToken String   @unique
-  userId       String   @db.Uuid
+  sessionToken String    @unique
+  userId       String    @db.Uuid
   expiresAt    DateTime
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  user         Person   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  user         Principal @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("session")
 }
@@ -104,15 +114,15 @@ model VerificationToken {
 }
 
 model Authenticator {
-  credentialID         String  @unique
-  userId               String  @db.Uuid
+  credentialID         String    @unique
+  userId               String    @db.Uuid
   providerAccountId    String
   credentialPublicKey  String
   counter              Int
   credentialDeviceType String
   credentialBackedUp   Boolean
   transports           String?
-  user                 Person  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user                 Principal @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([userId, credentialID])
   @@map("authenticator")
@@ -127,33 +137,54 @@ model Payment {
   discountApplied    Decimal       @default(0.0)
   paidAmount         Decimal
   reasonForVisit     String
-  payer              Person        @relation("payer", fields: [payerId], references: [id])
-  receiver           Person        @relation("receiver", fields: [receiverId], references: [id])
+  payer              Principal     @relation("payer", fields: [payerId], references: [id])
+  receiver           Principal     @relation("receiver", fields: [receiverId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  createdBy String?    @db.Uuid
+  creator   Principal? @relation("payment_creator", fields: [createdBy], references: [id])
+
+  updatedBy String?    @db.Uuid
+  updater   Principal? @relation("payment_updater", fields: [updatedBy], references: [id])
 
   @@map("payment")
 }
 
 model Appointment {
-  id                String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  uuid              String          @unique
-  appointmentTypeId String          @db.Uuid
-  patientId         String          @db.Uuid
-  locationId        String          @db.Uuid
-  providerId        String          @db.Uuid
-  startDatetime     DateTime
-  endDatetime       DateTime
-  voided            Boolean         @default(false)
-  voidedBy          String
-  dateVoided        DateTime
-  voidReason        String
-  creator           String
-  dateCreated       DateTime
-  lastChangedBy     String
-  lastChangedDate   DateTime
-  appointmentType   AppointmentType @relation(fields: [appointmentTypeId], references: [id])
-  location          Location        @relation(fields: [locationId], references: [id])
-  patient           Patient         @relation(fields: [patientId], references: [id])
-  provider          Provider        @relation(fields: [providerId], references: [id])
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  uuid          String    @unique
+  startDatetime DateTime
+  endDatetime   DateTime?
+
+  voided Boolean? @default(false)
+
+  //::datalist:Patient:Clinic
+  voidedBy String?
+
+  dateVoided DateTime?
+  voidReason String?
+
+  appointmentTypeId String? @db.Uuid
+  patientId         String  @db.Uuid
+  locationId        String? @db.Uuid
+  providerId        String? @db.Uuid
+
+  //::inline
+  appointmentType AppointmentType? @relation(fields: [appointmentTypeId], references: [id])
+  location        Location?        @relation(fields: [locationId], references: [id])
+  patient         Patient          @relation(fields: [patientId], references: [id])
+  provider        Provider?        @relation(fields: [providerId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  createdBy String?    @db.Uuid
+  creator   Principal? @relation("appointment_creator", fields: [createdBy], references: [id])
+
+  updatedBy String?    @db.Uuid
+  updater   Principal? @relation("appointment_updater", fields: [updatedBy], references: [id])
 
   @@unique([patientId, locationId, providerId])
   @@map("appointment")
@@ -198,28 +229,77 @@ model Location {
 }
 
 model Patient {
-  id              String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  uuid            String        @unique
-  gender          String
-  birthdate       DateTime
+  id   String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  uuid String @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
 
-	personId String @db.Uuid @unique
-	person Person @relation("as_patient", fields: [personId], references: [id])
+  givenName  String
+  middleName String
+  familyName String
 
-  createdAt           DateTime        @default(now())
-  updatedAt           DateTime        @updatedAt
+  phoneCode   Int?    @default(977)
+  phoneNumber String?
 
-	createdBy		String? @db.Uuid
-	creator			Person? @relation("pat_record_creator", fields: [createdBy], references: [id])
+  image String?
 
-	updatedBy		String? @db.Uuid
-	updater			Person? @relation("pat_record_updater", fields: [updatedBy], references: [id])
+  streetName String?
+  city       String?
+  areaCode   String?
+  country    Country @default(Nepal)
 
+  email         String?   @unique
+  emailVerified DateTime?
+
+  gender    String
+  birthdate DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  createdBy String?    @db.Uuid
+  creator   Principal? @relation("pat_record_creator", fields: [createdBy], references: [id])
+
+  updatedBy String?    @db.Uuid
+  updater   Principal? @relation("pat_record_updater", fields: [updatedBy], references: [id])
 
   appointmentList Appointment[]
   encounterList   Encounter[]
 
   @@map("patient")
+}
+
+model Equipment {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+
+  name  String
+  price Decimal
+  count Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  createdBy String?    @db.Uuid
+  creator   Principal? @relation("equipment_creator", fields: [createdBy], references: [id])
+
+  updatedBy String?    @db.Uuid
+  updater   Principal? @relation("equipment_updater", fields: [updatedBy], references: [id])
+}
+
+model Service {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+
+  name        String
+  description String
+
+  price Decimal
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  createdBy String?    @db.Uuid
+  creator   Principal? @relation("service_creator", fields: [createdBy], references: [id])
+
+  updatedBy String?    @db.Uuid
+  updater   Principal? @relation("service_updater", fields: [updatedBy], references: [id])
 }
 
 model Provider {
@@ -785,10 +865,10 @@ model BudgetEntry {
   updatedAt     DateTime @updatedAt
   budgetId      String   @db.Uuid
   budget        Budget   @relation(fields: [budgetId], references: [id])
-  service       Service  @relation(fields: [serviceId], references: [id])
+  service       BudgetService  @relation(fields: [serviceId], references: [id])
 }
 
-model Service {
+model BudgetService {
   id          String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   description String
   category    String
@@ -1069,7 +1149,6 @@ enum PaymentMethod {
   CashPartial
   QrCodeEsewa
   QrCodeBank
-
 
   @@map("payment_method")
 }

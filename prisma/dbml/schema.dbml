@@ -2,7 +2,7 @@
 //// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 //// ------------------------------------------------------
 
-Table person {
+Table principal {
   id String [pk]
   username String [unique, not null]
   firstName String
@@ -21,14 +21,21 @@ Table person {
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
   createdBy String
-  creator person
+  creator principal
   updatedBy String
-  updater person
-  patient patient
-  created person [not null]
-  updated person [not null]
-  patientRecordCreated patient [not null]
-  patientRecordUpdated patient [not null]
+  updater principal
+  createdPrincipals principal [not null]
+  updatedPrincipals principal [not null]
+  createdPayments payment [not null]
+  updatedPayments payment [not null]
+  createdAppointments appointment [not null]
+  updatedAppointments appointment [not null]
+  createdEquipments Equipment [not null]
+  updatedEquipments Equipment [not null]
+  createdPatients patient [not null]
+  updatedPatients patient [not null]
+  createdServices Service [not null]
+  updatedServices Service [not null]
   accounts account [not null]
   authenticator authenticator [not null]
   paymentList payment [not null]
@@ -52,7 +59,7 @@ Table account {
   session_state String
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
-  user person [not null]
+  user principal [not null]
 
   indexes {
     (provider, providerAccountId) [pk]
@@ -65,7 +72,7 @@ Table session {
   expiresAt DateTime [not null]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
-  user person [not null]
+  user principal [not null]
 }
 
 Table verification_token {
@@ -87,7 +94,7 @@ Table authenticator {
   credentialDeviceType String [not null]
   credentialBackedUp Boolean [not null]
   transports String
-  user person [not null]
+  user principal [not null]
 
   indexes {
     (userId, credentialID) [pk]
@@ -103,31 +110,39 @@ Table payment {
   discountApplied Decimal [not null, default: 0]
   paidAmount Decimal [not null]
   reasonForVisit String [not null]
-  payer person [not null]
-  receiver person [not null]
+  payer principal [not null]
+  receiver principal [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  createdBy String
+  creator principal
+  updatedBy String
+  updater principal
 }
 
 Table appointment {
   id String [pk]
   uuid String [unique, not null]
-  appointmentTypeId String [not null]
-  patientId String [not null]
-  locationId String [not null]
-  providerId String [not null]
   startDatetime DateTime [not null]
-  endDatetime DateTime [not null]
-  voided Boolean [not null, default: false]
-  voidedBy String [not null]
-  dateVoided DateTime [not null]
-  voidReason String [not null]
-  creator String [not null]
-  dateCreated DateTime [not null]
-  lastChangedBy String [not null]
-  lastChangedDate DateTime [not null]
-  appointmentType appointment_type [not null]
-  location location [not null]
+  endDatetime DateTime
+  voided Boolean [default: false]
+  voidedBy String
+  dateVoided DateTime
+  voidReason String
+  appointmentTypeId String
+  patientId String [not null]
+  locationId String
+  providerId String
+  appointmentType appointment_type
+  location location
   patient patient [not null]
-  provider provider [not null]
+  provider provider
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  createdBy String
+  creator principal
+  updatedBy String
+  updater principal
 
   indexes {
     (patientId, locationId, providerId) [unique]
@@ -171,18 +186,54 @@ Table location {
 Table patient {
   id String [pk]
   uuid String [unique, not null]
+  givenName String [not null]
+  middleName String [not null]
+  familyName String [not null]
+  phoneCode Int [default: 977]
+  phoneNumber String
+  image String
+  streetName String
+  city String
+  areaCode String
+  country Country [not null, default: 'Nepal']
+  email String [unique]
+  emailVerified DateTime
   gender String [not null]
   birthdate DateTime [not null]
-  personId String [unique, not null]
-  person person [not null]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
   createdBy String
-  creator person
+  creator principal
   updatedBy String
-  updater person
+  updater principal
   appointmentList appointment [not null]
   encounterList encounter [not null]
+}
+
+Table Equipment {
+  id String [pk]
+  name String [not null]
+  price Decimal [not null]
+  count Int [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  createdBy String
+  creator principal
+  updatedBy String
+  updater principal
+}
+
+Table Service {
+  id String [pk]
+  name String [not null]
+  description String [not null]
+  price Decimal [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  createdBy String
+  creator principal
+  updatedBy String
+  updater principal
 }
 
 Table provider {
@@ -685,10 +736,10 @@ Table BudgetEntry {
   updatedAt DateTime [not null]
   budgetId String [not null]
   budget Budget [not null]
-  service Service [not null]
+  service BudgetService [not null]
 }
 
-Table Service {
+Table BudgetService {
   id String [pk]
   description String [not null]
   category String [not null]
@@ -968,19 +1019,23 @@ Enum PaymentMethod {
   QrCodeBank
 }
 
-Ref: person.createdBy - person.id
+Ref: principal.createdBy - principal.id
 
-Ref: person.updatedBy - person.id
+Ref: principal.updatedBy - principal.id
 
-Ref: account.userId > person.id [delete: Cascade]
+Ref: account.userId > principal.id [delete: Cascade]
 
-Ref: session.userId > person.id [delete: Cascade]
+Ref: session.userId > principal.id [delete: Cascade]
 
-Ref: authenticator.userId > person.id [delete: Cascade]
+Ref: authenticator.userId > principal.id [delete: Cascade]
 
-Ref: payment.payerId > person.id
+Ref: payment.payerId > principal.id
 
-Ref: payment.receiverId > person.id
+Ref: payment.receiverId > principal.id
+
+Ref: payment.createdBy > principal.id
+
+Ref: payment.updatedBy > principal.id
 
 Ref: appointment.appointmentTypeId > appointment_type.id
 
@@ -990,11 +1045,21 @@ Ref: appointment.patientId > patient.id
 
 Ref: appointment.providerId > provider.id
 
-Ref: patient.personId - person.id
+Ref: appointment.createdBy > principal.id
 
-Ref: patient.createdBy - person.id
+Ref: appointment.updatedBy > principal.id
 
-Ref: patient.updatedBy - person.id
+Ref: patient.createdBy > principal.id
+
+Ref: patient.updatedBy > principal.id
+
+Ref: Equipment.createdBy > principal.id
+
+Ref: Equipment.updatedBy > principal.id
+
+Ref: Service.createdBy > principal.id
+
+Ref: Service.updatedBy > principal.id
 
 Ref: form.fieldId > field.id
 
@@ -1076,7 +1141,7 @@ Ref: blog_post_tag_arrow.tagId > blog_post_tag.id
 
 Ref: BudgetEntry.budgetId > Budget.id
 
-Ref: BudgetEntry.serviceId > Service.id
+Ref: BudgetEntry.serviceId > BudgetService.id
 
 Ref: Report.budgetId - Budget.id
 
