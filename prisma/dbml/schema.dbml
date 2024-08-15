@@ -30,12 +30,12 @@ Table principal {
   updatedPayments payment [not null]
   createdAppointments appointment [not null]
   updatedAppointments appointment [not null]
-  createdEquipments Equipment [not null]
-  updatedEquipments Equipment [not null]
+  createdEquipments equipment [not null]
+  updatedEquipments equipment [not null]
   createdPatients patient [not null]
   updatedPatients patient [not null]
-  createdServices Service [not null]
-  updatedServices Service [not null]
+  createdServices service [not null]
+  updatedServices service [not null]
   accounts account [not null]
   authenticator authenticator [not null]
   paymentList payment [not null]
@@ -210,7 +210,7 @@ Table patient {
   encounterList encounter [not null]
 }
 
-Table Equipment {
+Table equipment {
   id String [pk]
   name String [not null]
   price Decimal [not null]
@@ -223,7 +223,7 @@ Table Equipment {
   updater principal
 }
 
-Table Service {
+Table service {
   id String [pk]
   name String [not null]
   description String [not null]
@@ -1053,13 +1053,13 @@ Ref: patient.createdBy > principal.id
 
 Ref: patient.updatedBy > principal.id
 
-Ref: Equipment.createdBy > principal.id
+Ref: equipment.createdBy > principal.id
 
-Ref: Equipment.updatedBy > principal.id
+Ref: equipment.updatedBy > principal.id
 
-Ref: Service.createdBy > principal.id
+Ref: service.createdBy > principal.id
 
-Ref: Service.updatedBy > principal.id
+Ref: service.updatedBy > principal.id
 
 Ref: form.fieldId > field.id
 

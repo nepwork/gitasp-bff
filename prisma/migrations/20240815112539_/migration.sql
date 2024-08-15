@@ -93,6 +93,10 @@ CREATE TABLE "payment" (
     "discountApplied" DECIMAL(65,30) NOT NULL DEFAULT 0.0,
     "paidAmount" DECIMAL(65,30) NOT NULL,
     "reasonForVisit" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "createdBy" UUID,
+    "updatedBy" UUID,
 
     CONSTRAINT "payment_pkey" PRIMARY KEY ("id")
 );
@@ -101,20 +105,20 @@ CREATE TABLE "payment" (
 CREATE TABLE "appointment" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "uuid" TEXT NOT NULL,
-    "appointmentTypeId" UUID NOT NULL,
-    "patientId" UUID NOT NULL,
-    "locationId" UUID NOT NULL,
-    "providerId" UUID NOT NULL,
     "startDatetime" TIMESTAMP(3) NOT NULL,
-    "endDatetime" TIMESTAMP(3) NOT NULL,
-    "voided" BOOLEAN NOT NULL DEFAULT false,
-    "voidedBy" TEXT NOT NULL,
-    "dateVoided" TIMESTAMP(3) NOT NULL,
-    "voidReason" TEXT NOT NULL,
-    "creator" TEXT NOT NULL,
-    "dateCreated" TIMESTAMP(3) NOT NULL,
-    "lastChangedBy" TEXT NOT NULL,
-    "lastChangedDate" TIMESTAMP(3) NOT NULL,
+    "endDatetime" TIMESTAMP(3),
+    "voided" BOOLEAN DEFAULT false,
+    "voidedBy" TEXT,
+    "dateVoided" TIMESTAMP(3),
+    "voidReason" TEXT,
+    "appointmentTypeId" UUID,
+    "patientId" UUID NOT NULL,
+    "locationId" UUID,
+    "providerId" UUID,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "createdBy" UUID,
+    "updatedBy" UUID,
 
     CONSTRAINT "appointment_pkey" PRIMARY KEY ("id")
 );
@@ -180,6 +184,34 @@ CREATE TABLE "patient" (
     "updatedBy" UUID,
 
     CONSTRAINT "patient_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "equipment" (
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "name" TEXT NOT NULL,
+    "price" DECIMAL(65,30) NOT NULL,
+    "count" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "createdBy" UUID,
+    "updatedBy" UUID,
+
+    CONSTRAINT "equipment_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "service" (
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "name" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "price" DECIMAL(65,30) NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "createdBy" UUID,
+    "updatedBy" UUID,
+
+    CONSTRAINT "service_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -705,7 +737,7 @@ CREATE TABLE "BudgetEntry" (
 );
 
 -- CreateTable
-CREATE TABLE "Service" (
+CREATE TABLE "BudgetService" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "description" TEXT NOT NULL,
     "category" TEXT NOT NULL,
@@ -713,7 +745,7 @@ CREATE TABLE "Service" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "Service_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "BudgetService_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -932,22 +964,46 @@ ALTER TABLE "payment" ADD CONSTRAINT "payment_payerId_fkey" FOREIGN KEY ("payerI
 ALTER TABLE "payment" ADD CONSTRAINT "payment_receiverId_fkey" FOREIGN KEY ("receiverId") REFERENCES "principal"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "appointment" ADD CONSTRAINT "appointment_appointmentTypeId_fkey" FOREIGN KEY ("appointmentTypeId") REFERENCES "appointment_type"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "payment" ADD CONSTRAINT "payment_createdBy_fkey" FOREIGN KEY ("createdBy") REFERENCES "principal"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "appointment" ADD CONSTRAINT "appointment_locationId_fkey" FOREIGN KEY ("locationId") REFERENCES "location"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "payment" ADD CONSTRAINT "payment_updatedBy_fkey" FOREIGN KEY ("updatedBy") REFERENCES "principal"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "appointment" ADD CONSTRAINT "appointment_appointmentTypeId_fkey" FOREIGN KEY ("appointmentTypeId") REFERENCES "appointment_type"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "appointment" ADD CONSTRAINT "appointment_locationId_fkey" FOREIGN KEY ("locationId") REFERENCES "location"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "appointment" ADD CONSTRAINT "appointment_patientId_fkey" FOREIGN KEY ("patientId") REFERENCES "patient"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "appointment" ADD CONSTRAINT "appointment_providerId_fkey" FOREIGN KEY ("providerId") REFERENCES "provider"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "appointment" ADD CONSTRAINT "appointment_providerId_fkey" FOREIGN KEY ("providerId") REFERENCES "provider"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "appointment" ADD CONSTRAINT "appointment_createdBy_fkey" FOREIGN KEY ("createdBy") REFERENCES "principal"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "appointment" ADD CONSTRAINT "appointment_updatedBy_fkey" FOREIGN KEY ("updatedBy") REFERENCES "principal"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "patient" ADD CONSTRAINT "patient_createdBy_fkey" FOREIGN KEY ("createdBy") REFERENCES "principal"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "patient" ADD CONSTRAINT "patient_updatedBy_fkey" FOREIGN KEY ("updatedBy") REFERENCES "principal"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "equipment" ADD CONSTRAINT "equipment_createdBy_fkey" FOREIGN KEY ("createdBy") REFERENCES "principal"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "equipment" ADD CONSTRAINT "equipment_updatedBy_fkey" FOREIGN KEY ("updatedBy") REFERENCES "principal"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "service" ADD CONSTRAINT "service_createdBy_fkey" FOREIGN KEY ("createdBy") REFERENCES "principal"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "service" ADD CONSTRAINT "service_updatedBy_fkey" FOREIGN KEY ("updatedBy") REFERENCES "principal"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "form" ADD CONSTRAINT "form_fieldId_fkey" FOREIGN KEY ("fieldId") REFERENCES "field"("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -1070,7 +1126,7 @@ ALTER TABLE "blog_post_tag_arrow" ADD CONSTRAINT "blog_post_tag_arrow_tagId_fkey
 ALTER TABLE "BudgetEntry" ADD CONSTRAINT "BudgetEntry_budgetId_fkey" FOREIGN KEY ("budgetId") REFERENCES "Budget"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "BudgetEntry" ADD CONSTRAINT "BudgetEntry_serviceId_fkey" FOREIGN KEY ("serviceId") REFERENCES "Service"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "BudgetEntry" ADD CONSTRAINT "BudgetEntry_serviceId_fkey" FOREIGN KEY ("serviceId") REFERENCES "BudgetService"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Report" ADD CONSTRAINT "Report_budgetId_fkey" FOREIGN KEY ("budgetId") REFERENCES "Budget"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

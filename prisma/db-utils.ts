@@ -20,16 +20,30 @@ export function getModelNames(): string[] {
 		.map(m => m.dbName ?? m.name);
 }
 
+function getFirstMetaData(model: string) {
+	const allModels = getDMMF().datamodel.models;
+	const selectedModel = allModels.find(mod => mod.dbName === model);
+	if (selectedModel) {
+		return selectedModel.fields[0];
+	}
+
+	throw new Error("Model not found");
+}
+export type MetadataTypeItem = ReturnType<typeof getFirstMetaData>;
 
 export function getMetaData(model: string) {
 	const allModels = getDMMF().datamodel.models;
 	const selectedModel = allModels.find(mod => mod.dbName === model);
 	if (selectedModel) {
 		return selectedModel.fields;
-	} 
+	}
 
 	throw new Error("Model not found");
 }
+
+export type MetadataType = ReturnType<typeof getMetaData>;
+export type FieldsShape = MetadataType;
+export type FieldShape = MetadataTypeItem;
 
 export function getEnumValues(model: string) {
 	const allEnums = getDMMF().datamodel.enums;
@@ -42,18 +56,3 @@ export function getEnumValues(model: string) {
 	throw new Error("Enum not found")
 }
 
-export type FieldsShape = ReturnType<typeof getMetaData>;
-
-
-export function fromCamel(input: string): string {
-	// Split the camelCased string into words
-	const words = input.split(/(?=[A-Z])/).map((word) => word.toLowerCase());
-
-	// Capitalize the first letter of each word
-	const titleCased = words.map(
-		(word) => word.charAt(0).toUpperCase() + word.slice(1),
-	);
-
-	// Join the words with spaces
-	return titleCased.join(' ');
-}

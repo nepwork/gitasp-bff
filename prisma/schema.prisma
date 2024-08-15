@@ -282,6 +282,8 @@ model Equipment {
 
   updatedBy String?    @db.Uuid
   updater   Principal? @relation("equipment_updater", fields: [updatedBy], references: [id])
+
+	@@map("equipment")
 }
 
 model Service {
@@ -300,6 +302,8 @@ model Service {
 
   updatedBy String?    @db.Uuid
   updater   Principal? @relation("service_updater", fields: [updatedBy], references: [id])
+
+	@@map("service")
 }
 
 model Provider {
