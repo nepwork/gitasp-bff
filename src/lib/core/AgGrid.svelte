@@ -21,7 +21,6 @@
     columnDefs,
     rowData,
 		pagination: true,
-    paginationPageSize: 10,
     paginationPageSizeSelector: [10, 20, 50, 100],
     defaultColDef: {
       flex: 1,
@@ -50,7 +49,7 @@
   });
 </script>
 <div class="griddy-wrapper">
-	<div class="ag-theme-alpine" style:width="80vw" style:height="50vh" bind:this={gridContainer}>
+	<div class="ag-theme-alpine" style:width="80vw" style:height="80vh" bind:this={gridContainer}>
 	</div>
 </div>
 <style global>
