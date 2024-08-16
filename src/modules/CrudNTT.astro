@@ -1,9 +1,12 @@
 ---
 /* eslint max-lines: 'off' */
 
-import { getEnumValues, getMetaData, prisma } from '../../prisma/db-utils';
+import type { ColDef } from 'ag-grid-community';
+import { getMetaData, prisma } from '../../prisma/db-utils';
 import AgGrid from '../lib/core/AgGrid.svelte';
-import { fC, isHid, isRequired, mapAgGridType, isRemovable } from './form.resolvers';
+
+import FormIq from '../lib/core/FormIq.astro';
+import { isRemovable, mapAgGridType } from './form.resolvers';
 
 const slug = new URL(Astro.request.url).pathname;
 const split = slug.split('/');
@@ -12,7 +15,7 @@ const entity = split[split.length - 2];
 console.log("ntt", entity);
 
 const metaData = getMetaData(entity);
-
+console.log("metaData", metaData);
 const fetcher = (prisma as any)[entity];
 if (!fetcher) return;
 
@@ -20,8 +23,8 @@ const rowData = await fetcher.findMany({
 	take: 100
 });
 
-const mapper = new Map<string, string>();
-mapper.set("Decimal", "number");
+const mapper = new Map<string, string | boolean>();
+mapper.set("Decimal", true);
 mapper.set("Int", "number");
 mapper.set("BigInt", "number");
 mapper.set("String", "text");
@@ -29,13 +32,13 @@ mapper.set("DateTime", "dateString");
 
 const mapColType = mapAgGridType(metaData);
 
-const columnDefs = rowData?.length ? Object.keys(rowData[0])
+const columnDefs: ColDef[] = rowData?.length ? Object.keys(rowData[0])
 	.filter(f => !isRemovable(f))
 	.map(field => {
 		const ret = {
 				field,
 				filter: true,
-				cellDataType: mapper.get(mapColType(field)) ?? "text",				
+				cellDataType: mapper.get(mapColType(field)) ?? "text"
 			}
 
 		if (field === "id") {
@@ -67,54 +70,9 @@ console.log("columnDefs", columnDefs);
 		<h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">
 			Add a new <span class="capitalize">{entity}</span>:
 		</h2>
-		<form action="#">
-			<div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-				{
-					metaData?.length &&
-						metaData.map((field) => (
-							<div
-								class={`w-full ${isHid(field) ? "hidden" : ""}`}
-							>
-								<label
-									for="name"
-									class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-								>
-									{fC(field.name)}{' '}
-									<span class="text-gray-400">
-										{isRequired(field) ? ' *' : ''}
-									</span>
-								</label>
-								{field.kind === 'enum' ? (
-									<select
-										name={field.name}
-										class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-									>
-										{!field.hasDefaultValue && <option selected="">Select {fC(field.name)}</option>}
-										{getEnumValues(field.name)?.map(e => (
-											<option value={e}>{fC(e)}</option>										
-										))} 
-									</select>
-								) : (
-									<input
-										type={["Int", "BigInt"].includes(field.type) ? "number" : "text"}
-										name="name"
-										id="name"
-										class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-										placeholder={`${fC(field.name)}`}
-										required={isRequired(field)}
-									/>
-								)}
-							</div>
-						))
-				}
-			</div>
-			<button
-				type="submit"
-				class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
-			>
-				Add {fC(entity)}
-			</button>
-		</form>
+
+		<FormIq {metaData} {entity}/>
+
 	</div>
 </section>
 

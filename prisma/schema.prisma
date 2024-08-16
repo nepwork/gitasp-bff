@@ -22,15 +22,21 @@ datasource db {
 model Principal {
   id            String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   username      String       @unique
-  firstName     String?
+  
+	// NID0
+	firstName     String?
+	// NID0
   lastName      String
-  password      String?
+  
+	password      String?
   phoneCode     Int?         @default(977)
   phoneNumber   String?
   streetName    String?
   city          String?
   areaCode      String?
   country       Country      @default(Nepal)
+
+	// NID1
   email         String?      @unique
   emailVerified DateTime?
   payerType     DiscountType @default(FirstTimer)
@@ -65,7 +71,7 @@ model Principal {
 
   accounts            Account[]
   authenticator       Authenticator[]
-  paymentList         Payment[]       @relation("payer")
+
   receivedPaymentList Payment[]       @relation("receiver")
   sessions            Session[]
 
@@ -137,7 +143,7 @@ model Payment {
   discountApplied    Decimal       @default(0.0)
   paidAmount         Decimal
   reasonForVisit     String
-  payer              Principal     @relation("payer", fields: [payerId], references: [id])
+  payer              Patient     @relation("payer", fields: [payerId], references: [id])
   receiver           Principal     @relation("receiver", fields: [receiverId], references: [id])
 
   createdAt DateTime @default(now())
@@ -232,11 +238,15 @@ model Patient {
   id   String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   uuid String @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
 
+	// NID0
   givenName  String
   middleName String
+	// NID0
   familyName String
 
+	// NID1
   phoneCode   Int?    @default(977)
+	// NID1
   phoneNumber String?
 
   image String?
@@ -251,6 +261,8 @@ model Patient {
 
   gender    String
   birthdate DateTime
+
+	paymentList         Payment[]       @relation("payer")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

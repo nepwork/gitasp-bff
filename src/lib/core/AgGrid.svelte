@@ -21,6 +21,7 @@
     columnDefs,
     rowData,
 		pagination: true,
+		paginationPageSize: 20,
     paginationPageSizeSelector: [10, 20, 50, 100],
     defaultColDef: {
       flex: 1,
