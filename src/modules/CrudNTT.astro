@@ -45,26 +45,26 @@ const columnDefs: ColDef[] = rowData?.length
 				if (ret.cellDataType === 'date') {
 					return {
 						...ret,
-						cellEditor: 'agDateCellEditor',
-						cellFilter: 'date:\'H:mm a\''
+						valueFormatter: (params) => {
+							console.log("aparams", params);
+							const date = new Date(params.data[field]);
+							if (!Number.isNaN(date)) {
+								return `${date.toLocaleTimeString()} ${date.toLocaleDateString()}`;
+							}
+							return ''; // Handle invalid date
+						},
 					};
 				}
 
-				if (ret.cellDataType === 'number' && field !== "id") {
+				if (ret.cellDataType === 'number' && field !== 'id') {
+					console.log(rowData[0][field])
 					return {
 						...ret,
 						valueFormatter: (params) => {
-                    if (params.value != null) {
-                        return Number(params.data[field]).toFixed(2);
-                    }
-                    return '';
-                },
-						cellEditor: 'agNumberCellEditor',
-
-						cellEditorParams: {
-							precision: 2,
-							preventStepping: true,
-							useFormatter: true,
+							if (params.value != null && !Number.isNaN(params.data[field])) {
+								return params.data[field].toFixed(2);
+							}
+							return ''; // Handle invalid number
 						},
 					};
 				}
@@ -80,8 +80,8 @@ const columnDefs: ColDef[] = rowData?.length
 				};
 			})
 	: [];
-	console.log('rowData', rowData);
-// console.log('col Defs', columnDefs);
+console.log('rowData', rowData[0]);
+console.log('col Defs', columnDefs);
 ---
 
 <>

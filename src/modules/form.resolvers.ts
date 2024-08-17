@@ -7,7 +7,11 @@ export function isRemovable(f: string): boolean {
 }
 
 export function isHid(f: FieldShape): boolean {
-	return f.isId || f.isReadOnly || auditFields.includes(f.name)
+	return f.isId 
+}
+
+export function isAbsent(f: FieldShape): boolean {
+	return f.isReadOnly || auditFields.includes(f.name) || f.kind === "object"
 }
 
 

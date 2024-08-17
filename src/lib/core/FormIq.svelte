@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { FieldsShape } from '../../../prisma/db-utils';
-  import { fC, isHid, isRequired } from '../../modules/form.resolvers';
+  import { fC, isAbsent, isHid, isRequired } from '../../modules/form.resolvers';
 
   export let metaData: FieldsShape; // Define the type more specifically if possible
   export let entity: string;
@@ -13,15 +13,14 @@
     event.preventDefault();
     // Add your form submission logic here
   }
-
-	console.log("metadata", metaData);
-
+console.log("met", metaData);
 </script>
 
 <form on:submit={handleSubmit}>
   <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
     {#if metaData?.length}
       {#each metaData as field}
+				{#if !isAbsent(field)}
         <div class="w-full {isHid(field) ? 'hidden' : ''}">
           <label
             for={field.name}
@@ -55,6 +54,7 @@
             />
           {/if}
         </div>
+				{/if}
       {/each}
     {/if}
   </div>
