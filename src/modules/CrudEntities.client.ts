@@ -35,7 +35,6 @@ export class CrudEntities extends HTMLElement {
 		if (!this.type) return;
 
 		const newData = await fetchData(this.type);
-		console.log('UP');
 
 		this.#rows.forEach((row, index) =>
 			row.querySelectorAll('data').forEach((binding) => {
@@ -48,7 +47,6 @@ export class CrudEntities extends HTMLElement {
 			}),
 		);
 
-		console.log('New data received!', newData);
 	}
 }
 

@@ -5,8 +5,8 @@
 Table principal {
   id String [pk]
   username String [unique, not null]
-  firstName String
-  lastName String [not null]
+  firstName String [note: 'NID0']
+  lastName String [not null, note: 'NID0']
   password String
   phoneCode Int [default: 977]
   phoneNumber String
@@ -14,7 +14,7 @@ Table principal {
   city String
   areaCode String
   country Country [not null, default: 'Nepal']
-  email String [unique]
+  email String [unique, note: 'NID1']
   emailVerified DateTime
   payerType DiscountType [not null, default: 'FirstTimer']
   image String
@@ -38,7 +38,6 @@ Table principal {
   updatedServices service [not null]
   accounts account [not null]
   authenticator authenticator [not null]
-  paymentList payment [not null]
   receivedPaymentList payment [not null]
   sessions session [not null]
 
@@ -110,7 +109,7 @@ Table payment {
   discountApplied Decimal [not null, default: 0]
   paidAmount Decimal [not null]
   reasonForVisit String [not null]
-  payer principal [not null]
+  payer patient [not null]
   receiver principal [not null]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
@@ -200,6 +199,7 @@ Table patient {
   emailVerified DateTime
   gender String [not null]
   birthdate DateTime [not null]
+  paymentList payment [not null]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
   createdBy String
@@ -1029,7 +1029,7 @@ Ref: session.userId > principal.id [delete: Cascade]
 
 Ref: authenticator.userId > principal.id [delete: Cascade]
 
-Ref: payment.payerId > principal.id
+Ref: payment.payerId > patient.id
 
 Ref: payment.receiverId > principal.id
 

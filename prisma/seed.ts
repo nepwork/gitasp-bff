@@ -12,7 +12,7 @@ export const init = async (cleanupFirst = false) => {
 	}
 
 	const persons = await prisma.principal.createManyAndReturn({
-		data: Array(100).fill(1).map(_ => ({
+		data: Array(50).fill(1).map(_ => ({
 			username: faker.internet.userName(),
 			firstName: faker.name.firstName(),
 			lastName: faker.name.lastName(),
@@ -24,10 +24,7 @@ export const init = async (cleanupFirst = false) => {
 		}
 	});
 
-	const payerIdList = persons.slice(0, 50)
-		.map(p => p.id);
-
-	const receiverIdList = persons.slice(50)
+	const receiverIdList = persons
 		.map(p => p.id);
 
 	const patients = await prisma.patient.createManyAndReturn({
@@ -50,13 +47,16 @@ export const init = async (cleanupFirst = false) => {
 	})
 
 
+	const payerIdList = patients
+		.map(p => p.id);
+
 	await prisma.payment.createMany({
 		data: Array(50).fill(1).map(_ => ({
 			payerId: faker.helpers.arrayElement(payerIdList),
 			receiverId: faker.helpers.arrayElement(receiverIdList),
 			reasonForVisit: faker.name.jobDescriptor(),
-			totalPayableAmount: faker.commerce.price(),
-			paidAmount: faker.commerce.price(),
+			totalPayableAmount: faker.datatype.number({ min: 100, max: 100000, precision: 2}),
+			paidAmount: faker.datatype.number({ min: 100, max: 100000, precision: 2}),
 			paymentMethod: faker.helpers.arrayElement(Object.values(PaymentMethod))
 		}))
 	});	
@@ -73,7 +73,7 @@ export const init = async (cleanupFirst = false) => {
 	await prisma.equipment.createMany({
 		data: Array(50).fill(1).map(_ => ({
 			name: faker.hacker.noun(),
-			price: faker.commerce.price(),
+			price: faker.datatype.number({ min: 100, max: 100000, precision: 2}),
 			count: faker.datatype.number({ min: 1, max: 24})
 		}))
 	})
@@ -81,7 +81,7 @@ export const init = async (cleanupFirst = false) => {
 	await prisma.service.createMany({
 		data: Array(50).fill(1).map(_ => ({
 			name: faker.hacker.noun(),
-			price: faker.commerce.price(),
+			price: faker.datatype.number({ min: 100, max: 100000, precision: 2}),
 			description: faker.hacker.phrase()
 		}))
 	})

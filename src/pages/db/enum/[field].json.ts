@@ -7,7 +7,7 @@ export const GET: APIRoute =  ({ params }) => {
   const {name} = params;
 	const allEnums = getDMMF().datamodel.enums;
 	const found = allEnums.find(e => e.name.toLowerCase() === name?.toLowerCase());
-	console.log("found", found, allEnums, name)
+
 	if (found) {
 		return new Response(JSON.stringify(found.values.map(v => v.name)));
 	}
