@@ -18,52 +18,82 @@ const fetcher = (prisma as any)[entity];
 if (!fetcher) return;
 
 const rowData = await fetcher.findMany({
-	take: 100
+	take: 100,
 });
 
 const enumValues = getEnumValues(entity);
 
 const mapper = new Map<string, string | boolean>();
-mapper.set("Decimal", "number");
-mapper.set("Int", "number");
-mapper.set("BigInt", "number");
-mapper.set("String", "text");
-mapper.set("DateTime", "dateString");
+mapper.set('Decimal', 'number');
+mapper.set('Int', 'number');
+mapper.set('BigInt', 'number');
+mapper.set('String', 'text');
+mapper.set('DateTime', 'date');
 
 const mapColType = mapAgGridType(metaData);
 
-const columnDefs: ColDef[] = rowData?.length ? Object.keys(rowData[0])
-	.filter(f => !isRemovable(f))
-	.map(field => {
-		const ret = {
-				field,
-				filter: true,
-				cellDataType: mapper.get(mapColType(field)) ?? "text"
-			}
+const columnDefs: ColDef[] = rowData?.length
+	? Object.keys(rowData[0])
+			.filter((f) => !isRemovable(f))
+			.map((field) => {
+				const ret = {
+					field,
+					filter: true,
+					cellDataType: mapper.get(mapColType(field)) ?? 'text',
+				};
 
-		if (field === "id") {
-			return ({
-				...ret,
-				hide: true				
+				if (ret.cellDataType === 'date') {
+					return {
+						...ret,
+						cellEditor: 'agDateCellEditor',
+						cellFilter: 'date:\'H:mm a\''
+					};
+				}
+
+				if (ret.cellDataType === 'number' && field !== "id") {
+					return {
+						...ret,
+						valueFormatter: (params) => {
+                    if (params.value != null) {
+                        return Number(params.data[field]).toFixed(2);
+                    }
+                    return '';
+                },
+						cellEditor: 'agNumberCellEditor',
+
+						cellEditorParams: {
+							precision: 2,
+							preventStepping: true,
+							useFormatter: true,
+						},
+					};
+				}
+
+				if (field === 'id') {
+					return {
+						...ret,
+						hide: true,
+					};
+				}
+				return {
+					...ret,
+				};
 			})
-		}
-		return ({
-			...ret
-		})
-	}) : [];
-
+	: [];
+	console.log('rowData', rowData);
+// console.log('col Defs', columnDefs);
 ---
+
 <>
-<section class="bg-white dark:bg-gray-900">
-	<div class="py-8 px-4 mx-auto max-w-full lg:py-16">
-		<h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">
-			Add a new <span class="capitalize">{entity}</span>:
-		</h2>
+	<section class="bg-white dark:bg-gray-900">
+		<div class="py-8 px-4 mx-auto max-w-full lg:py-16">
+			<h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">
+				Add a new <span class="capitalize">{entity}</span>:
+			</h2>
 
-		<FormIq {metaData} {entity} {enumValues} client:only="svelte"/>
+			<FormIq {metaData} {entity} {enumValues} client:only="svelte" />
+		</div>
+	</section>
 
-	</div>
-</section>
-
-<AgGrid {rowData} {columnDefs} client:only="svelte"/>
+	<AgGrid {rowData} {columnDefs} client:only="svelte" />
 </>

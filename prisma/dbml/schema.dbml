@@ -122,7 +122,8 @@ Table payment {
 Table appointment {
   id String [pk]
   uuid String [unique, not null]
-  startDatetime DateTime [not null]
+  date DateTime [not null]
+  startDatetime DateTime
   endDatetime DateTime
   voided Boolean [default: false]
   voidedBy String
@@ -132,7 +133,7 @@ Table appointment {
   patientId String [not null]
   locationId String
   providerId String
-  appointmentType appointment_type
+  appointmentType appointment_type [note: '::inline']
   location location
   patient patient [not null]
   provider provider
@@ -185,11 +186,11 @@ Table location {
 Table patient {
   id String [pk]
   uuid String [unique, not null]
-  givenName String [not null]
+  givenName String [not null, note: 'NID0']
   middleName String [not null]
-  familyName String [not null]
-  phoneCode Int [default: 977]
-  phoneNumber String
+  familyName String [not null, note: 'NID0']
+  phoneCode Int [default: 977, note: 'NID1']
+  phoneNumber String [note: 'NID1']
   image String
   streetName String
   city String

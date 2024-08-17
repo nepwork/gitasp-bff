@@ -161,7 +161,9 @@ model Payment {
 model Appointment {
   id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   uuid          String    @unique
-  startDatetime DateTime
+
+	date 					DateTime
+  startDatetime DateTime?
   endDatetime   DateTime?
 
   voided Boolean? @default(false)
@@ -177,7 +179,7 @@ model Appointment {
   locationId        String? @db.Uuid
   providerId        String? @db.Uuid
 
-  //::inline
+  ///::inline
   appointmentType AppointmentType? @relation(fields: [appointmentTypeId], references: [id])
   location        Location?        @relation(fields: [locationId], references: [id])
   patient         Patient          @relation(fields: [patientId], references: [id])
@@ -238,15 +240,15 @@ model Patient {
   id   String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   uuid String @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
 
-	// NID0
+	/// NID0
   givenName  String
   middleName String
-	// NID0
+	/// NID0
   familyName String
 
-	// NID1
+	/// NID1
   phoneCode   Int?    @default(977)
-	// NID1
+	/// NID1
   phoneNumber String?
 
   image String?

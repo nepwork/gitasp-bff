@@ -1,6 +1,6 @@
 <script lang="ts">
   import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model';
-  import { ModuleRegistry } from '@ag-grid-community/core';
+  import { ModuleRegistry, type SizeColumnsToContentStrategy } from '@ag-grid-community/core';
   import * as agGrid from 'ag-grid-community';
   import 'ag-grid-community/styles/ag-grid.css';
   import 'ag-grid-community/styles/ag-theme-alpine.css';
@@ -17,12 +17,14 @@
   const gridOptions: agGrid.GridOptions<any> = {
     columnDefs,
     rowData,
+		autoSizeStrategy: {
+    	type: "fitCellContents",
+  	},
 		pagination: true,
 		paginationPageSize: 20,
     paginationPageSizeSelector: [10, 20, 50, 100],
     defaultColDef: {
       flex: 1,
-      minWidth: 200,
       sortable: true,
       resizable: true,
       floatingFilter: true,
@@ -42,8 +44,19 @@
     },
   };
 
+	function autoSizeAll(skipHeader: boolean) {
+		const allColumnIds: string[] = [];
+
+		gridApi!.getColumns()!.forEach((column: any) => {
+			allColumnIds.push(column.getId());
+		});
+
+  	gridApi!.autoSizeColumns(allColumnIds, skipHeader);
+	}
+
   onMount(() => {
     gridApi = agGrid.createGrid(gridContainer, gridOptions);
+		autoSizeAll(false)
   });
 </script>
 <div class="griddy-wrapper">
