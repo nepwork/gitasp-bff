@@ -8,8 +8,7 @@ import usersStaticJSON from '../../data/users.json' assert { type: 'json' };
 const usersStaticData: Users = usersStaticJSON;
 
 export function getUsers(randomize = RANDOMIZE) {
-	console.log('getUsers');
-
+	
 	const result = randomize
 		? usersStaticData.map((p) => {
 				p.name = faker.name.fullName();

@@ -23,9 +23,9 @@ model Principal {
   id            String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   username      String       @unique
   
-	// NID0
+	/// NID0
 	firstName     String?
-	// NID0
+	/// NID0
   lastName      String
   
 	password      String?
@@ -36,7 +36,7 @@ model Principal {
   areaCode      String?
   country       Country      @default(Nepal)
 
-	// NID1
+	/// NID1
   email         String?      @unique
   emailVerified DateTime?
   payerType     DiscountType @default(FirstTimer)

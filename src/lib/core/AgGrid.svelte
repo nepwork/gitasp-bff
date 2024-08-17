@@ -11,9 +11,6 @@
 
   ModuleRegistry.registerModules([ClientSideRowModelModule]);
 
-  console.log("columnDefs in grid", columnDefs)
-  console.log("rowData in grid", rowData)
-
   let gridContainer: any;
   let gridApi: any;
 

@@ -2,20 +2,18 @@
 /* eslint max-lines: 'off' */
 
 import type { ColDef } from 'ag-grid-community';
-import { getMetaData, prisma } from '../../prisma/db-utils';
+import { getEnumValues, getMetaData, prisma } from '../../prisma/db-utils';
 import AgGrid from '../lib/core/AgGrid.svelte';
 
-import FormIq from '../lib/core/FormIq.astro';
+import FormIq from '../lib/core/FormIq.svelte';
 import { isRemovable, mapAgGridType } from './form.resolvers';
 
 const slug = new URL(Astro.request.url).pathname;
 const split = slug.split('/');
 const entity = split[split.length - 2];
 
-console.log("ntt", entity);
-
 const metaData = getMetaData(entity);
-console.log("metaData", metaData);
+
 const fetcher = (prisma as any)[entity];
 if (!fetcher) return;
 
@@ -23,8 +21,10 @@ const rowData = await fetcher.findMany({
 	take: 100
 });
 
+const enumValues = getEnumValues(entity);
+
 const mapper = new Map<string, string | boolean>();
-mapper.set("Decimal", true);
+mapper.set("Decimal", "number");
 mapper.set("Int", "number");
 mapper.set("BigInt", "number");
 mapper.set("String", "text");
@@ -52,17 +52,6 @@ const columnDefs: ColDef[] = rowData?.length ? Object.keys(rowData[0])
 		})
 	}) : [];
 
-console.log("rowData", rowData[0]);
-console.log("columnDefs", columnDefs);
- // Column Definitions: Defines the columns to be displayed.
-//  const columnDefs = [
-//    { field: "make", filter: true },
-//    { field: "model", filter: true },
-//    { field: "price", filter: true },
-//    { field: "electric", filter: true }
-//  ];
-
-
 ---
 <>
 <section class="bg-white dark:bg-gray-900">
@@ -71,7 +60,7 @@ console.log("columnDefs", columnDefs);
 			Add a new <span class="capitalize">{entity}</span>:
 		</h2>
 
-		<FormIq {metaData} {entity}/>
+		<FormIq {metaData} {entity} {enumValues} client:only="svelte"/>
 
 	</div>
 </section>
