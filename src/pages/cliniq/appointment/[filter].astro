@@ -1,13 +1,13 @@
 ---
 import { icon, library } from '@fortawesome/fontawesome-svg-core';
-import FullCalendar from '../../../app/calendar/FullCalendar.svelte';
 import LayoutCrud from '../../../app/LayoutCrud.astro';
 import { sidebarPatientNav } from '../../../app/nav';
 import CrudNTT from '../../../modules/CrudNTT.astro';
 import PostIt from '../../../lib/enhancements/post-it.astro';
 import PostItCello from '../../../lib/enhancements/post-it-cello.astro';
-import FormIq from '../../../lib/core/FormIq.astro';
+import FormIq from '../../../lib/core/FormIq.svelte';
 import { getEnumValues, getMetaData } from '../../../../prisma/db-utils';
+import FullCalendar from '../../../app/calendar/FullCalendar.svelte';
 
 export const prerender = false;
 
@@ -81,14 +81,16 @@ allItems.forEach((nav) => {
 	</div>
 	<div id="default-tab-content">
 		<div
-			class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800 min-h-full"
+			class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800 min-w-full min-h-full"
 			id="calendar"
 			role="tabpanel"
 			aria-labelledby="calendar-tab"
 		>
-			<FormIq {metaData} {entity} {enumValues} client:only="svelte" />
+			<!-- <FormIq {metaData} {entity} {enumValues} client:only="svelte" /> -->
 
-			<!-- <FullCalendar client:only="svelte" /> -->
+			<!-- <div class="h-screen"> -->
+				<FullCalendar client:only="svelte" />
+			<!-- </div> -->
 		</div>
 		<div
 			class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800"
@@ -96,14 +98,6 @@ allItems.forEach((nav) => {
 			role="tabpanel"
 			aria-labelledby="clinic-tab"
 		>
-			<p class="text-sm text-gray-500 dark:text-gray-400">
-				This is some placeholder content the <strong
-					class="font-medium text-gray-800 dark:text-white"
-					>Clinic tab's associated content</strong
-				>. Clicking another tab will toggle the visibility of this one for the
-				next. The tab JavaScript swaps classes to control the content visibility
-				and styling.
-			</p>
 			<CrudNTT />
 		</div>
 		<div

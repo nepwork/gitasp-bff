@@ -29,10 +29,10 @@ const path = new URL(Astro.request.url).pathname;
 
 {
 	items.map((nav) => (
-		<li class="mx-3">
+		<li class="mx-3 pb-2">
 			<button
 				type="button"
-				class={`${nav.href && path.includes(nav.href) ? 'bg-teal-100 active' : ""} menu-toggle flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-teal-100 dark:text-gray-200 dark:hover:bg-gray-700`}
+				class={`${nav.href && path.includes(nav.href) ? 'bg-teal-100 dark:bg-gray-600 active' : ""} menu-toggle flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-teal-100 dark:text-gray-200 dark:hover:bg-gray-700`}
 				aria-controls={`dropdown-${nav.title.toLowerCase()}`}
 				data-collapse-toggle={`dropdown-${nav.title.toLowerCase()}`}
 			>

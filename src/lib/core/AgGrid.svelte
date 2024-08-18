@@ -9,6 +9,9 @@
 	export let columnDefs: agGrid.ColDef[];
   export let rowData: any[];
 
+	export let width = "80vw";
+	export let height = "80vh";
+
   ModuleRegistry.registerModules([ClientSideRowModelModule]);
 
   let gridContainer: any;
@@ -62,7 +65,7 @@
   });
 </script>
 <div class="griddy-wrapper">
-	<div class="ag-theme-alpine" style:width="80vw" style:height="80vh" bind:this={gridContainer}>
+	<div class="ag-theme-alpine" style:width={width} style:height={height} bind:this={gridContainer}>
 	</div>
 </div>
 <style global>
