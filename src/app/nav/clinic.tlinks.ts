@@ -40,8 +40,8 @@ export const sidebarPatientNav: SidebarNavItem[] = [
         icon: faCreditCard,
       },
       {
-        title: "Home Visits",
-        href: "/cliniq/appointment/home",
+        title: "Hospital Visits",
+        href: "/cliniq/appointment/hospital",
         icon: faAsterisk,
       },
       {

@@ -1,11 +1,122 @@
 ---
-import LayoutCrud from "../../../app/LayoutCrud.astro";
-import CrudNTT from "../../../modules/CrudNTT.astro";
+import { icon, library } from '@fortawesome/fontawesome-svg-core';
+import FullCalendar from '../../../app/calendar/FullCalendar.svelte';
+import LayoutCrud from '../../../app/LayoutCrud.astro';
+import { sidebarPatientNav } from '../../../app/nav';
+import CrudNTT from '../../../modules/CrudNTT.astro';
+import PostIt from '../../../lib/enhancements/post-it.astro';
+import PostItCello from '../../../lib/enhancements/post-it-cello.astro';
+import FormIq from '../../../lib/core/FormIq.astro';
+import { getEnumValues, getMetaData } from '../../../../prisma/db-utils';
 
 export const prerender = false;
 
+const slug = new URL(Astro.request.url).pathname;
+const split = slug.split('/');
+const entity = split[split.length - 2];
+
+const metaData = getMetaData(entity);
+const enumValues = getEnumValues(entity);
+
+const icons = new Map();
+const allItems = sidebarPatientNav;
+allItems.forEach((nav) => {
+	library.add(nav.icon);
+
+	icons.set(
+		nav.title,
+		icon({
+			prefix: 'fas',
+			iconName: nav.icon.iconName,
+		}),
+	);
+});
+
+// const navItems = sidebarPatientNav.find((i) => i.title === 'Appointments')?.items ?? [];
 ---
 
 <LayoutCrud>
-	<CrudNTT/>
+	<div class="mb-4 border-b border-gray-200 dark:border-gray-700">
+		<ul
+			class="flex flex-wrap -mb-px text-sm font-medium text-center"
+			id="default-tab"
+			data-tabs-toggle="#default-tab-content"
+			role="tablist"
+		>
+			<li class="me-2" role="presentation">
+				<button
+					class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+					id="calendar-tab"
+					data-tabs-target="#calendar"
+					type="button"
+					role="tab"
+					aria-controls="calendar"
+					aria-selected="false">Calendar</button
+				>
+			</li>
+
+			<li class="me-2" role="presentation">
+				<button
+					class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+					id="dashboard-tab"
+					data-tabs-target="#clinic"
+					type="button"
+					role="tab"
+					aria-controls="dashboard"
+					aria-selected="false">DataGrid</button
+				>
+			</li>
+			<li class="me-2" role="presentation">
+				<button
+					class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+					id="settings-tab"
+					data-tabs-target="#hospital"
+					type="button"
+					role="tab"
+					aria-controls="settings"
+					aria-selected="false">Memos</button
+				>
+			</li>
+		</ul>
+	</div>
+	<div id="default-tab-content">
+		<div
+			class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800 min-h-full"
+			id="calendar"
+			role="tabpanel"
+			aria-labelledby="calendar-tab"
+		>
+			<FormIq {metaData} {entity} {enumValues} client:only="svelte" />
+
+			<!-- <FullCalendar client:only="svelte" /> -->
+		</div>
+		<div
+			class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800"
+			id="clinic"
+			role="tabpanel"
+			aria-labelledby="clinic-tab"
+		>
+			<p class="text-sm text-gray-500 dark:text-gray-400">
+				This is some placeholder content the <strong
+					class="font-medium text-gray-800 dark:text-white"
+					>Clinic tab's associated content</strong
+				>. Clicking another tab will toggle the visibility of this one for the
+				next. The tab JavaScript swaps classes to control the content visibility
+				and styling.
+			</p>
+			<CrudNTT />
+		</div>
+		<div
+			class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800"
+			id="hospital"
+			role="tabpanel"
+			aria-labelledby="hospital-tab"
+		>
+			<div class="flex">
+				<PostIt message={"drink more water"}/>
+				<PostItCello/>
+			</div>
+		</div>
+	
+	</div>
 </LayoutCrud>
