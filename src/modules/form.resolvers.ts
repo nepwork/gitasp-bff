@@ -11,7 +11,7 @@ export function isHid(f: FieldShape): boolean {
 }
 
 export function isAbsent(f: FieldShape): boolean {
-	return f.isReadOnly || auditFields.includes(f.name) || f.kind === "object"
+	return f.isReadOnly || auditFields.includes(f.name) || Boolean(f.default) || f.isList
 }
 
 
@@ -19,9 +19,20 @@ export function isRequired(f: FieldShape): boolean {
 	return f.isRequired && !f.hasDefaultValue
 }
 
+export function isRelation(f: FieldShape): boolean {
+ return  f.kind === "object" && Boolean(f.relationFromFields?.length)  && Boolean(f.relationToFields?.length)
+}
+
+export function is1to1Relation(f: FieldShape): boolean {
+	return !f.isList &&  isRelation(f)
+}
+
 
 export const mapAgGridType = (mData: FieldsShape) => (fieldName: string) => 
 	mData.find(m => m.name === fieldName)?.type ?? "String";
+
+export const mapFieldNameToField = (mData: FieldsShape) => (fieldName: string) => 
+	mData.find(m => m.name === fieldName)
 
 
 export function fromCamel(input: string): string {
@@ -41,3 +52,5 @@ export function fromCamel(input: string): string {
  * Abbreviation of fromCamel to Title Case Words
 */
 export const fC = fromCamel;
+
+

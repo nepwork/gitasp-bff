@@ -139,9 +139,9 @@ model Payment {
   payerId            String        @db.Uuid
   receiverId         String        @db.Uuid
   paymentMethod      PaymentMethod @default(CashAtCounter)
-  totalPayableAmount Decimal
-  discountApplied    Decimal       @default(0.0)
-  paidAmount         Decimal
+  totalPayableAmount Int
+  discountApplied    Int       @default(0)
+  paidAmount         Int
   reasonForVisit     String
   payer              Patient     @relation("payer", fields: [payerId], references: [id])
   receiver           Principal     @relation("receiver", fields: [receiverId], references: [id])
@@ -160,7 +160,7 @@ model Payment {
 
 model Appointment {
   id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  uuid          String    @unique
+  uuid          String    @unique   @default(dbgenerated("gen_random_uuid()")) @db.Uuid
 
 	date 					DateTime
   startDatetime DateTime?
@@ -285,7 +285,7 @@ model Equipment {
   id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
 
   name  String
-  price Decimal
+  price Int
   count Int
 
   createdAt DateTime @default(now())
@@ -306,7 +306,7 @@ model Service {
   name        String
   description String
 
-  price Decimal
+  price Int
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
