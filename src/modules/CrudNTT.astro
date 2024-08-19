@@ -23,7 +23,7 @@ const rowData = await fetcher.findMany({
 
 
 const enumValues = getEnumValues(entity);
-console.log("enum", enumValues)
+
 const mapper = new Map<string, string | boolean>();
 mapper.set('Decimal', 'number');
 mapper.set('Int', 'number');

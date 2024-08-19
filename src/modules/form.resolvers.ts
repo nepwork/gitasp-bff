@@ -23,6 +23,10 @@ export function inputTypeGuess(f: FieldShape): string {
 		return "date";
 	}
 
+	if (f.type === 'Boolean') {
+		return "checkbox"
+	}
+
 	return "text";
 }
 

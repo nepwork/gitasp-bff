@@ -7,7 +7,7 @@
 
   // Object to store enum values for each field
   export let enumValues: Map<string, string[]>;
-	console.log("metadata", metaData);
+	// console.log("metadata", metaData);
   // Function to handle form submission
   function handleSubmit(event: Event) {
     event.preventDefault();
@@ -65,3 +65,16 @@
     Add {fC(entity)}
   </button>
 </form>
+
+
+<style>
+	input[type=checkbox] {
+		height: 50%;
+		position: relative;
+		cursor: pointer;
+	}
+
+	input[type=checkbox]:checked {
+		border: solid red;
+	}
+</style>

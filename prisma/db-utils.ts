@@ -58,11 +58,10 @@ export function getEnumValues(model: string): Map<string, string[]> {
 	const allEnums = getDMMF().datamodel.enums;
 	const foundModel = getModels().find(m => m.dbName === model);
 	const foundEnumKinded = foundModel?.fields.filter(f => f.kind === "enum").map(f =>  [f.name, f.type]);
-	console.log("enumKinded", foundEnumKinded)
 	
 	if (!foundEnumKinded?.length) return new Map<string, string[]>();
 
-	const found = (enumName: string) => allEnums.find(e => enumName === e.name)?.values.map(v => v.name);
+	const found = (enumName: string) => allEnums.find(e => enumName === e.name)?.values.map(v => v.name.replace(/_/g, " "));
 	
 	return foundEnumKinded.reduce((acc, f) => 
 		 acc.set(f[0], found(f[1]) ?? [])
