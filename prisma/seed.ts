@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { DiscountType, PaymentMethod } from '@prisma/client';
+import { Gender, DiscountType, PaymentMethod } from '@prisma/client';
 import { prisma } from './db-utils';
 
 export const init = async (cleanupFirst = false) => {
@@ -38,14 +38,14 @@ export const init = async (cleanupFirst = false) => {
 			city: faker.location.city(),
 			areaCode: faker.location.zipCode(),
 			email: faker.internet.email(),
-			gender: faker.helpers.arrayElement(["Male", "Female", "Other"]),
+			gender: faker.helpers.arrayElement(Object.values(Gender)),
 			birthdate: faker.date.birthdate()
 		})),
 		select: {
 			id: true
 		}
 	})
-
+	
 
 	const payerIdList = patients
 		.map(p => p.id);

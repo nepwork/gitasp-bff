@@ -189,6 +189,8 @@ Table patient {
   givenName String [not null, note: 'NID0']
   middleName String [not null]
   familyName String [not null, note: 'NID0']
+  gender Gender [not null]
+  birthdate DateTime
   phoneCode Int [default: 977, note: 'NID1']
   phoneNumber String [note: 'NID1']
   image String
@@ -198,8 +200,6 @@ Table patient {
   country Country [not null, default: 'Nepal']
   email String [unique]
   emailVerified DateTime
-  gender String [not null]
-  birthdate DateTime [not null]
   paymentList payment [not null]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
@@ -725,7 +725,7 @@ Table space_time_coordinates {
   BlogPost blog_post
 }
 
-Table BudgetEntry {
+Table budget_entry {
   id String [pk]
   serviceId String [not null]
   cost Float [not null]
@@ -736,32 +736,32 @@ Table BudgetEntry {
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
   budgetId String [not null]
-  budget Budget [not null]
-  service BudgetService [not null]
+  budget budget [not null]
+  service budget_service [not null]
 }
 
-Table BudgetService {
+Table budget_service {
   id String [pk]
   description String [not null]
   category String [not null]
   metadata Json [not null]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
-  entryList BudgetEntry [not null]
+  entryList budget_entry [not null]
 }
 
-Table Budget {
+Table budget {
   id String [pk]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
   fiscalYear Int [not null]
   reportId String
-  userList BudgetBudgetUser [not null]
-  entryList BudgetEntry [not null]
-  report Report
+  userList budget_bud_user [not null]
+  entryList budget_entry [not null]
+  report report
 }
 
-Table Report {
+Table report {
   id String [pk]
   budgetId String [unique, not null]
   totalCost Float [not null]
@@ -770,36 +770,36 @@ Table Report {
   totalSubtotal Float [not null]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
-  budget Budget [not null]
+  budget budget [not null]
 }
 
-Table BudgetUser {
+Table bud_user {
   id String [pk]
   name String [not null]
   email String [unique, not null]
   password String [not null]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
-  eventList BudEvent [not null]
-  budgetList BudgetBudgetUser [not null]
+  eventList bud_event [not null]
+  budgetList budget_bud_user [not null]
 }
 
-Table BudgetBudgetUser {
+Table budget_bud_user {
   id String [pk]
   userId String [not null]
   budgetId String [not null]
   role String [not null]
   ability String [not null]
   category String [not null]
-  budget Budget [not null]
-  user BudgetUser [not null]
+  budget budget [not null]
+  user bud_user [not null]
 
   indexes {
     (userId, budgetId) [unique]
   }
 }
 
-Table BudEvent {
+Table bud_event {
   id String [pk]
   type String [not null]
   description String [not null]
@@ -807,7 +807,13 @@ Table BudEvent {
   metadata Json [not null]
   budUserId String [not null]
   createdAt DateTime [default: `now()`, not null]
-  budUser BudgetUser [not null]
+  budUser bud_user [not null]
+}
+
+Enum Gender {
+  Male
+  Female
+  Other
 }
 
 Enum Country {
@@ -1140,14 +1146,14 @@ Ref: blog_post_tag_arrow.postId > blog_post.id
 
 Ref: blog_post_tag_arrow.tagId > blog_post_tag.id
 
-Ref: BudgetEntry.budgetId > Budget.id
+Ref: budget_entry.budgetId > budget.id
 
-Ref: BudgetEntry.serviceId > BudgetService.id
+Ref: budget_entry.serviceId > budget_service.id
 
-Ref: Report.budgetId - Budget.id
+Ref: report.budgetId - budget.id
 
-Ref: BudgetBudgetUser.budgetId > Budget.id
+Ref: budget_bud_user.budgetId > budget.id
 
-Ref: BudgetBudgetUser.userId > BudgetUser.id
+Ref: budget_bud_user.userId > bud_user.id
 
-Ref: BudEvent.budUserId > BudgetUser.id
+Ref: bud_event.budUserId > bud_user.id

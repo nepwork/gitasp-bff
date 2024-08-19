@@ -236,6 +236,14 @@ model Location {
   @@map("location")
 }
 
+enum Gender {
+	Male
+	Female
+	Other
+
+	@@map("gender")
+}
+
 model Patient {
   id   String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   uuid String @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
@@ -245,6 +253,11 @@ model Patient {
   middleName String
 	/// NID0
   familyName String
+
+	gender    Gender
+
+  birthdate DateTime?
+
 
 	/// NID1
   phoneCode   Int?    @default(977)
@@ -260,9 +273,6 @@ model Patient {
 
   email         String?   @unique
   emailVerified DateTime?
-
-  gender    String
-  birthdate DateTime
 
 	paymentList         Payment[]       @relation("payer")
 
@@ -884,6 +894,8 @@ model BudgetEntry {
   budgetId      String   @db.Uuid
   budget        Budget   @relation(fields: [budgetId], references: [id])
   service       BudgetService  @relation(fields: [serviceId], references: [id])
+
+	@@map("budget_entry")
 }
 
 model BudgetService {
@@ -894,6 +906,8 @@ model BudgetService {
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
   entryList   BudgetEntry[]
+
+	@@map("budget_service")
 }
 
 model Budget {
@@ -905,6 +919,8 @@ model Budget {
   userList   BudgetBudUser[]
   entryList  BudgetEntry[]
   report     Report?
+
+	@@map("budget")
 }
 
 model Report {
@@ -917,6 +933,8 @@ model Report {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
   budget         Budget   @relation(fields: [budgetId], references: [id])
+
+	@@map("report")
 }
 
 model BudUser {
@@ -929,7 +947,7 @@ model BudUser {
   eventList  BudEvent[]
   budgetList BudgetBudUser[]
 
-  @@map("BudgetUser")
+  @@map("bud_user")
 }
 
 model BudgetBudUser {
@@ -943,7 +961,7 @@ model BudgetBudUser {
   user     BudUser @relation(fields: [userId], references: [id])
 
   @@unique([userId, budgetId])
-  @@map("BudgetBudgetUser")
+  @@map("budget_bud_user")
 }
 
 model BudEvent {
@@ -955,6 +973,8 @@ model BudEvent {
   budUserId    String   @db.Uuid
   createdAt    DateTime @default(now())
   budUser      BudUser  @relation(fields: [budUserId], references: [id])
+
+	@@map("bud_event")
 }
 
 enum Country {
@@ -1152,6 +1172,8 @@ enum Country {
   Yemen
   Zambia
   Zimbabwe
+
+	@@map("country")
 }
 
 enum DiscountType {

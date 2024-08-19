@@ -3,6 +3,9 @@
 	import { InlineCalendar } from 'svelte-calendar';
 	import { writable } from 'svelte/store';
 	import { darkTheme, lightTheme } from './calendar.theme';
+	import DayAppointmentTable from './DayAppointmentTable.svelte';
+	import dayjs from 'dayjs';
+	import { Appointment } from '../../lib/desruc-sdk/zen/entities';
 
 
 	let store: any;
@@ -15,88 +18,49 @@
 </script>
 
 <div class="flex gap-8">
-	<InlineCalendar bind:store theme={$theme} format={'DD/MM/YYYY'} />
+	<InlineCalendar bind:store theme={$theme} format={'DD/MM/YYYY'} selected={new Date()}/>
 
-	<div class="shadow-xl w-[40vw]" >
-
-		<div class="flex mx-4">
-			<div class="mb-6 px-1">
-				<Label for="default-input" class="block mb-2">Patient Name</Label>
-				<Input id="default-input" placeholder="Full Name of Patient" />
+	<div class="shadow-xl w-[40vw] mt-3" >
+		<p class="mx-auto py-4 pl-4 text-teal-700">Appointments for {dayjs($store?.selected).format('DD/MM/YYYY')}</p>
+		<div class="flex gap-2 ml-2">
+			<div class="flex mx-4">
+				<div class="relative z-0 w-full mb-5 mr-2 group">
+					<input type="email" name="floating_email" id="floating_email" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+					<label for="floating_email" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Patient's Name</label>
 			</div>
-			<div class="mb-6 px-1">
-				<Label for="default-input" class="block mb-2">Time</Label>
-				<Input id="default-input" placeholder="Start to End Time" />
+			<div class="mb-5">
+				<label for="floating_time" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Time </label>
+				<input type="time" id="floating_time" name="floating_time" min="09:00" max="18:00" list="time-slots" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required >
+				<datalist id="time-slots">
+					<option value="09:00">
+					<option value="10:00">
+					<option value="11:00">
+					<option value="12:00">
+					<option value="13:00">
+					<option value="14:00">
+					<option value="15:00">
+					<option value="16:00">
+					<option value="17:00">
+					<option value="18:00">
+				</datalist>
 			</div>
-			<div class="mb-6 px-1">
-				<Label for="default-input" class="block mb-2">Doctor</Label>
-				<Input id="default-input" placeholder="Doctor / Provider" />
-			</div>
-			<div class="mb-6 px-1 place-self-end">
-				<GradientButton class="bg-teal-400" shadow>Quick Add</GradientButton>
+			<div class="relative z-0 w-full mb-5 ml-2 group">
+					<input type="password" name="repeat_password" id="floating_repeat_password" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+					<label for="floating_repeat_password" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Doctor</label>
 			</div>
 		</div>
 
-		<Table striped={true}>
-			<TableHead>
-				<TableHeadCell>Patient Name</TableHeadCell>
-				<TableHeadCell>Start Time</TableHeadCell>
-				<TableHeadCell>End Time</TableHeadCell>
-				<TableHeadCell>Doctor</TableHeadCell>
-				<TableHeadCell>
-					<span class="sr-only">Edit</span>
-				</TableHeadCell>
-			</TableHead>
-			<TableBody tableBodyClass="divide-y">
-				<TableBodyRow>
-					<TableBodyCell>Apple MacBook Pro 17"</TableBodyCell>
-					<TableBodyCell>Sliver</TableBodyCell>
-					<TableBodyCell>Laptop</TableBodyCell>
-					<TableBodyCell>$2999</TableBodyCell>
-					<TableBodyCell>
-						<div class="flex gap-4">
-							<a href="/tables" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Edit</a>
-							<a href="/tables" class="font-medium text-red-600 hover:underline dark:text-red-500">Delete</a>
-						</div>
-					</TableBodyCell>
-				</TableBodyRow>
-				<TableBodyRow>
-					<TableBodyCell>Microsoft Surface Pro</TableBodyCell>
-					<TableBodyCell>White</TableBodyCell>
-					<TableBodyCell>Laptop PC</TableBodyCell>
-					<TableBodyCell>$1999</TableBodyCell>
-					<TableBodyCell>
-						<a href="/tables" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Edit</a>
-					</TableBodyCell>
-				</TableBodyRow>
-				<TableBodyRow>
-					<TableBodyCell>Magic Mouse 2</TableBodyCell>
-					<TableBodyCell>Black</TableBodyCell>
-					<TableBodyCell>Accessories</TableBodyCell>
-					<TableBodyCell>$99</TableBodyCell>
-					<TableBodyCell>
-						<a href="/tables" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Edit</a>
-					</TableBodyCell>
-				</TableBodyRow>
-				<TableBodyRow>
-					<TableBodyCell>Google Pixel Phone</TableBodyCell>
-					<TableBodyCell>Gray</TableBodyCell>
-					<TableBodyCell>Phone</TableBodyCell>
-					<TableBodyCell>$799</TableBodyCell>
-					<TableBodyCell>
-						<a href="/tables" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Edit</a>
-					</TableBodyCell>
-				</TableBodyRow>
-				<TableBodyRow>
-					<TableBodyCell>Apple Watch 5</TableBodyCell>
-					<TableBodyCell>Red</TableBodyCell>
-					<TableBodyCell>Wearables</TableBodyCell>
-					<TableBodyCell>$999</TableBodyCell>
-					<TableBodyCell>
-						<a href="/tables" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Edit</a>
-					</TableBodyCell>
-				</TableBodyRow>
-			</TableBody>
-		</Table>
+			<div class="mb-6 px-1 place-self-end">
+				<GradientButton class="bg-teal-400 font-semibold" shadow>Quick Add</GradientButton>
+			</div>
+		</div>
+
+		<DayAppointmentTable/>
 	</div>
-</div>
+</div>	
+
+<style>
+	input[type="time"] {
+  	accent-color: teal; /* Set the accent color to teal */
+	}
+</style>

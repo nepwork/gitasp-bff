@@ -11,7 +11,7 @@ export function isHid(f: FieldShape): boolean {
 }
 
 export function isAbsent(f: FieldShape): boolean {
-	return f.isReadOnly || auditFields.includes(f.name) || Boolean(f.default) || f.isList
+	return f.isReadOnly || auditFields.includes(f.name) || Boolean(f.default?.name) || f.isList
 }
 
 
