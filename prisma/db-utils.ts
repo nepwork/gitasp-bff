@@ -50,20 +50,23 @@ export type MetadataType = ReturnType<typeof getMetaData>;
 export type FieldsShape = MetadataType;
 export type FieldShape = MetadataTypeItem;
 
+/**
+ * Given the name of the model, it returns all the fields in that model with enum values in them.
+ * The field name is the key in the returned map, whereas the enum values are the corresponding values of that enum.
+*/
 export function getEnumValues(model: string): Map<string, string[]> {
 	const allEnums = getDMMF().datamodel.enums;
 	const foundModel = getModels().find(m => m.dbName === model);
-	const foundEnumKinded = foundModel?.fields.filter(f => f.kind === "enum").map(f =>  f.name.toLowerCase());
+	const foundEnumKinded = foundModel?.fields.filter(f => f.kind === "enum").map(f =>  [f.name, f.type]);
+	console.log("enumKinded", foundEnumKinded)
+	
+	if (!foundEnumKinded?.length) return new Map<string, string[]>();
 
-	const found: Enums = allEnums.filter(e => foundEnumKinded?.includes(e.name.toLowerCase()));
-
-	if (found.length > 0) {
-		return found.reduce((acc, f) => 
-			acc.set( f.name.toLowerCase(), f.values.map(v => v.name))
-		, new Map<string, string[]>())
-	}
-
-	return new Map<string, string[]>();
+	const found = (enumName: string) => allEnums.find(e => enumName === e.name)?.values.map(v => v.name);
+	
+	return foundEnumKinded.reduce((acc, f) => 
+		 acc.set(f[0], found(f[1]) ?? [])
+	, new Map<string, string[]>())	
 }
 
 export function  getEnums() {

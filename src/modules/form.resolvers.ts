@@ -14,6 +14,17 @@ export function isAbsent(f: FieldShape): boolean {
 	return f.isReadOnly || auditFields.includes(f.name) || Boolean(f.default?.name) || f.isList
 }
 
+export function inputTypeGuess(f: FieldShape): string {
+	if (["Decimal", "Int", "BigInt"].includes(f.type)) {
+		return "number";
+	} 
+	
+	if (f.type === "DateTime") {
+		return "date";
+	}
+
+	return "text";
+}
 
 export function isRequired(f: FieldShape): boolean {
 	return f.isRequired && !f.hasDefaultValue

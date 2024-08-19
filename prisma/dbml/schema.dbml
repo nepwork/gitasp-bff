@@ -123,8 +123,8 @@ Table appointment {
   id String [pk]
   uuid String [unique, not null]
   date DateTime [not null]
-  startDatetime DateTime
-  endDatetime DateTime
+  startTime TimeOfDay
+  endTime TimeOfDay
   voided Boolean [default: false]
   voidedBy String
   dateVoided DateTime
@@ -808,6 +808,28 @@ Table bud_event {
   budUserId String [not null]
   createdAt DateTime [default: `now()`, not null]
   budUser bud_user [not null]
+}
+
+Enum TimeOfDay {
+  AM_0900
+  AM_0930
+  AM_1000
+  AM_1030
+  AM_1100
+  AM_1130
+  PM_1200
+  PM_1230
+  PM_0100
+  PM_0130
+  PM_0200
+  PM_0230
+  PM_0300
+  PM_0330
+  PM_0400
+  PM_0430
+  PM_0500
+  PM_0530
+  PM_0600
 }
 
 Enum Gender {

@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { FieldsShape } from '../../../prisma/db-utils';
-  import { fC, isHid, isRequired, isAbsent } from '../../modules/form.resolvers';
+  import { fC, isHid, isRequired, isAbsent, inputTypeGuess } from '../../modules/form.resolvers';
 
   export let metaData: FieldsShape; // Define the type more specifically if possible
   export let entity: string;
@@ -39,13 +39,13 @@
               {#if !field.hasDefaultValue}
                 <option selected value="">Select {fC(field.name)}</option>
               {/if}
-              {#each enumValues.get(field.name.toLowerCase()) || [] as e}
+              {#each enumValues.get(field.name) || [] as e}
                 <option value={e}>{fC(e)}</option>
               {/each}
             </select>
           {:else}
             <input
-              type={["Int", "BigInt"].includes(field.type) ? "number" : "text"}
+              type={inputTypeGuess(field)}
               name={field.name}
               id={field.name}
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"

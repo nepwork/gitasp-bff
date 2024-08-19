@@ -12,7 +12,6 @@
 	let theme = writable(lightTheme);
 
 	document.addEventListener('dark-mode', (e) => {
-		console.log("dark-mode", e);
 		theme.set($theme === lightTheme ? darkTheme : lightTheme);
 	})
 </script>

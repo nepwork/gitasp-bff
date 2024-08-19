@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { Gender, DiscountType, PaymentMethod } from '@prisma/client';
+import { Gender, DiscountType, PaymentMethod, TimeOfDay } from '@prisma/client';
 import { prisma } from './db-utils';
 
 export const init = async (cleanupFirst = false) => {
@@ -65,9 +65,9 @@ export const init = async (cleanupFirst = false) => {
 	await prisma.appointment.createMany({
 		data: Array(50).fill(1).map(_ => ({
 			date: faker.date.soon({days: 7}),
-			startDatetime: faker.date.future({ refDate: new Date()}),
+			startTime: faker.helpers.arrayElement(Object.values(TimeOfDay)),
 			uuid: faker.string.uuid(),
-			endDatetime: faker.date.future({ refDate: new Date().getTime() + 30 * 60 * 1000 }),
+			endTime: faker.helpers.arrayElement(Object.values(TimeOfDay)),
 			patientId: faker.helpers.arrayElement(patients.map(p => p.id))
 		}))})
 

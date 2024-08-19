@@ -158,13 +158,38 @@ model Payment {
   @@map("payment")
 }
 
+enum TimeOfDay {
+
+	AM_0900
+	AM_0930
+	AM_1000
+	AM_1030
+	AM_1100
+	AM_1130
+	PM_1200
+	PM_1230
+	PM_0100
+	PM_0130
+	PM_0200
+	PM_0230
+	PM_0300
+	PM_0330
+	PM_0400
+	PM_0430
+	PM_0500
+	PM_0530
+	PM_0600
+
+	@@map("time_of_day")
+}
+
 model Appointment {
   id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   uuid          String    @unique   @default(dbgenerated("gen_random_uuid()")) @db.Uuid
 
 	date 					DateTime
-  startDatetime DateTime?
-  endDatetime   DateTime?
+  startTime TimeOfDay?
+  endTime   TimeOfDay?
 
   voided Boolean? @default(false)
 

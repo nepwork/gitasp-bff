@@ -23,7 +23,7 @@ const rowData = await fetcher.findMany({
 
 
 const enumValues = getEnumValues(entity);
-
+console.log("enum", enumValues)
 const mapper = new Map<string, string | boolean>();
 mapper.set('Decimal', 'number');
 mapper.set('Int', 'number');
@@ -79,8 +79,8 @@ const columnDefs: ColDef[] = rowData?.length
 				};
 			})
 	: [];
-console.log('rowData', rowData[0]);
-console.log('col Defs', columnDefs);
+// console.log('rowData', rowData[0]);
+// console.log('col Defs', columnDefs);
 ---
 
 <>
