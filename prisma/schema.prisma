@@ -313,6 +313,7 @@ model Patient {
   appointmentList Appointment[]
   encounterList   Encounter[]
 
+	@@index([givenName, middleName, familyName, phoneNumber])
   @@map("patient")
 }
 

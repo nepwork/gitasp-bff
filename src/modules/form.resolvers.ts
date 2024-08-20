@@ -43,6 +43,11 @@ export function is1to1Relation(f: FieldShape): boolean {
 }
 
 
+export function isRequired1to1Relation(f: FieldShape): boolean {
+	return is1to1Relation(f) && f.isRequired
+}
+
+
 export const mapAgGridType = (mData: FieldsShape) => (fieldName: string) => 
 	mData.find(m => m.name === fieldName)?.type ?? "String";
 

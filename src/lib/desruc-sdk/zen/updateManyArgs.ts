@@ -2,7 +2,7 @@ import type { Prisma } from "@prisma/client";
 import type { NTTKey } from "./entities-type";
 
 export interface UpdateManyArgs {
-    User: Prisma.UserUpdateManyArgs;
+    Principal: Prisma.PrincipalUpdateManyArgs;
     Account: Prisma.AccountUpdateManyArgs;
     Session: Prisma.SessionUpdateManyArgs;
     VerificationToken: Prisma.VerificationTokenUpdateManyArgs;
@@ -12,6 +12,8 @@ export interface UpdateManyArgs {
     AppointmentType: Prisma.AppointmentTypeUpdateManyArgs;
     Location: Prisma.LocationUpdateManyArgs;
     Patient: Prisma.PatientUpdateManyArgs;
+    Equipment: Prisma.EquipmentUpdateManyArgs;
+    Service: Prisma.ServiceUpdateManyArgs;
     Provider: Prisma.ProviderUpdateManyArgs;
     Form: Prisma.FormUpdateManyArgs;
     FormEncounter: Prisma.FormEncounterUpdateManyArgs;
@@ -46,7 +48,7 @@ export interface UpdateManyArgs {
     BlogPostAuthor: Prisma.BlogPostAuthorUpdateManyArgs;
     SpaceTimeCoordinates: Prisma.SpaceTimeCoordinatesUpdateManyArgs;
     BudgetEntry: Prisma.BudgetEntryUpdateManyArgs;
-    Service: Prisma.ServiceUpdateManyArgs;
+    BudgetService: Prisma.BudgetServiceUpdateManyArgs;
     Budget: Prisma.BudgetUpdateManyArgs;
     Report: Prisma.ReportUpdateManyArgs;
     BudUser: Prisma.BudUserUpdateManyArgs;

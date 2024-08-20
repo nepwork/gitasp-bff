@@ -2,7 +2,7 @@ import type { Prisma } from "@prisma/client";
 import type { NTTKey } from "./entities-type";
 
 export interface UpsertArgs {
-    User: Prisma.UserUpsertArgs;
+    Principal: Prisma.PrincipalUpsertArgs;
     Account: Prisma.AccountUpsertArgs;
     Session: Prisma.SessionUpsertArgs;
     VerificationToken: Prisma.VerificationTokenUpsertArgs;
@@ -12,6 +12,8 @@ export interface UpsertArgs {
     AppointmentType: Prisma.AppointmentTypeUpsertArgs;
     Location: Prisma.LocationUpsertArgs;
     Patient: Prisma.PatientUpsertArgs;
+    Equipment: Prisma.EquipmentUpsertArgs;
+    Service: Prisma.ServiceUpsertArgs;
     Provider: Prisma.ProviderUpsertArgs;
     Form: Prisma.FormUpsertArgs;
     FormEncounter: Prisma.FormEncounterUpsertArgs;
@@ -46,7 +48,7 @@ export interface UpsertArgs {
     BlogPostAuthor: Prisma.BlogPostAuthorUpsertArgs;
     SpaceTimeCoordinates: Prisma.SpaceTimeCoordinatesUpsertArgs;
     BudgetEntry: Prisma.BudgetEntryUpsertArgs;
-    Service: Prisma.ServiceUpsertArgs;
+    BudgetService: Prisma.BudgetServiceUpsertArgs;
     Budget: Prisma.BudgetUpsertArgs;
     Report: Prisma.ReportUpsertArgs;
     BudUser: Prisma.BudUserUpsertArgs;

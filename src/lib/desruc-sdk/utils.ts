@@ -1,4 +1,4 @@
-import { type OptionalKind, Project, type ImportDeclarationStructure } from 'ts-morph';
+import { type OptionalKind, type ImportDeclarationStructure } from 'ts-morph';
 
 import { Prisma } from '@prisma/client';
 import type { BaseDMMF, DMMF } from '@prisma/client/runtime/library';

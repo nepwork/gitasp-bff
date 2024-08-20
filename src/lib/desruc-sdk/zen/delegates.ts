@@ -2,7 +2,7 @@ import type { Prisma } from "@prisma/client";
 import type { NTTKey } from "./entities-type";
 
 export interface Delegates {
-    User: Prisma.UserDelegate;
+    Principal: Prisma.PrincipalDelegate;
     Account: Prisma.AccountDelegate;
     Session: Prisma.SessionDelegate;
     VerificationToken: Prisma.VerificationTokenDelegate;
@@ -12,6 +12,8 @@ export interface Delegates {
     AppointmentType: Prisma.AppointmentTypeDelegate;
     Location: Prisma.LocationDelegate;
     Patient: Prisma.PatientDelegate;
+    Equipment: Prisma.EquipmentDelegate;
+    Service: Prisma.ServiceDelegate;
     Provider: Prisma.ProviderDelegate;
     Form: Prisma.FormDelegate;
     FormEncounter: Prisma.FormEncounterDelegate;
@@ -46,7 +48,7 @@ export interface Delegates {
     BlogPostAuthor: Prisma.BlogPostAuthorDelegate;
     SpaceTimeCoordinates: Prisma.SpaceTimeCoordinatesDelegate;
     BudgetEntry: Prisma.BudgetEntryDelegate;
-    Service: Prisma.ServiceDelegate;
+    BudgetService: Prisma.BudgetServiceDelegate;
     Budget: Prisma.BudgetDelegate;
     Report: Prisma.ReportDelegate;
     BudUser: Prisma.BudUserDelegate;

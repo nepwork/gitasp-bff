@@ -2,7 +2,7 @@ import type { Prisma } from "@prisma/client";
 import type { NTTKey } from "./entities-type";
 
 export interface Inclusions {
-    User: Prisma.UserInclude;
+    Principal: Prisma.PrincipalInclude;
     Account: Prisma.AccountInclude;
     Session: Prisma.SessionInclude;
     VerificationToken: Prisma.VerificationTokenInclude;
@@ -12,6 +12,8 @@ export interface Inclusions {
     AppointmentType: Prisma.AppointmentTypeInclude;
     Location: Prisma.LocationInclude;
     Patient: Prisma.PatientInclude;
+    Equipment: Prisma.EquipmentInclude;
+    Service: Prisma.ServiceInclude;
     Provider: Prisma.ProviderInclude;
     Form: Prisma.FormInclude;
     FormEncounter: Prisma.FormEncounterInclude;
@@ -46,7 +48,7 @@ export interface Inclusions {
     BlogPostAuthor: Prisma.BlogPostAuthorInclude;
     SpaceTimeCoordinates: Prisma.SpaceTimeCoordinatesInclude;
     BudgetEntry: Prisma.BudgetEntryInclude;
-    Service: Prisma.ServiceInclude;
+    BudgetService: Prisma.BudgetServiceInclude;
     Budget: Prisma.BudgetInclude;
     Report: Prisma.ReportInclude;
     BudUser: Prisma.BudUserInclude;

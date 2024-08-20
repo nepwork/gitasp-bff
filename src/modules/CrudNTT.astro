@@ -47,6 +47,7 @@ const columnDefs: ColDef[] = rowData?.length
 					return {
 						...ret,
 						valueFormatter: (params) => {
+							console.log("params data", params.data)
 							const date = new Date(params.data[field]);
 							if (!Number.isNaN(date)) {
 								return `${date.toLocaleTimeString()} ${date.toLocaleDateString()}`;

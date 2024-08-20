@@ -2,7 +2,7 @@ import type { Prisma } from "@prisma/client";
 import type { NTTKey } from "./entities-type";
 
 export interface FindManyArgs {
-    User: Prisma.UserFindManyArgs;
+    Principal: Prisma.PrincipalFindManyArgs;
     Account: Prisma.AccountFindManyArgs;
     Session: Prisma.SessionFindManyArgs;
     VerificationToken: Prisma.VerificationTokenFindManyArgs;
@@ -12,6 +12,8 @@ export interface FindManyArgs {
     AppointmentType: Prisma.AppointmentTypeFindManyArgs;
     Location: Prisma.LocationFindManyArgs;
     Patient: Prisma.PatientFindManyArgs;
+    Equipment: Prisma.EquipmentFindManyArgs;
+    Service: Prisma.ServiceFindManyArgs;
     Provider: Prisma.ProviderFindManyArgs;
     Form: Prisma.FormFindManyArgs;
     FormEncounter: Prisma.FormEncounterFindManyArgs;
@@ -46,7 +48,7 @@ export interface FindManyArgs {
     BlogPostAuthor: Prisma.BlogPostAuthorFindManyArgs;
     SpaceTimeCoordinates: Prisma.SpaceTimeCoordinatesFindManyArgs;
     BudgetEntry: Prisma.BudgetEntryFindManyArgs;
-    Service: Prisma.ServiceFindManyArgs;
+    BudgetService: Prisma.BudgetServiceFindManyArgs;
     Budget: Prisma.BudgetFindManyArgs;
     Report: Prisma.ReportFindManyArgs;
     BudUser: Prisma.BudUserFindManyArgs;

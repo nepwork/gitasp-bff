@@ -2,7 +2,7 @@ import type { Prisma } from "@prisma/client";
 import type { NTTKey } from "./entities-type";
 
 export interface Selections {
-    User: Prisma.UserSelect;
+    Principal: Prisma.PrincipalSelect;
     Account: Prisma.AccountSelect;
     Session: Prisma.SessionSelect;
     VerificationToken: Prisma.VerificationTokenSelect;
@@ -12,6 +12,8 @@ export interface Selections {
     AppointmentType: Prisma.AppointmentTypeSelect;
     Location: Prisma.LocationSelect;
     Patient: Prisma.PatientSelect;
+    Equipment: Prisma.EquipmentSelect;
+    Service: Prisma.ServiceSelect;
     Provider: Prisma.ProviderSelect;
     Form: Prisma.FormSelect;
     FormEncounter: Prisma.FormEncounterSelect;
@@ -46,7 +48,7 @@ export interface Selections {
     BlogPostAuthor: Prisma.BlogPostAuthorSelect;
     SpaceTimeCoordinates: Prisma.SpaceTimeCoordinatesSelect;
     BudgetEntry: Prisma.BudgetEntrySelect;
-    Service: Prisma.ServiceSelect;
+    BudgetService: Prisma.BudgetServiceSelect;
     Budget: Prisma.BudgetSelect;
     Report: Prisma.ReportSelect;
     BudUser: Prisma.BudUserSelect;

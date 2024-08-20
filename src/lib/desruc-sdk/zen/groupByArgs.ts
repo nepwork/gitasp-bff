@@ -2,7 +2,7 @@ import type { Prisma } from "@prisma/client";
 import type { NTTKey } from "./entities-type";
 
 export interface GroupByArgs {
-    User: Prisma.UserGroupByArgs;
+    Principal: Prisma.PrincipalGroupByArgs;
     Account: Prisma.AccountGroupByArgs;
     Session: Prisma.SessionGroupByArgs;
     VerificationToken: Prisma.VerificationTokenGroupByArgs;
@@ -12,6 +12,8 @@ export interface GroupByArgs {
     AppointmentType: Prisma.AppointmentTypeGroupByArgs;
     Location: Prisma.LocationGroupByArgs;
     Patient: Prisma.PatientGroupByArgs;
+    Equipment: Prisma.EquipmentGroupByArgs;
+    Service: Prisma.ServiceGroupByArgs;
     Provider: Prisma.ProviderGroupByArgs;
     Form: Prisma.FormGroupByArgs;
     FormEncounter: Prisma.FormEncounterGroupByArgs;
@@ -46,7 +48,7 @@ export interface GroupByArgs {
     BlogPostAuthor: Prisma.BlogPostAuthorGroupByArgs;
     SpaceTimeCoordinates: Prisma.SpaceTimeCoordinatesGroupByArgs;
     BudgetEntry: Prisma.BudgetEntryGroupByArgs;
-    Service: Prisma.ServiceGroupByArgs;
+    BudgetService: Prisma.BudgetServiceGroupByArgs;
     Budget: Prisma.BudgetGroupByArgs;
     Report: Prisma.ReportGroupByArgs;
     BudUser: Prisma.BudUserGroupByArgs;

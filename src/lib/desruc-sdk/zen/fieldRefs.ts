@@ -2,7 +2,7 @@ import type { Prisma } from "@prisma/client";
 import type { NTTKey } from "./entities-type";
 
 export interface FieldRefs {
-    User: Prisma.UserFieldRefs;
+    Principal: Prisma.PrincipalFieldRefs;
     Account: Prisma.AccountFieldRefs;
     Session: Prisma.SessionFieldRefs;
     VerificationToken: Prisma.VerificationTokenFieldRefs;
@@ -12,6 +12,8 @@ export interface FieldRefs {
     AppointmentType: Prisma.AppointmentTypeFieldRefs;
     Location: Prisma.LocationFieldRefs;
     Patient: Prisma.PatientFieldRefs;
+    Equipment: Prisma.EquipmentFieldRefs;
+    Service: Prisma.ServiceFieldRefs;
     Provider: Prisma.ProviderFieldRefs;
     Form: Prisma.FormFieldRefs;
     FormEncounter: Prisma.FormEncounterFieldRefs;
@@ -46,7 +48,7 @@ export interface FieldRefs {
     BlogPostAuthor: Prisma.BlogPostAuthorFieldRefs;
     SpaceTimeCoordinates: Prisma.SpaceTimeCoordinatesFieldRefs;
     BudgetEntry: Prisma.BudgetEntryFieldRefs;
-    Service: Prisma.ServiceFieldRefs;
+    BudgetService: Prisma.BudgetServiceFieldRefs;
     Budget: Prisma.BudgetFieldRefs;
     Report: Prisma.ReportFieldRefs;
     BudUser: Prisma.BudUserFieldRefs;

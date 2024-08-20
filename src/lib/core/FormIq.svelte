@@ -1,18 +1,21 @@
 <script lang="ts">
   import type { FieldsShape } from '../../../prisma/db-utils';
-  import { fC, isHid, isRequired, isAbsent, inputTypeGuess } from '../../modules/form.resolvers';
+  import { fC, isHid, isRequired, isAbsent, inputTypeGuess, isRequired1to1Relation } from '../../modules/form.resolvers';
 
   export let metaData: FieldsShape; // Define the type more specifically if possible
   export let entity: string;
 
   // Object to store enum values for each field
   export let enumValues: Map<string, string[]>;
-	// console.log("metadata", metaData);
+	console.log("metadata", metaData);
   // Function to handle form submission
   function handleSubmit(event: Event) {
     event.preventDefault();
     // Add your form submission logic here
   }
+
+	const get1to1RequiredRelations = metaData.filter(f => isRequired1to1Relation(f));
+	console.log("1-1 relations", get1to1RequiredRelations);
 
 </script>
 
@@ -43,6 +46,14 @@
                 <option value={e}>{fC(e)}</option>
               {/each}
             </select>
+					{:else if isRequired1to1Relation(field)}
+								<input 
+									name={`q_${fC(field.name)}`}
+									type="search" 
+									placeholder={fC(field.name)} 
+									spellcheck="true" 
+									class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+								/>
           {:else}
             <input
               type={inputTypeGuess(field)}

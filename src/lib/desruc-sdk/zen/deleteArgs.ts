@@ -2,7 +2,7 @@ import type { Prisma } from "@prisma/client";
 import type { NTTKey } from "./entities-type";
 
 export interface DeleteArgs {
-    User: Prisma.UserDeleteArgs;
+    Principal: Prisma.PrincipalDeleteArgs;
     Account: Prisma.AccountDeleteArgs;
     Session: Prisma.SessionDeleteArgs;
     VerificationToken: Prisma.VerificationTokenDeleteArgs;
@@ -12,6 +12,8 @@ export interface DeleteArgs {
     AppointmentType: Prisma.AppointmentTypeDeleteArgs;
     Location: Prisma.LocationDeleteArgs;
     Patient: Prisma.PatientDeleteArgs;
+    Equipment: Prisma.EquipmentDeleteArgs;
+    Service: Prisma.ServiceDeleteArgs;
     Provider: Prisma.ProviderDeleteArgs;
     Form: Prisma.FormDeleteArgs;
     FormEncounter: Prisma.FormEncounterDeleteArgs;
@@ -46,7 +48,7 @@ export interface DeleteArgs {
     BlogPostAuthor: Prisma.BlogPostAuthorDeleteArgs;
     SpaceTimeCoordinates: Prisma.SpaceTimeCoordinatesDeleteArgs;
     BudgetEntry: Prisma.BudgetEntryDeleteArgs;
-    Service: Prisma.ServiceDeleteArgs;
+    BudgetService: Prisma.BudgetServiceDeleteArgs;
     Budget: Prisma.BudgetDeleteArgs;
     Report: Prisma.ReportDeleteArgs;
     BudUser: Prisma.BudUserDeleteArgs;

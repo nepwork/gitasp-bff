@@ -2,7 +2,7 @@ import type { Prisma } from "@prisma/client";
 import type { NTTKey } from "./entities-type";
 
 export interface AggregateArgs {
-    User: Prisma.UserAggregateArgs;
+    Principal: Prisma.PrincipalAggregateArgs;
     Account: Prisma.AccountAggregateArgs;
     Session: Prisma.SessionAggregateArgs;
     VerificationToken: Prisma.VerificationTokenAggregateArgs;
@@ -12,6 +12,8 @@ export interface AggregateArgs {
     AppointmentType: Prisma.AppointmentTypeAggregateArgs;
     Location: Prisma.LocationAggregateArgs;
     Patient: Prisma.PatientAggregateArgs;
+    Equipment: Prisma.EquipmentAggregateArgs;
+    Service: Prisma.ServiceAggregateArgs;
     Provider: Prisma.ProviderAggregateArgs;
     Form: Prisma.FormAggregateArgs;
     FormEncounter: Prisma.FormEncounterAggregateArgs;
@@ -46,7 +48,7 @@ export interface AggregateArgs {
     BlogPostAuthor: Prisma.BlogPostAuthorAggregateArgs;
     SpaceTimeCoordinates: Prisma.SpaceTimeCoordinatesAggregateArgs;
     BudgetEntry: Prisma.BudgetEntryAggregateArgs;
-    Service: Prisma.ServiceAggregateArgs;
+    BudgetService: Prisma.BudgetServiceAggregateArgs;
     Budget: Prisma.BudgetAggregateArgs;
     Report: Prisma.ReportAggregateArgs;
     BudUser: Prisma.BudUserAggregateArgs;

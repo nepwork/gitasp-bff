@@ -2,7 +2,7 @@ import type { Prisma } from "@prisma/client";
 import type { NTTKey } from "./entities-type";
 
 export interface CountArgs {
-    User: Prisma.UserCountArgs;
+    Principal: Prisma.PrincipalCountArgs;
     Account: Prisma.AccountCountArgs;
     Session: Prisma.SessionCountArgs;
     VerificationToken: Prisma.VerificationTokenCountArgs;
@@ -12,6 +12,8 @@ export interface CountArgs {
     AppointmentType: Prisma.AppointmentTypeCountArgs;
     Location: Prisma.LocationCountArgs;
     Patient: Prisma.PatientCountArgs;
+    Equipment: Prisma.EquipmentCountArgs;
+    Service: Prisma.ServiceCountArgs;
     Provider: Prisma.ProviderCountArgs;
     Form: Prisma.FormCountArgs;
     FormEncounter: Prisma.FormEncounterCountArgs;
@@ -46,7 +48,7 @@ export interface CountArgs {
     BlogPostAuthor: Prisma.BlogPostAuthorCountArgs;
     SpaceTimeCoordinates: Prisma.SpaceTimeCoordinatesCountArgs;
     BudgetEntry: Prisma.BudgetEntryCountArgs;
-    Service: Prisma.ServiceCountArgs;
+    BudgetService: Prisma.BudgetServiceCountArgs;
     Budget: Prisma.BudgetCountArgs;
     Report: Prisma.ReportCountArgs;
     BudUser: Prisma.BudUserCountArgs;
