@@ -9,7 +9,7 @@ Table principal {
   lastName String [not null, note: 'NID0']
   password String
   phoneCode Int [default: 977]
-  phoneNumber String
+  phoneNumber String [note: 'NID0']
   streetName String
   city String
   areaCode String

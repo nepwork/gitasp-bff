@@ -30,6 +30,8 @@ model Principal {
   
 	password      String?
   phoneCode     Int?         @default(977)
+
+	/// NID0
   phoneNumber   String?
   streetName    String?
   city          String?

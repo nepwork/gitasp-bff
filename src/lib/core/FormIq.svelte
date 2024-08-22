@@ -1,8 +1,17 @@
 <script lang="ts">
   import type { FieldsShape } from '../../../prisma/db-utils';
-  import { fC, isHid, isRequired, isAbsent, inputTypeGuess, isRequired1to1Relation } from '../../modules/form.resolvers';
+  import { fC, inputTypeGuess, isAbsent, isHid, isRequired, isRequired1to1Relation } from '../../modules/form.resolvers';
+	import { SearchOutline } from 'flowbite-svelte-icons';
+	import SearchField from './SearchField.svelte';
+	import { GET } from '../../pages/api/hello';
+	import { onMount } from 'svelte';
 
-  export let metaData: FieldsShape; // Define the type more specifically if possible
+	onMount(async () => {
+		const apiHello = await fetch("/api/hello");
+		console.log("apiHello", apiHello);
+	})
+	
+	export let metaData: FieldsShape; // Define the type more specifically if possible
   export let entity: string;
 
   // Object to store enum values for each field
@@ -47,13 +56,7 @@
               {/each}
             </select>
 					{:else if isRequired1to1Relation(field)}
-								<input 
-									name={`q_${fC(field.name)}`}
-									type="search" 
-									placeholder={fC(field.name)} 
-									spellcheck="true" 
-									class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-								/>
+						<SearchField {field} />
           {:else}
             <input
               type={inputTypeGuess(field)}
