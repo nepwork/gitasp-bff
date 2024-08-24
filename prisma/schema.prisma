@@ -285,8 +285,6 @@ model Patient {
 
   birthdate DateTime?
 
-
-	/// NID1
   phoneCode   Int?    @default(977)
 	/// NID1
   phoneNumber String?

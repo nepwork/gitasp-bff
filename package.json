@@ -65,6 +65,7 @@
 		"sass": "^1.77.8",
 		"shiki": "^0.14.7",
 		"svelte": "^4.2.18",
+		"svelte-asyncable": "^2.2.0",
 		"svelte-calendar": "^3.1.6",
 		"svelte-fa": "^4.0.2",
 		"tailwind-scrollbar": "^3.1.0",

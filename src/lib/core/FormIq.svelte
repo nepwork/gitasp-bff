@@ -1,15 +1,7 @@
 <script lang="ts">
   import type { FieldsShape } from '../../../prisma/db-utils';
   import { fC, inputTypeGuess, isAbsent, isHid, isRequired, isRequired1to1Relation } from '../../modules/form.resolvers';
-	import { SearchOutline } from 'flowbite-svelte-icons';
-	import SearchField from './SearchField.svelte';
-	import { GET } from '../../pages/api/hello';
-	import { onMount } from 'svelte';
-
-	onMount(async () => {
-		const apiHello = await fetch("/api/hello");
-		console.log("apiHello", apiHello);
-	})
+  import SearchField from './SearchField.svelte';
 	
 	export let metaData: FieldsShape; // Define the type more specifically if possible
   export let entity: string;

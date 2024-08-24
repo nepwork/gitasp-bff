@@ -19,6 +19,10 @@ export function getDMMF(): BaseDMMF {
 	return Prisma.dmmf;
 }
 
+export const headers = {
+	'Content-Type': 'application/json'
+}
+
 export const essentialImports: readonly OptionalKind<ImportDeclarationStructure>[] = [
 	{
 		moduleSpecifier: '@prisma/client',

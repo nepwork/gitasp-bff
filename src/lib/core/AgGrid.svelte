@@ -1,9 +1,9 @@
 <script lang="ts">
   import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model';
-  import { ModuleRegistry, type SizeColumnsToContentStrategy } from '@ag-grid-community/core';
+  import { ModuleRegistry } from '@ag-grid-community/core';
   import * as agGrid from 'ag-grid-community';
   import 'ag-grid-community/styles/ag-grid.css';
-  import 'ag-grid-community/styles/ag-theme-alpine.css';
+  import 'ag-grid-community/styles/ag-theme-quartz.css';
   import { onMount } from 'svelte';
 
 	export let columnDefs: agGrid.ColDef[];
@@ -65,34 +65,10 @@
   });
 </script>
 <div class="griddy-wrapper">
-	<div class="ag-theme-alpine" style:width={width} style:height={height} bind:this={gridContainer}>
+	<div class="ag-theme-quartz" style:width={width} style:height={height} bind:this={gridContainer}>
 	</div>
 </div>
 <style global>
-  @import 'ag-grid-community/styles/ag-grid.css';
-  @import 'ag-grid-community/styles/ag-theme-alpine.css';
-
-  .data-grid {
-    --ag-header-foreground-color: blue;
-  }
-
-  .bool-filter {
-    width: 200px;
-  }
-
-  .bool-filter > * {
-    margin: 8px;
-		
-  }
-
-  .bool-filter > div:first-child {
-    font-weight: bold;
-  }
-
-  .bool-filter > label {
-    display: inline-block;
-  }
-
   :global(.ag-header-cell) {
     background: #9fdad4;
     font-size: 16px;

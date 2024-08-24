@@ -5,5 +5,7 @@ export const GET: APIRoute = () =>
 		JSON.stringify({
 			hello: "world",
 			bye: "earth"
-		})
+		}), {
+			status: 200
+		}
 	)

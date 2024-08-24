@@ -1,14 +1,7 @@
 ---
 import LayoutSidebar from '../../app/LayoutSidebar.astro';
 import ViewEdit from '../../lib/core/ViewEdit.astro';
-import { GET } from '../api/hello';
 
-export const prerender = false;
-
-const response = await GET(Astro);
-const data = await response.json();
-
-const { slug } = Astro.params;
 ---
 
 <LayoutSidebar>

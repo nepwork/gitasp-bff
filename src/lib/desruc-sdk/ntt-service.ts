@@ -57,13 +57,10 @@ export const mapper = {
 	BudEvent: prisma.budEvent,
 } as const;
 
-type Delegate = typeof mapper[keyof typeof mapper];
+type Delegate<T extends NTTKey> = typeof mapper[T];
 
 
-export function getDelegate(key: NTTKey): Delegate | undefined {
-	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+export function getDelegate<T extends NTTKey>(key: T): Delegate<T> {
 	const delegate = mapper[key];
-	if (!delegate) return undefined;
-	// eslint-disable-next-line @typescript-eslint/no-unsafe-return
 	return delegate;
 }
