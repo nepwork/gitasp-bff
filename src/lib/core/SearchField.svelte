@@ -42,7 +42,14 @@
 
       if (response.ok && result) {
 				console.log("result", result);
-				findings = result.map((res: any) => JSON.stringify(res));
+				findings = result.map((res: { id: string, [key: string]: any | any[]}) => {
+					// all except id
+					const keys = Object.keys(res).filter(k => k !== 'id');
+					return JSON.stringify(keys.reduce((obj: any, key: string) => {
+						obj[key] = res[key];
+						return obj;
+					}, { })).slice(1, -1);
+				});
       }
     } catch (error) {
       console.error(error instanceof Error ? error.message : 'An unknown error occurred');
@@ -51,18 +58,6 @@
 	}
 
 	const debouncedSearch = debounce(findThings, 300);
-
-	function onKeydown(e: KeyboardEvent) {
-		if (e.key === "Escape") {
-			findings = [];
-		} else if (e.key === "Enter") {
-			e.preventDefault();
-			findings = [];
-		} else if (e.key === 'ArrowDown') {
-			e.preventDefault();
-			findings[0] ? findings[0].focus() : null;
-		}
-	}
 
 	const selectAFinding = (finding: string) => {
 		searchString = finding;
@@ -95,7 +90,7 @@
 	{#if findings.length > 0}
 		<div id="search-findings" class="flex flex-col z-10 absolute mt-11 ml-2 bg-gray-50 opacity-95 w-72 lg:w-[600px] text-sm text-gray-600 rounded-sm">
 			{#each findings as finding}
-				<button type="button" class="hover:bg-teal-200 text-start focus:bg-teal-200 p-2" on:click={() => selectAFinding(finding)} on:keydown={onKeydown}>{finding}</button>
+				<button type="button" class="hover:bg-teal-200 text-start focus:bg-teal-200 p-2" on:click={() => selectAFinding(finding)}>{finding}</button>
 				<hr>
 			{/each}
 		</div>

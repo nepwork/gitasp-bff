@@ -191,7 +191,7 @@ Table patient {
   familyName String [not null, note: 'NID0']
   gender Gender [not null]
   birthdate DateTime
-  phoneCode Int [default: 977, note: 'NID1']
+  phoneCode Int [default: 977]
   phoneNumber String [note: 'NID1']
   image String
   streetName String

@@ -1,13 +1,15 @@
 import { Prisma, PrismaClient } from "@prisma/client";
-import type { BaseDMMF } from "@prisma/client/runtime/library";
+import type { BaseDMMF, DMMF } from "@prisma/client/runtime/library";
+
+function getDMMF(): BaseDMMF {
+	return Prisma.dmmf;
+}
+
 
 export const prisma = new PrismaClient({
 	errorFormat: 'pretty'
 });
 
-function getDMMF(): BaseDMMF {
-	return Prisma.dmmf;
-}
 
 export function getModelNames(): string[] {
 	return getDMMF().datamodel.models
@@ -36,7 +38,11 @@ function getFirstMetaData(model: string) {
 }
 export type MetadataTypeItem = ReturnType<typeof getFirstMetaData>;
 
-export function getMetaData(model: string) {
+type ReadonlyDeep2<O> = {
+	+readonly [K in keyof O]: ReadonlyDeep2<O[K]>;
+};
+
+export function getMetaData(model: string): ReadonlyDeep2<DMMF.Field[]> {
 	const allModels = getDMMF().datamodel.models;
 	const selectedModel = allModels.find(mod => mod.dbName === model);
 	if (selectedModel) {

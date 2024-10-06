@@ -1,6 +1,7 @@
 ---
-import { getMetaData, fromCamel, getEnumValues } from '../../../../prisma/db-utils';
+import { getMetaData, getEnumValues } from '../../../../prisma/db-utils';
 import LayoutCrud from '../../../app/LayoutCrud.astro';
+import { fromCamel } from '../../../modules/form.resolvers';
 
 export const prerender = false;
 

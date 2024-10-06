@@ -26,6 +26,7 @@ export const POST: APIRoute = async ({ request }) => {
 				]
       },
 			select: {
+				id: true,
 				firstName: true,
 				lastName: true,
 				phoneNumber: true,
